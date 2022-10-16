@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cybersecurity Dinner Adventure</title>
+<!-- Need the link tag to solve an error with favicon.ico: https://stackoverflow.com/questions/31075893/im-getting-favicon-ico-error -->
+<link rel="shortcut icon" href="#"/>
+<link rel="stylesheet" type="text/css" href="main_page_styles.css"/>
+
+<!-- Add audios once the basic framework is made -->
+
+<!-- Add scripts-->
+</head>
+
+<!-- BEGINNING OF ELEMENTS DISPLAYED ON HTML PAGE -->
+<h1>Cybersecurity Dinner Adventure</h1>
+<!-- this element follows the style of the "ongoing" class--shows up while the game is ongoing -->
+<p class="ongoing">Instructions: Use the arrow keys to navigate locations and complete your tasks. If you find yourself at a pop-up screen within the game, press Escape to close it and return to the overworld. For text-based prompts, hit Enter to submit your input.</p>
+<!-- these elements follow the style of the "complete" class--shows up once the game is complete -->
+<h2 class="complete">CONGRATULATIONS!</h2>
+<p class="complete">You've completed all the cybersecurity puzzles and successfully survived through your nighttime adventure! </p>
+<br class="complete">
+<!-- messages and p elements can be edited later based on the code-->
+
+
+<!-- creating the game terminal -->
+<div id="gameTerminal">
+  <div id = "input0">~</div>
+</div>
+
+<!-- creating the hint view -->
+<!-- source: https://www.w3schools.com/howto/howto_js_vertical_tabs.asp -->
+
+<!-- this is just inspiration for new hint icons and what they do, make new ones for our page-->
+<!-- <div class="tab">
+  <button class="tablinks" onclick="viewHints(event, 'Computer')" id="defaultOpen">Unlocking the computer</button>
+  <button class="tablinks" onclick="viewHints(event, 'Toast')">Making toast</button>
+  <button class="tablinks" onclick="viewHints(event, 'Fridge')">Opening the fridge</button>
+  <button class="tablinks" onclick="viewHints(event, 'Coffee')">Brewing coffee</button>
+</div> -->
+
+<!-- creating the structure of hints under each puzzle hint tab -->
+<!-- when the tab for the puzzle is selected, will display the content (i.e. hints and "Get a Hint" button) -->
+<!-- <div id="Computer" class="tabcontent">
+  <h3>Hints for computer puzzle</h3>
+  <h4 id="Computer_hint_instruction">Click on the button below to get a hint for this puzzle. To go back to the game, press ESCAPE.</h4>
+  <div class="hint_list" id="Computer_hint_listing"></div>
+  <button class="button" id="Computer_btn" onclick="addHintToView(event, 'Computer')">Get a hint</button>
+</div>
+
+<div id="Toast" class="tabcontent">
+  <h3>Hints for toast puzzle</h3>
+  <h4 id="Toast_hint_instruction">Click on the button below to get a hint for this puzzle. To go back to the game, press ESCAPE.</h4>
+  <div class="hint_list" id="Toast_hint_listing"></div>
+  <button class="button" id="Toast_btn" onclick="addHintToView(event, 'Toast')">Get a hint</button>
+</div>
+
+<div id="Fridge" class="tabcontent">
+  <h3>Hints for fridge puzzle</h3>
+  <h4 id="Fridge_hint_instruction">Click on the button below to get a hint for this puzzle. To go back to the game, press ESCAPE.</h4>
+  <div class="hint_list" id="Fridge_hint_listing"></div>
+  <button class="button" id="Fridge_btn" onclick="addHintToView(event, 'Fridge')">Get a hint</button>
+</div>
+
+<div id="Coffee" class="tabcontent">
+  <h3>Hints for coffee puzzle</h3>
+  <h4 id="Coffee_hint_instruction">Click on the button below to get a hint for this puzzle. To go back to the game, press ESCAPE.</h4>
+  <div class="hint_list" id="Coffee_hint_listing"></div>
+  <button class="button" id="Coffee_btn" onclick="addHintToView(event, 'Coffee')">Get a hint</button>
+</div> -->
+
+<!-- creating blinking effect for start screen -->
+<!-- source: https://stackoverflow.com/questions/27427073/how-to-fit-in-an-image-inside-span-tag -->
+<!-- <span id="blinkingStartScreen">
+  <img src="images/eceb-2-1.png"/>
+</span>
+
+<!-- creating the canvas -->
+<div id="entireCanvas" width="700" height="500">
+  <!-- creating the canvas -->
+  <canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
+  <iframe id="login-iframe" width="700" height="500" src="./login.html" frameborder="0" style="display: none;"></iframe>
+  <iframe id="email-iframe" width="700" height="500" src="./email.html" frameborder="0" style="display: none; "></iframe>
+  <iframe id="osintiframe" src="./email_login.html" width="700" height="500" frameborder="0" style="display: none;"></iframe>
+  <iframe id="sqliframe" src="./sql_login.html" width="700" height="500" frameborder="0" style="display: none;"></iframe>
+  <button type="button" id="closeiframe" onclick = "closeComputer()" style="display: none; background-color: #f44336;font-size: 24px;border-radius: 8px;width: 50px;"> X </button>
+</div>
+<br>
+<script src="eoh_2022.js"></script> -->
+
+<body onload="start()">
+<!-- THE FOLLOWING ARE DISPLAYED UNDERNEATH THE GAME CANVAS -->
+<!-- Display tasks and resource links (when the game is ongoing) -->
+
+<!-- change destination names and add destinations(dining halls)-->
+  <div class="ongoing" id="taskList">
+    <!-- <p class="ongoing">Remaining Destinations:</p>
+    <p class="ongoing" id="unlockComputer">- Checkers &#127829</p>
+    <p class="ongoing" id="makeToast">- Moonbucks &#9749 </p>
+    <p class="ongoing" id="openFridge">- Teamote &#129483</p>
+    <p class="ongoing" id="makeCoffee">- CFK &#127831</p> -->
+  </div>
+
+  <!-- Display ending text and additional resource links (when the game is completed) -->
+  <p class="complete">We took inspiration from Capture The Flag (CTF) competitions in designing the puzzles you just solved and tried to make them a bit beginner-friendly. CTF competitions are a great way to learn more about cybersecurity, though they definitely aren't the only way.</p>
+  <br class="complete">
+  <p class="complete">Or, if you're not into CTFs, some things you can do are generally learn more about operating systems (especially Linux), improve your programming skills, read CTF challenge write-ups, or watch talks from DEF CON (an annual security conference) to get inspired about interesting security topics.</p>
+  <br class="complete">
+  <p class="complete">Some additional links:</p>
+  <p class="complete">- <a href="https://overthewire.org/wargames/">https://overthewire.org/wargames/</a> is a great way to gain confidence navigating the Linux command-line and learning some common code exploits.</p>
+  <p class="complete">- <a href="https://picoctf.org/">https://picoctf.org/</a> is a fantastic starting point if you want to dive a bit deeper than our game goes.</p>
+  <p class="complete">- <a href="https://ctftime.org/">https://ctftime.org/</a> lists upcoming CTFs if you’re looking for more past picoCTF.</p>
+  <!-- can include other/more links, tbd later-->
+  <br>
+
+  <!-- Display resource guides (always displayed) -->
+  <div id="resources">
+    <p>Resources</p>
+    <!-- put in resources to learn about various cybersecurity concepts-->
+    <!-- any links/pages that will give an introductory level overview for SQL, OSINT, terminal commands, 
+        network packets and web hacking, cryptography, computer ethics and basic safety-->
+  </div>
+
+</body>
+</html>
