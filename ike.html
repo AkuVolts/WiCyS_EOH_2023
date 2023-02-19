@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script type="text/javascript" src="ike.js"></script>
     <style>
       .image-container {
         position: relative;
@@ -18,26 +19,26 @@
       }
       .overlay div {
         position: absolute;
-        background-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.1);
         cursor: pointer;
       }
       .area1 {
-        width: 100px;
-        height: 100px;
-        top: 50px;
-        left: 50px;
+        width: 206px;
+        height: 52px;
+        top: 430px;
+        left: 188px;
       }
       .area2 {
-        width: 100px;
-        height: 100px;
-        top: 150px;
-        left: 150px;
+        width: 50px;
+        height: 50px;
+        top: 94px;
+        left: 96px;
       }
       .area3 {
-        width: 100px;
-        height: 100px;
-        top: 250px;
-        left: 250px;
+        width: 50px;
+        height: 50px;
+        top: 94px;
+        left: 555px;
       }
       .overlay div:hover {
         background-color: rgba(0, 0, 0, 0.507);
@@ -45,18 +46,18 @@
     </style>
   </head>
   <body>
-    <h1>Image with Clickable and Hoverable Areas</h1>
+    <!-- <h1>Image with Clickable and Hoverable Areas</h1> -->
     <div class="image-container">
-      <img src="ike_images\700x500.png" alt="Image"> <!-- Background image of Ikenberry Dining Hall -->
+      <img src="ike_images\ike_background_v1.png" alt="Image"> <!-- Background image of Ikenberry Dining Hall -->
       <div class="overlay">
         <a href="#">
-          <div class="area1"></div>
+          <div class="area1" onclick="exitIke()"></div>
         </a>
         <a href="#">
-          <div class="area2"></div>
+          <div class="area2" onclick="laptop()"></div>
         </a>
         <a href="#">
-          <div class="area3"></div>
+          <div class="area3" onclick="swipeIn()"></div>
         </a>
       </div>
     </div>
