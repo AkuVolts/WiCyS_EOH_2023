@@ -22,6 +22,44 @@
 <br class="complete">
 <!-- messages and p elements can be edited later based on the code-->
 
+<!-- <style>
+  /* style for entire webpage */
+  body {
+    background-color: black;
+    text-align: center;
+    color: white;
+    font-family: courier;
+  }
+
+  /* style for guide hyperlinks */
+  a
+  {
+    color: rgb(123, 213, 255);
+  }
+
+  /* style for blinking start screen */
+  
+  #blinkingStartScreen {
+    animation: blink 1s steps(1, end) infinite;
+
+    width: 700px;
+    height: 500px;
+    position: absolute;
+    visibility: visible;
+  }
+
+  @keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+</style> -->
 
 <!-- creating the game terminal -->
 <div id="gameTerminal">
@@ -73,12 +111,12 @@
 <!-- source: https://stackoverflow.com/questions/27427073/how-to-fit-in-an-image-inside-span-tag -->
 <!-- <span id="blinkingStartScreen">
   <img src="images/eceb-2-1.png"/>
-</span>
+</span> -->
 
 <!-- creating the canvas -->
 <div id="entireCanvas" width="700" height="500">
   <!-- creating the canvas -->
-  <canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
+  <canvas id="myCanvas" width="700" height="500" src="./main_page_map.png"></canvas>
   <iframe id="login-iframe" width="700" height="500" src="./login.html" frameborder="0" style="display: none;"></iframe>
   <iframe id="email-iframe" width="700" height="500" src="./email.html" frameborder="0" style="display: none; "></iframe>
   <iframe id="osintiframe" src="./email_login.html" width="700" height="500" frameborder="0" style="display: none;"></iframe>
@@ -89,6 +127,7 @@
 <script src="eoh_2022.js"></script> -->
 
 <body onload="start()">
+
 <!-- THE FOLLOWING ARE DISPLAYED UNDERNEATH THE GAME CANVAS -->
 <!-- Display tasks and resource links (when the game is ongoing) -->
 

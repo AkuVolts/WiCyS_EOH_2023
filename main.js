@@ -1,9 +1,28 @@
 // variable declarations
-
+let coins = 0;
+const union = new Buildings(121, 193, 43, 83, "");
+const altgeld = new Buildings(189, 345, 83, 43, "");
+const morrow = new Buildings(313, 29, 67, 40, "");
+const english = new Buildings(281, 421, 63, 35, "");
+const siebel = new Buildings(13, 29, 55, 35, "");
+const grainger = new Buildings(49, 137, 39, 51, "");
+const cif = new Buildings(49, 317, 39, 59, "");
+const main = new Buildings(576, 265, 44, 55, "");
+const aces = new Buildings(581, 133, 51, 51, "");
+const lumis = new Buildings(189, 97, 51, 23, "");
+const lincoln = new Buildings(397, 353, 71, 35, "");
+const follinger = new Buildings(505, 201, 43, 59, "");
 
 // make the iframe
 
 function start() {
+  var canvas = document.getElementById("myCanvas");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+
+
+
     // load hint icon to be diplayed in all ongoing game scenes
     game_context = game_canvas.getContext("2d");
     hint_icon = loadCharacter("images/hint_icon_filled_64x64_x0.5.png", hint_x_pos, hint_y_pos, 32, 32);
