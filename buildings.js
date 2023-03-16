@@ -20,4 +20,15 @@ class Buildings {
     display() {
         return this.fact;
     }
+
+    // check if mouse is inside the building
+    isInside(x, y) {
+        return (x >= this.x && x < this.x + this.width && y >= this.y && y < this.y + this.height);
+    }
+
+    // highlight the building while mouse is inside
+    highlight() {
+        game_context.fillStyle = "rgba(255, 255, 255, 0.5)";
+        game_context.fillRect(this.x, this.y, this.width, this.height);
+    }
 }

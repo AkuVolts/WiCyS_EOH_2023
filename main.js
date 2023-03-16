@@ -13,19 +13,25 @@ const lumis = new Buildings(189, 97, 51, 23, "");
 const lincoln = new Buildings(397, 353, 71, 35, "");
 const follinger = new Buildings(505, 201, 43, 59, "");
 
-// make the iframe
 
 function start() {
   var canvas = document.getElementById("myCanvas");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  var game_context = canvas.getContext("2d");
+  // game_context.fillStyle = 'red';
+  // game_context.fillRect(10, 10, 50, 50);
 
 
+  // load background image
+  // const background_img = loadBackground("main_page_map.png");
+  img_url = "main_page_map.png";
+  const background_img = new Image();
+  background_img.src = img_url;
+  background_img.onload = function () {
+      // Draw the background image on the canvas
+  game_context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
 
 
-    // load hint icon to be diplayed in all ongoing game scenes
-    game_context = game_canvas.getContext("2d");
-    hint_icon = loadCharacter("images/hint_icon_filled_64x64_x0.5.png", hint_x_pos, hint_y_pos, 32, 32);
+    // hint_icon = loadCharacter("images/hint_icon_filled_64x64_x0.5.png", hint_x_pos, hint_y_pos, 32, 32);
 
     // load initial game setting components
     
@@ -59,14 +65,20 @@ function start() {
    function loadBackground(img_url) {
     const background_img = new Image();
     background_img.src = img_url;
+    background_img.onload = function () {
+      // Draw the background image on the canvas
+      game_context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+      
+      // Other canvas drawing operations go here
+    };
 
     // load images first
     // - Note: the following line is needed to fix the problem of the background img not always
     // displaying when the page is refreshed
     // - Source: https://stackoverflow.com/questions/22889641/simple-html5-canvas-image-not-displaying
-    background_img.addEventListener("load", drawBackground, false);
-
-    function drawBackground() {}
+    // background_img.addEventListener("load", drawBackground, false);
+    // draw(background_img, 0, 0, 700, 500);
+    // function drawBackground() {}
 
     return background_img;
   }
@@ -93,9 +105,11 @@ function start() {
     // - Note: the following line is needed to fix the problem of the background img not always
     // displaying when the page is refreshed
     // - Source: https://stackoverflow.com/questions/22889641/simple-html5-canvas-image-not-displaying
-    img.addEventListener("load", drawCharacter, false);
+    // img.addEventListener("load", drawCharacter, false);
+    
 
-    function drawCharacter() {}
+    // function drawCharacter() {}
+    img = draw(img, x, y, width, height);
 
     return img;
   }
@@ -115,3 +129,8 @@ function start() {
     game_context.drawImage(img, sx=x, sy=y, swidth=width, sheight=height);
   }
 
+  canvas.addEventListener('mousemove', function(event) {
+    var mouseX = event.clientX;
+    var mouseY = event.clientY;
+    // do something with the mouse position
+  });
