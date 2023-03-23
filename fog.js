@@ -50,7 +50,7 @@ window.onload = function() {
                 ingredient_display.style.display = "none"
                 document.getElementById("chosen_"+ingredient.id).style.display = "none"
             }
-            console.log(selected_ingredients)
+            // console.log(selected_ingredients)
         });
     });
 };
@@ -92,7 +92,7 @@ function startLevelButtonOnclick() {
     // Clear the level state (i.e. selected elements, score from this level).
     // Clear the display state of the selected elements.
     for (const ingredient of selected_ingredients) {
-        console.log("#"+ingredient + " img.ingredient_disabled")
+        // console.log("#"+ingredient + " img.ingredient_disabled")
         document.querySelector("#"+ingredient + " img.ingredient_disabled").style.display = "none";
         document.getElementById("chosen_"+ingredient).style.display = "none"
     }
