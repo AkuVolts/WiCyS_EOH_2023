@@ -6,6 +6,7 @@ let level = 0;
 let score = 0;
 let state = states.START;
 
+// TODO: Convert next two lines into JSON file.
 const all_ingredients = [new Map([['ingredient_1', 'a'], ['ingredient_2', 'b']])];
 const correct_ingredients = [new Set(['ingredient_1', 'ingredient_4']), new Set(['ingredient_3', 'ingredient_2']), new Set(['ingredient_5'])];
 const selected_ingredients = new Set();
