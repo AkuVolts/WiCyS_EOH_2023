@@ -19,102 +19,206 @@
         font-family: monospace;
         margin-top: 0;
     }
-
-    #background-image {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50%;
-    }
-
-    #background-image div {
-        background-image: url('images/background.png');
-        width: 800px;
-        height: 600px;
-    }
-
-    #background-image div img {
-        display: block;
-        width: 400px;
-        height: 300px;
-        margin: 150px auto;
-    }
-
-    #container {
-        width: 20%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
-        padding: 20px;
-    }
-
-    #input {
-        margin-top: 20px;
-        background-color: black;
-        color: white;
-        border: none;
-        width: 40%;
-        padding: 10px;
-        font-family: monospace;
-    }
-
-    .s {
-        padding-top: 20px;
-        text-align: center;
-        font-family: monospace;
-        color: black;
-        font-size: 18px;
-    }
-    .s_2 {
-        padding-top: 20px;
-        text-align: center;
-        font-family: monospace;
-        color: black;
-        font-size: 18px;
-    }
-
-    @keyframes fade-out {
-        0% {
-            opacity: 1;
-        }
-        90% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
-    }
-
-    #access-button {
-        margin-top: 20px;
-        background-color: #4CAF50;
-        color: white;
-        font-family: monospace;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        border-radius: 4px;
-    }
-    .myButton {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 10px;
-  font-family: monospace;
+#background-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
 }
+
+#background-image div {
+    background-image: url('images/background.png');
+    width: 100%;
+    height: 600px;
+}
+
+#background-image div img {
+    display: block;
+    width: 400px;
+    height: 300px;
+    margin: 150px auto;
+}
+
+#container {
+    width: 80%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    position: relative;
+    top: -50px;
+}
+
+#input {
+    margin-top: 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    width: 40%;
+    max-width: 400px;
+    padding: 10px;
+    font-family: monospace;
+}
+
+.s {
+    padding-top: 20px;
+    text-align: center;
+    font-family: monospace;
+    color: black;
+    font-size: 18px;
+}
+.s_2 {
+    padding-top: 20px;
+    text-align: center;
+    font-family: monospace;
+    color: black;
+    font-size: 18px;
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#access-button {
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-family: monospace;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.myButton {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-family: monospace;
+}
+
+/*    #background-image {*/
+/*        display: flex;*/
+/*        justify-content: center;*/
+/*        align-items: center;*/
+/*        width: 120%;*/
+/*    }*/
+
+/*    #background-image div {*/
+/*        background-image: url('images/background.png');*/
+/*        width: 800px;*/
+/*        height: 600px;*/
+/*    }*/
+
+/*    #background-image div img {*/
+/*        display: block;*/
+/*        width: 400px;*/
+/*        height: 300px;*/
+/*        margin: 150px auto;*/
+/*    }*/
+
+/*    #container {*/
+/*        width: 400px;*/
+/*        display: flex;*/
+/*        flex-direction: column;*/
+/*        align-items: center;*/
+/*        background-color: white;*/
+/*        border-radius: 10px;*/
+/*        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);*/
+/*        padding: 20px;*/
+/*        position: relative;*/
+/*        top: 195vh;*/
+/*        left: -80vh;*/
+/*    }*/
+
+/*    #input {*/
+/*        margin-top: 20px;*/
+/*        background-color: black;*/
+/*        color: white;*/
+/*        border: none;*/
+/*        width: 40%;*/
+/*        padding: 10px;*/
+/*        font-family: monospace;*/
+/*    }*/
+
+/*    .s {*/
+/*        padding-top: 20px;*/
+/*        text-align: center;*/
+/*        font-family: monospace;*/
+/*        color: black;*/
+/*        font-size: 18px;*/
+/*    }*/
+/*    .s_2 {*/
+/*        padding-top: 20px;*/
+/*        text-align: center;*/
+/*        font-family: monospace;*/
+/*        color: black;*/
+/*        font-size: 18px;*/
+/*    }*/
+
+/*    @keyframes fade-out {*/
+/*        0% {*/
+/*            opacity: 1;*/
+/*        }*/
+/*        90% {*/
+/*            opacity: 1;*/
+/*        }*/
+/*        100% {*/
+/*            opacity: 0;*/
+/*        }*/
+/*    }*/
+
+/*    #access-button {*/
+/*        margin-top: 20px;*/
+/*        background-color: #4CAF50;*/
+/*        color: white;*/
+/*        font-family: monospace;*/
+/*        padding: 10px 20px;*/
+/*        border: none;*/
+/*        cursor: pointer;*/
+/*        text-decoration: none;*/
+/*        display: inline-block;*/
+/*        font-size: 16px;*/
+/*        border-radius: 4px;*/
+/*    }*/
+/*    .myButton {*/
+/*  background-color: #4CAF50;*/
+/*  border: none;*/
+/*  color: white;*/
+/*  padding: 15px 32px;*/
+/*  text-align: center;*/
+/*  text-decoration: none;*/
+/*  display: inline-block;*/
+/*  font-size: 16px;*/
+/*  margin: 4px 2px;*/
+/*  cursor: pointer;*/
+/*  border-radius: 10px;*/
+/*  font-family: monospace;*/
+/*}*/
 
 .myButton:hover {
   background-color: #3e8e41;
@@ -137,15 +241,15 @@
         <p class="s">Can you find the special before it's too late?</p>
         <p class="s">The clock is ticking...</p>
         <p class="s">We need your help! Start by clicking on the computer!</p>
-        <button class="myButton" onclick="returnMainPageOnClick()">Go Back to Home</a></button>
+        <button class="myButton" onclick="returnMainPageOnClick">Go Back to Home</a></button>
 
     </div>
     <script>
 
     function returnMainPageOnClick() {
-        let event = new CustomEvent("IframeClickEvent");
-        window.parent.document.dispatchEvent(event);
-    }
+    let event = new CustomEvent("IframeClickEvent");
+    window.parent.document.dispatchEvent(event);
+}
         const input = document.getElementById("input");
         input.addEventListener("keydown", event => {
             if (event.key === "Enter") {

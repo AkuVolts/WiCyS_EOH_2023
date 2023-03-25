@@ -142,7 +142,7 @@ function interceptPacket() {
         let fullName = `${firstNames[firstNameIndex]} ${lastNames[lastNameIndex]}`;
         let netid = firstNames[firstNameIndex][0].toLowerCase() + lastNames[lastNameIndex].toLowerCase() + getRandomInt(1, 100);
         // create random number of credits
-        var random_credits = Math.floor(Math.random() * 15);
+        var random_credits = Math.floor(Math.random() * 15 + 1);
         // add netid and credits to dictionary
         netid_credits[netid] = random_credits;
         // print name, netid, credits to page
@@ -190,16 +190,26 @@ function laptop() {
     img.style.height = "auto";
 
     var text_box = document.createElement("p");
-    text_box.style.position = "absolute";
-    text_box.style.top = "5%";
+    text_box.style.position = "relative";
+    text_box.style.top = "15%";
     text_box.style.left = "20%";
     text_box.style.display = "block";
     text_box.style.type = "text";
-    text_box.style.fontSize = "10px";
-    text_box.style.width = "180px";
+    text_box.style.fontSize = "12px";
+    text_box.style.width = "200px";
     text_box.style.border = "2px solid #000000";
     text_box.style.padding = "2px";
     text_box.innerText = "We can use these programs to intercept and change network packets! The intercept program will intercept packets and display the important data inside. Then submit the necessary data to change the packet!"                          // -------------------- TODO -------------------
+
+    var response_box = document.createElement("p");
+    response_box.style.position = "absolute";
+    response_box.style.top = "25%";
+    response_box.style.left = "60%";
+    response_box.style.display = "none";
+    response_box.style.type = "text";
+    response_box.style.fontSize = "12px";
+    response_box.style.width = "100px";
+    response_box.style.padding = "2px";
 
     // create the form element
     var form = document.createElement("form");
@@ -250,6 +260,7 @@ function laptop() {
     // add the image and form elements to the overlay div
     overlay.appendChild(img);
     overlay.appendChild(text_box);
+    overlay.appendChild(response_box);
     overlay.appendChild(form);
 
     // add the overlay div to the document body
@@ -264,12 +275,24 @@ function laptop() {
             if (netid_credits[input.value] != undefined ) {
                 if (netid_credits[input.value] >= 10) {
                     valid_credits_flag = true;
+                    response_box.style.display = "block";
+                    response_box.style.border =  "2px solid #02c025";
+                    response_box.innerText = "Nice! Let's see if that worked!"
                 } else {
                     valid_credits_flag = false;
+                    response_box.style.display = "block";
+                    response_box.style.border =  "2px solid #ff0000";
+                    response_box.innerText = "That user doesn't have more than 10 credits.";
                 }
             } else {
-                alert("NetID not found.");
+                //alert("NetID not found.");
+                response_box.style.display = "block";
+                response_box.style.border =  "2px solid #ff0000";
+                response_box.innerText = "NetID not found.";
             }
+            setTimeout(function() {
+                response_box.style.display = "none";
+            }, 3000)
         } else if (e.target.value == "Exit") {
             document.body.removeChild(overlay);
         }
@@ -280,7 +303,7 @@ function squirrelText() {
     var b = document.getElementById("bubbleDIV");
     var text = document.getElementById("squirrelText");
     /*if (!laptop_interacted_flag && failed_swipe) {
-        text.innerHTML = 'The I think I have something on my laptop that can help us!';
+        text.innerHTML = 'I think I have something on my laptop that can help us!';
         b.style.top = "280px";
         b.style.display = "block";
         return;
@@ -309,7 +332,7 @@ function squirrelText() {
             b.style.display = "block";
             break;
         case 2:
-            text.innerHTML = 'The I think I have something on my laptop that can help us!';
+            text.innerHTML = 'I think I have something on my laptop that can help us!';
             b.style.top = "280px";
             b.style.display = "block";
             break;
