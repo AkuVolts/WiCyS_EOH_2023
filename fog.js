@@ -6,8 +6,30 @@ let level = 0;
 let state = states.START;
 
 // TODO: Convert next two lines into JSON file.
-const all_ingredients = [new Map([['ingredient_1', 'a'], ['ingredient_2', 'b']])];
-const correct_ingredients = [new Set(['ingredient_1', 'ingredient_4']), new Set(['ingredient_3', 'ingredient_2']), new Set(['ingredient_5'])];
+function loadJSON(callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.overrideMimeType("application/json");
+    xhr.open('GET', 'ingredients.json', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            callback(xhr.responseText);
+        }
+    };
+    xhr.send(null);
+}
+
+let correct_ingredients;
+let all_ingredients;
+
+loadJSON(function(response) {
+    const ingredients = JSON.parse(response);
+    correct_ingredients = ingredients.correct_ingredients.map(set => new Set(set));
+    all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
+});
+
+//const all_ingredients = [new Map([['ingredient_1', 'a'], ['ingredient_2', 'b']])];
+//const correct_ingredients = [new Set(['ingredient_1', 'ingredient_4']), new Set(['ingredient_3', 'ingredient_2']), new Set(['ingredient_5'])];
+
 const selected_ingredients = new Set();
 
 // Hack to implement "enums" in JS.
