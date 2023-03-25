@@ -3,12 +3,33 @@ const NUM_LEVELS = 3
 const states = createEnum(['START', 'LEVEL_IN_PROGRESS', 'LEVEL_COMPLETE']);
 
 let level = 0;
-let score = 0;
 let state = states.START;
 
 // TODO: Convert next two lines into JSON file.
-const all_ingredients = [new Map([['ingredient_1', 'a'], ['ingredient_2', 'b']])];
-const correct_ingredients = [new Set(['ingredient_1', 'ingredient_4']), new Set(['ingredient_3', 'ingredient_2']), new Set(['ingredient_5'])];
+function loadJSON(callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.overrideMimeType("application/json");
+    xhr.open('GET', 'ingredients.json', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            callback(xhr.responseText);
+        }
+    };
+    xhr.send(null);
+}
+
+let correct_ingredients;
+let all_ingredients;
+
+loadJSON(function(response) {
+    const ingredients = JSON.parse(response);
+    correct_ingredients = ingredients.correct_ingredients.map(set => new Set(set));
+    all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
+});
+
+//const all_ingredients = [new Map([['ingredient_1', 'a'], ['ingredient_2', 'b']])];
+//const correct_ingredients = [new Set(['ingredient_1', 'ingredient_4']), new Set(['ingredient_3', 'ingredient_2']), new Set(['ingredient_5'])];
+
 const selected_ingredients = new Set();
 
 // Hack to implement "enums" in JS.
@@ -24,10 +45,7 @@ function createEnum(values) {
 function initGameState() {
     level = 0;
     score = 0;
-    state = states.START
-
-    document.getElementById("start_level").disabled = false;
-    document.getElementById("submit").disabled = true;
+    state = states.LEVEL_IN_PROGRESS
 }
 
 window.onload = function() {
@@ -54,6 +72,11 @@ window.onload = function() {
             // console.log(selected_ingredients)
         });
     });
+
+    const dialog = document.getElementById("resultDialog");
+    dialog.addEventListener("close", (event) => {
+        startLevel();
+    });
 };
 
 // Just goes through the submitted and correct ingredients. Returns true if they all match.
@@ -69,27 +92,42 @@ function checkSubmission(selected_ingredients, correct_ingredients) {
             submission_correct = false;
             break;
         }
-
-        return submission_correct;
     }
+
+    return submission_correct;
 }
 
 function submitButtonOnclick() {
     // Check if the user passed the level. Update level and score if so.
-    if (checkSubmission(selected_ingredients, correct_ingredients)) {
+    let level_passed = checkSubmission(selected_ingredients, correct_ingredients);
+    if (level_passed) {
         level++;
-        score += 100;
     }
 
+    let buttonMsg = level_passed ? "Start Next Level" : "Retry Level"; 
+    let msg = level_passed ? "Congratulations, you passed the level! Click the button below to begin the next one." 
+        : "That was not quite right. Please click the button below to try again.";
+    if (level >= NUM_LEVELS) {
+        buttonMsg = "Restart Game";
+        msg = "Congratulations, you have completed Fields of Green! You are one step closer to protecting yourself in cyberspace!";
+        level = 0;
+    }
+    
+    document.getElementById("level").textContent = "Level: " + level;
+    document.getElementById("resultDialogText").textContent = msg;
+    document.getElementById("resultDialogButton").textContent = buttonMsg;     
+    document.getElementById("resultDialog").showModal();
     // Display end game indicator if won. Otherwise, toggle buttons.
 
-    // Enable next and disable submit buttons.
-    document.getElementById("start_level").disabled = false;
-    document.getElementById("submit").disabled = true;
     state = states.LEVEL_COMPLETE;
 }
 
-function startLevelButtonOnclick() {
+function startLevelDialogOnClick() {
+    const dialog = document.getElementById("resultDialog");
+    dialog.close();
+}
+
+function startLevel() {
     // Clear the level state (i.e. selected elements, score from this level).
     // Clear the display state of the selected elements.
     for (const ingredient of selected_ingredients) {
@@ -98,10 +136,6 @@ function startLevelButtonOnclick() {
         document.getElementById("chosen_"+ingredient).style.display = "none"
     }
     selected_ingredients.clear();
-
-    // Disable next and enable submit buttons.
-    document.getElementById("start_level").disabled = true;
-    document.getElementById("submit").disabled = false;
 
     // Start level.
     state = states.LEVEL_IN_PROGRESS;

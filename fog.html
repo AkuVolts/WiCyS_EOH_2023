@@ -6,17 +6,23 @@
     </head>
     <body>
         <div>
-            <h1>Field of Greens</h1>
+            <div style="display: flex;">
+                <h1>Field of Greens</h1>
+                <h1 style="margin-left: auto" id="level">Level: 0</h1>
+            </div>
             <p>
                 Description/Instructions
             </p>
         </div>
 
-        <!-- <img class = "bg" src="fog_assets/black_bg.jpg" height = 90% width = 75%></img> -->
+        <dialog id="resultDialog">        
+            <p id="resultDialogText"></p>
+            <div>
+                <button id="resultDialogButton" onclick="startLevelDialogOnClick()">Start Level</button>
+            </div>
+        </dialog>
 
         <div>
-            <!-- <img class = "chosen_answers_table" src = "fog_assets/bowl_table.png"></img>
-            <img class = "salad_bowl" src = "fog_assets/salad_bowl.jpg"></img>         -->
             <div style="position: relative; margin: auto; padding: 1%;">
                 <img class="salad_bowl" src="fog_assets/plate.png"></img>
                 <div class = "chosen_ingredients">
@@ -59,7 +65,6 @@
 
         <div id="level_buttons">
             <button id="submit" onclick="submitButtonOnclick()">Submit</button>
-            <button id="start_level" onclick="startLevelButtonOnclick()">Start Level</button>
         </div>
     </body>
 </html>
