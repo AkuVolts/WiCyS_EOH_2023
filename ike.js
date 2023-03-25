@@ -33,6 +33,8 @@ function swipeIn() {
         b_text = "Awesome, now you have some meal credits on your account. Have a great meal!"
         s_text = "Nice work! We made it inside! Let's go eat!"
     } else {
+        let mySound = new Audio('sounds/ike_denied.wav')
+        mySound.play()
         //alert("Sorry, you do not have enough meal credits left on your account. You need at least 10 credits to enter. You cannot enter the dining hall unless you pay for more credits.")
         if (!failed_swipe) {
             failed_swipe = true;
