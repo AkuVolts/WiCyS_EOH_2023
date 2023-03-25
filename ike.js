@@ -148,6 +148,9 @@ function interceptPacket() {
         // print name, netid, credits to page
         text.innerHTML = "Intercepting...<br>Intercepted!<br><br>Name: " + fullName + "<br>NetID: " + netid + "<br>Credits: " + random_credits;
         text.style.marginTop = "0px";
+        let mySound = new Audio("./sounds/ike_scanner.wav");
+        mySound.volume = 0.6;
+        mySound.play();
     }, 5000);
 
     // event listener for exit button
