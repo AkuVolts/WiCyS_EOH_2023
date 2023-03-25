@@ -160,7 +160,7 @@ function interceptPacket() {
 function laptop() {
     if (!laptop_interacted_flag) {
         laptop_interacted_flag = true;
-        hints_available += 1;
+        // hints_available += 1;
     }
     
     // create the overlay div element
@@ -305,12 +305,6 @@ function squirrelText() {
         case 2:
             text.innerHTML = 'The I think I have something on my laptop that can help us!';
             b.style.top = "280px";
-            b.style.display = "block";
-            break;
-        case 3:
-            // Something about the laptop programs?
-            text.innerHTML = 'TODO: Something about the laptop programs?';
-            //b.style.top = "280px";
             b.style.display = "block";
             break;
         default:
