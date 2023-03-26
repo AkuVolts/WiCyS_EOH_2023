@@ -82,8 +82,11 @@ body {
     margin-bottom: 140px;
 }
 
-#level_buttons {
+#submit {
     position: relative;
+    display: inline;
+    font-size: 24px;
+    background-color: green;
 }
 
 #returnMainPageButton {
@@ -91,8 +94,11 @@ body {
 }
 
 #lowerReturnMainPageButton{
-    display: block;
-    margin-top: 10px;
+    position: relative;
+    margin-left: 85%;
+    display: inline;
+    font-size: 24px;
+    background-color: #605f5f;
 }
 
 #bgGame {
