@@ -6,7 +6,6 @@ laptop_interacted_flag = false;
 valid_credits_flag = false;
 const valid_number_credits = 10;
 var netid_credits = {};
-var current_netid = '';
 
 
 function exitIke() {
@@ -14,29 +13,18 @@ function exitIke() {
     //alert("This will return to main screen.");
     if (confirm("Would you like to leave Ikenberry Dining Hall?")) {
         // leave
-        window.location.href = "./main_page_html";
+        window.location.href = "./main_page.html";
     } else {
         // stay
     }
 }
 
-// function laptop() {
-//     //alert("This will control the laptop.")
-//     //laptop_interacted_flag = confirm("Interact with laptop?");
-//     //laptop_interacted_flag = true;
-//     // Do laptop stuff, start sniffer script, change netid, start capture & replace script.
-//     createLaptop();
-//     //user_entry = prompt("Enter your netid"); // JUST TESTING constants and user entry, we probably shouldn't use prompt, or alert, or confirm. We need to create our own popups.
-//     // add eventListener for submit button and intercept button
-// }
-
 function swipeIn() {
     //alert("This will trigger the swipe in event.")
-    alert(current_netid);
     if (valid_credits_flag) {
         alert("Awesome, now you have some meal credits on your account. Have a great meal!");
     } else {
-        alert("Sorry, you do not have enough meal credits left on your account. You cannot enter the dining hall unless you pay for more credits.")
+        alert("Sorry, you do not have enough meal credits left on your account. You need at least 10 credits to enter. You cannot enter the dining hall unless you pay for more credits.")
     }
 }
 
@@ -119,7 +107,7 @@ function interceptPacket() {
         let firstNameIndex = getRandomInt(0, firstNames.length - 1);
         let lastNameIndex = getRandomInt(0, lastNames.length - 1);
         let fullName = `${firstNames[firstNameIndex]} ${lastNames[lastNameIndex]}`;
-        let netid = firstNames[firstNameIndex][0].toLowerCase() + lastNames[lastNameIndex].toLowerCase() + getRandomInt(1, 10);
+        let netid = firstNames[firstNameIndex][0].toLowerCase() + lastNames[lastNameIndex].toLowerCase() + getRandomInt(1, 100);
         // create random number of credits
         var random_credits = Math.floor(Math.random() * 15);
         // add netid and credits to dictionary
@@ -171,13 +159,15 @@ function laptop() {
 
     // create the submit button element
     var submit = document.createElement("input");
-    submit.type = "submit";
+    submit.id = "submit";
+    submit.type = "button";
     submit.value = "Submit";
     submit.style.display = "block";
     submit.style.width = "100%";
 
     // Create packet intercept button element
     var intercept = document.createElement("input");
+    intercept.id = "intercept";
     intercept.type = "button";
     intercept.value = "Intercept";
     intercept.style.display = "block";
@@ -207,12 +197,13 @@ function laptop() {
     overlay.addEventListener("click", function (e) {
         if (e.target.value == "Intercept") {
             interceptPacket();
-        } else if (e.target.value == "Submit") {
+        } else if (e.target.id == "submit") {
             // check value of credits using netid
-            if (netid_credits[input.value] != undefined) {
+            if (netid_credits[input.value] != undefined ) {
                 if (netid_credits[input.value] >= 10) {
                     valid_credits_flag = true;
-                    current_netid = input.value;
+                } else {
+                    valid_credits_flag = false;
                 }
             } else {
                 alert("NetID not found.");
