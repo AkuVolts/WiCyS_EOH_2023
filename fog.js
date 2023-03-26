@@ -19,6 +19,7 @@ let questions;
 let correct_ingredients;
 let all_ingredients;
 
+questions = ["Y", "U", "H"];
 correct_ingredients = [new Set(['ingredient_1']), new Set(['ingredient_2']), new Set(['ingredient_3'])];
 all_ingredients = [new Map([["ingredient_1","a"], ["ingredient_2","b"], ["ingredient_3","c"], ["ingredient_4","d"], ["ingredient_5","e"]]), new Map([["ingredient_1","f"], ["ingredient_2","g"], ["ingredient_3","h"], ["ingredient_4","i"], ["ingredient_5","j"]]), new Map([["ingredient_1","k"], ["ingredient_2","l"], ["ingredient_3","m"], ["ingredient_4","n"], ["ingredient_5","o"]])];
 
@@ -29,7 +30,7 @@ loadJSON(function(response) {
     all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
 });
 
-const NUM_LEVELS = all_ingredients.length;
+const NUM_LEVELS = questions.length;
 
 const selected_ingredients = new Set();
 
@@ -50,7 +51,7 @@ function initGameState() {
 }
 
 window.onload = function () {
-    //document.getElementById("startGameDialog").showModal();
+    document.getElementById("startGameDialog").showModal();
 }
 
 function gameStart() {

@@ -1,11 +1,19 @@
 {
     "questions": [
+        "Personal information should never be shared on unfamiliar websites on the internet. Which of these are examples of personal information?",
         "Malicious phishing (scam) emails are often sent to steal your information. How can you tell an email you receive is a phishing email?",
-        "Passwords are strongest when they are long and easy to remember. Which of these could be considered a strong password?"
+        "Passwords are strongest when they are long and easy to remember, but not obvious to others. Which of these could be considered a strong password?",
+        "...",
+        "...",
+        "...",
+        "...",
+        "...",
+        "...",
+        "..."
     ],
-    "all_ingredients": [{"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"}, 
-                        {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
-                        {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
+    "all_ingredients": [{"ingredient_1": "Address", "ingredient_2": "SSN", "ingredient_3": "Birth Date", "ingredient_4": "Full Name", "ingredient_5": "Favorite Color"}, 
+                        {"ingredient_1": "Asks for money or personal info", "ingredient_2": "It has many typos", "ingredient_3": "Email is long", "ingredient_4": "Tells you to click on strange links", "ingredient_5": "Too good to be true"},
+                        {"ingredient_1": "password123", "ingredient_2": "123456789", "ingredient_3": "cowsandhorsesjump", "ingredient_4": "GGEZ!", "ingredient_5": "Long13Winter"},
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
@@ -13,8 +21,15 @@
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"}],
-    "correct_ingredients": [["ingredient_1", "ingredient_4"],
-                            ["ingredient_3", "ingredient_2"],
-                            ["ingredient_5"]
+    "correct_ingredients": [["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4"],
+                            ["ingredient_1", "ingredient_2", "ingredient_4", "ingredient_5"],
+                            ["ingredient_3", "ingredient_5"],
+                            ["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4"],
+                            ["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4"],
+                            ["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4"],
+                            ["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4"],
+                            ["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4"],
+                            ["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4"],
+                            ["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4"]
     ]
 }
