@@ -50,7 +50,7 @@ function initGameState() {
 }
 
 window.onload = function () {
-    //document.getElementById("startGameDialog").showModal();
+    document.getElementById("startGameDialog").showModal();
 }
 
 function gameStart() {
