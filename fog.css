@@ -68,7 +68,7 @@ body {
     background-color: black;
     color: rgb(181, 208, 156);
     text-align: center;
-    border: 3px solid black;
+    border: 2px solid black;
     font-size: small;
 }
 
@@ -105,4 +105,10 @@ body {
     border: 10px solid black;
     background-color: burlywood;
     margin-bottom: 10px;
+}
+
+#squirrel {
+    display: flex;
+    width: 20%;
+    height: auto;
 }
