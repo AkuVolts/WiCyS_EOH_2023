@@ -64,3 +64,12 @@
 #level_buttons {
     position: relative;
 }
+
+#returnMainPageButton {
+    display: none;
+}
+
+#lowerReturnMainPageButton{
+    display: block;
+    margin-top: 10px;
+}

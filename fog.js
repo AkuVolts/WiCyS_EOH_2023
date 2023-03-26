@@ -5,7 +5,10 @@ const states = createEnum(['START', 'LEVEL_IN_PROGRESS', 'LEVEL_COMPLETE']);
 let level = 0;
 let state = states.START;
 
-// TODO: Convert next two lines into JSON file.
+window.onload = function() {
+    alert(1);
+};
+
 function loadJSON(callback) {
     var xhr = new XMLHttpRequest();
     xhr.overrideMimeType("application/json");
@@ -27,9 +30,7 @@ loadJSON(function(response) {
     all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
 });
 
-//const all_ingredients = [new Map([['ingredient_1', 'a'], ['ingredient_2', 'b']])];
-//const correct_ingredients = [new Set(['ingredient_1', 'ingredient_4']), new Set(['ingredient_3', 'ingredient_2']), new Set(['ingredient_5'])];
-
+correct_ingredients = [('ingredient_1')]
 const selected_ingredients = new Set();
 
 // Hack to implement "enums" in JS.
@@ -45,7 +46,7 @@ function createEnum(values) {
 function initGameState() {
     level = 0;
     score = 0;
-    state = states.LEVEL_IN_PROGRESS
+    state = states.LEVEL_IN_PROGRESS;
 }
 
 window.onload = function() {
@@ -60,9 +61,9 @@ window.onload = function() {
             // Looks up the image by the tag with the right class nested inside the right id.
             let ingredient_display = document.querySelector("#"+ingredient.id + " img.ingredient_disabled")
             if (!selected_ingredients.has(ingredient.id)) {
-                selected_ingredients.add(ingredient.id)
-                ingredient_display.style.display = "block"
-                document.getElementById("chosen_"+ingredient.id).style.display = "block"
+                selected_ingredients.add(ingredient.id);
+                ingredient_display.style.display = "block";
+                document.getElementById("chosen_"+ingredient.id).style.display = "block";
             }
             else {
                 selected_ingredients.delete(ingredient.id)
@@ -110,6 +111,7 @@ function submitButtonOnclick() {
     if (level >= NUM_LEVELS) {
         buttonMsg = "Restart Game";
         msg = "Congratulations, you have completed Fields of Green! You are one step closer to protecting yourself in cyberspace!";
+        document.getElementById('returnMainPageButton').style.display = 'inline';
         level = 0;
     }
     
@@ -125,6 +127,10 @@ function submitButtonOnclick() {
 function startLevelDialogOnClick() {
     const dialog = document.getElementById("resultDialog");
     dialog.close();
+}
+
+function returnMainPageOnClick() {
+    location.href = 'main_page.html';
 }
 
 function startLevel() {
