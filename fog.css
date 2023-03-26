@@ -69,6 +69,7 @@ body {
     color: rgb(181, 208, 156);
     text-align: center;
     border: 3px solid black;
+    font-size: small;
 }
 
 #top_bg {
