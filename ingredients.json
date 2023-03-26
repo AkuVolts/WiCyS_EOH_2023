@@ -1,7 +1,7 @@
 {
     "questions": [
-        "How can you tell an email is a phishing (scam) email?",
-        ""
+        "Malicious phishing (scam) emails are often sent to steal your information. How can you tell an email you receive is a phishing email?",
+        "Passwords are strongest when they are long and easy to remember. Which of these could be considered a strong password?"
     ],
     "all_ingredients": [{"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"}, 
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
@@ -13,6 +13,8 @@
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"},
                         {"ingredient_1": "a", "ingredient_2": "b", "ingredient_3": "c", "ingredient_4": "d", "ingredient_5": "e"}],
-    "correct_ingredients": [        ["ingredient_1", "ingredient_4"], ["ingredient_3", "ingredient_2"], ["ingredient_5"]
+    "correct_ingredients": [["ingredient_1", "ingredient_4"],
+                            ["ingredient_3", "ingredient_2"],
+                            ["ingredient_5"]
     ]
 }

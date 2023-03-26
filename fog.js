@@ -1,6 +1,6 @@
 const states = createEnum(['START', 'LEVEL_IN_PROGRESS', 'LEVEL_COMPLETE']);
 
-let level = 0;
+let level = -1;
 let state = states.START;
 
 function loadJSON(callback) {
@@ -15,17 +15,19 @@ function loadJSON(callback) {
     xhr.send(null);
 }
 
+let questions;
 let correct_ingredients;
 let all_ingredients;
 
 correct_ingredients = [new Set(['ingredient_1']), new Set(['ingredient_2']), new Set(['ingredient_3'])];
 all_ingredients = [new Map([["ingredient_1","a"], ["ingredient_2","b"], ["ingredient_3","c"], ["ingredient_4","d"], ["ingredient_5","e"]]), new Map([["ingredient_1","f"], ["ingredient_2","g"], ["ingredient_3","h"], ["ingredient_4","i"], ["ingredient_5","j"]]), new Map([["ingredient_1","k"], ["ingredient_2","l"], ["ingredient_3","m"], ["ingredient_4","n"], ["ingredient_5","o"]])];
 
-// loadJSON(function(response) {
-//     const ingredients = JSON.parse(response);
-//     correct_ingredients = ingredients.correct_ingredients.map(set => new Set(set));
-//     all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
-// });
+loadJSON(function(response) {
+    const ingredients = JSON.parse(response);
+    questions = ingredients.questions;
+    correct_ingredients = ingredients.correct_ingredients.map(set => new Set(set));
+    all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
+});
 
 const NUM_LEVELS = all_ingredients.length;
 
@@ -110,7 +112,7 @@ function checkSubmission(selected_ingredients, correct_ingredients) {
 
 function submitButtonOnclick() {
     // Check if the user passed the level. Update level and score if so.
-    if level == 0 {
+    if (level == -1) {
         return;
     }
     let level_passed = checkSubmission(selected_ingredients, correct_ingredients);
@@ -156,6 +158,7 @@ function startLevel() {
     }
     selected_ingredients.clear();
     document.getElementById("level").textContent = "Level: " + (level + 1);
+    document.getElementById("questionText").textContent = `Question ${level+1}: ${questions[level]}`;
     setAnswerFields();
 
     // Start level.
