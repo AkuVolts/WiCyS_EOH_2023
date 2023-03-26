@@ -1,13 +1,7 @@
-const NUM_LEVELS = 3
-
 const states = createEnum(['START', 'LEVEL_IN_PROGRESS', 'LEVEL_COMPLETE']);
 
 let level = 0;
 let state = states.START;
-
-window.onload = function() {
-    alert(1);
-};
 
 function loadJSON(callback) {
     var xhr = new XMLHttpRequest();
@@ -24,13 +18,17 @@ function loadJSON(callback) {
 let correct_ingredients;
 let all_ingredients;
 
-loadJSON(function(response) {
-    const ingredients = JSON.parse(response);
-    correct_ingredients = ingredients.correct_ingredients.map(set => new Set(set));
-    all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
-});
+correct_ingredients = [new Set(['ingredient_1']), new Set(['ingredient_2']), new Set(['ingredient_3'])];
+all_ingredients = [new Map([["ingredient_1","a"], ["ingredient_2","b"], ["ingredient_3","c"], ["ingredient_4","d"], ["ingredient_5","e"]]), new Map([["ingredient_1","f"], ["ingredient_2","g"], ["ingredient_3","h"], ["ingredient_4","i"], ["ingredient_5","j"]]), new Map([["ingredient_1","k"], ["ingredient_2","l"], ["ingredient_3","m"], ["ingredient_4","n"], ["ingredient_5","o"]])];
 
-correct_ingredients = [('ingredient_1')]
+// loadJSON(function(response) {
+//     const ingredients = JSON.parse(response);
+//     correct_ingredients = ingredients.correct_ingredients.map(set => new Set(set));
+//     all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
+// });
+
+const NUM_LEVELS = all_ingredients.length;
+
 const selected_ingredients = new Set();
 
 // Hack to implement "enums" in JS.
@@ -46,10 +44,15 @@ function createEnum(values) {
 function initGameState() {
     level = 0;
     score = 0;
-    state = states.LEVEL_IN_PROGRESS;
+    startLevel();
 }
 
-window.onload = function() {
+window.onload = function () {
+    //document.getElementById("startGameDialog").showModal();
+}
+
+function gameStart() {
+    document.getElementById("startGameDialog").close();
     initGameState();
 
     // Register a on click call back for every ingredient.
@@ -58,7 +61,7 @@ window.onload = function() {
             if (state !== states.LEVEL_IN_PROGRESS) {
                 return
             }
-            // Looks up the image by the tag with the right class nested inside the right id.
+            // Looks up the image by thetop tag with the right class nested inside the right id.
             let ingredient_display = document.querySelector("#"+ingredient.id + " img.ingredient_disabled")
             if (!selected_ingredients.has(ingredient.id)) {
                 selected_ingredients.add(ingredient.id);
@@ -80,6 +83,13 @@ window.onload = function() {
     });
 };
 
+function setAnswerFields() {
+    for (const [ing_id, text] of all_ingredients[level]) {
+        console.log(ing_id + " " + text)
+        document.getElementById(ing_id).querySelector(".ingredient_text").textContent = text;
+    }
+}
+
 // Just goes through the submitted and correct ingredients. Returns true if they all match.
 function checkSubmission(selected_ingredients, correct_ingredients) {
     let submission_correct = true;
@@ -100,6 +110,9 @@ function checkSubmission(selected_ingredients, correct_ingredients) {
 
 function submitButtonOnclick() {
     // Check if the user passed the level. Update level and score if so.
+    if level == 0 {
+        return;
+    }
     let level_passed = checkSubmission(selected_ingredients, correct_ingredients);
     if (level_passed) {
         level++;
@@ -115,7 +128,7 @@ function submitButtonOnclick() {
         level = 0;
     }
     
-    document.getElementById("level").textContent = "Level: " + level;
+    document.getElementById("level").textContent = "Level: " + (level + 1);
     document.getElementById("resultDialogText").textContent = msg;
     document.getElementById("resultDialogButton").textContent = buttonMsg;     
     document.getElementById("resultDialog").showModal();
@@ -139,9 +152,11 @@ function startLevel() {
     for (const ingredient of selected_ingredients) {
         // console.log("#"+ingredient + " img.ingredient_disabled")
         document.querySelector("#"+ingredient + " img.ingredient_disabled").style.display = "none";
-        document.getElementById("chosen_"+ingredient).style.display = "none"
+        document.getElementById("chosen_"+ingredient).style.display = "none";
     }
     selected_ingredients.clear();
+    document.getElementById("level").textContent = "Level: " + (level + 1);
+    setAnswerFields();
 
     // Start level.
     state = states.LEVEL_IN_PROGRESS;

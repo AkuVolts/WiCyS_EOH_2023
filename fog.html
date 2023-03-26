@@ -5,62 +5,75 @@
         <script src="fog.js"></script>
     </head>
     <body>
-        <div>
+        <div id="top_bg">
             <div style="display: flex;">
                 <h1>Field of Greens</h1>
                 <h1 style="margin-left: auto" id="level">Level: 0</h1>
             </div>
             <p>
-                Description/Instructions
+                Description: Create a cybersecurity salad, choosing only the best practices or answers to the question below. Click on each ingredient to add it to the bowl. To remove an element, click on it again. Once you are sure of your answer, hit Submit!
+            </p>
+            <p id="questionText">
+                Question 0: Press 'Start Game'!
             </p>
         </div>
 
-        <dialog id="resultDialog">        
-            <p id="resultDialogText"></p>
-            <div>
-                <button id="resultDialogButton" onclick="startLevelDialogOnClick()">Start Level</button>
-                <button id="returnMainPageButton" onclick="returnMainPageOnClick()">Return Home!</button>
-            </div>
+        <dialog id="startGameDialog">
+            <p>Welcome to the Field of Greens! Test your cybersecurity skills here :)</p>
+            <button id="startGameButton" onclick="gameStart()">Start Game</button>
         </dialog>
 
-        <div>
-            <div style="position: relative; margin: auto; padding: 1%;">
-                <img class="salad_bowl" src="fog_assets/plate.png"></img>
-                <div class = "chosen_ingredients">
-                    <img class="chosen_ingredient" id="chosen_ingredient_1" src="fog_assets/ingredient_1.png"/>
-                    <img class="chosen_ingredient" id="chosen_ingredient_2" src="fog_assets/ingredient_2.png"/>
-                    <img class="chosen_ingredient" id="chosen_ingredient_3" src="fog_assets/ingredient_3.png"/>
-                    <img class="chosen_ingredient" id="chosen_ingredient_4" src="fog_assets/ingredient_4.png"/>
-                    <img class="chosen_ingredient" id="chosen_ingredient_5" src="fog_assets/ingredient_5.png"/>
+        <dialog id="resultDialog">        
+            <p id="resultDialogText"></p>
+            <button id="resultDialogButton" onclick="startLevelDialogOnClick()">Start Level</button>
+            <button id="returnMainPageButton" onclick="returnMainPageOnClick()">Return Home!</button>
+        </dialog>
+
+        <div id="bgGame">
+            <div>
+                <div style="position: relative; margin: auto; padding: 1%;">
+                    <img class="salad_bowl" src="fog_assets/plate.png"></img>
+                    <div class = "chosen_ingredients">
+                        <img class="chosen_ingredient" id="chosen_ingredient_1" src="fog_assets/ingredient_1.png"/>
+                        <img class="chosen_ingredient" id="chosen_ingredient_2" src="fog_assets/ingredient_2.png"/>
+                        <img class="chosen_ingredient" id="chosen_ingredient_3" src="fog_assets/ingredient_3.png"/>
+                        <img class="chosen_ingredient" id="chosen_ingredient_4" src="fog_assets/ingredient_4.png"/>
+                        <img class="chosen_ingredient" id="chosen_ingredient_5" src="fog_assets/ingredient_5.png"/>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="ingredients_bar">
-            <div class="ingredient_div" id="ingredient_1">
-                <img class="tub" src = "fog_assets/tray.png"></img>
-                <img class="ingredient" src = "fog_assets/ingredient_1.png"></img>
-                <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
-            </div>
-            <div class="ingredient_div" id="ingredient_2">
-                <img class="tub" src = "fog_assets/tray.png"></img>
-                <img class="ingredient" src = "fog_assets/ingredient_2.png"></img>
-                <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
-            </div>
-            <div class="ingredient_div" id="ingredient_3">
-                <img class="tub" src = "fog_assets/tray.png"></img>
-                <img class="ingredient" src = "fog_assets/ingredient_3.png"></img>
-                <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
-            </div>
-            <div class="ingredient_div" id="ingredient_4">
-                <img class="tub" src = "fog_assets/tray.png"></img>
-                <img class="ingredient" src = "fog_assets/ingredient_4.png"></img>
-                <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
-            </div>
-            <div class="ingredient_div" id="ingredient_5">
-                <img class="tub" src = "fog_assets/tray.png"></img>
-                <img class="ingredient" src = "fog_assets/ingredient_5.png"></img>
-                <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
+            <div id="ingredients_bar">
+                <div class="ingredient_div" id="ingredient_1">
+                    <img class="tub" src = "fog_assets/tray.png"></img>
+                    <img class="ingredient" src = "fog_assets/ingredient_1.png"></img>
+                    <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
+                    <div class="ingredient_text">Test</div>
+                </div>
+                <div class="ingredient_div" id="ingredient_2">
+                    <img class="tub" src = "fog_assets/tray.png"></img>
+                    <img class="ingredient" src = "fog_assets/ingredient_2.png"></img>
+                    <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
+                    <div class="ingredient_text">Test</div>
+                </div>
+                <div class="ingredient_div" id="ingredient_3">
+                    <img class="tub" src = "fog_assets/tray.png"></img>
+                    <img class="ingredient" src = "fog_assets/ingredient_3.png"></img>
+                    <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
+                    <div class="ingredient_text">Test</div>
+                </div>
+                <div class="ingredient_div" id="ingredient_4">
+                    <img class="tub" src = "fog_assets/tray.png"></img>
+                    <img class="ingredient" src = "fog_assets/ingredient_4.png"></img>
+                    <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
+                    <div class="ingredient_text">Test</div>
+                </div>
+                <div class="ingredient_div" id="ingredient_5">
+                    <img class="tub" src = "fog_assets/tray.png"></img>
+                    <img class="ingredient" src = "fog_assets/ingredient_5.png"></img>
+                    <img class="ingredient_disabled" src = "fog_assets/red_x.svg"></img>
+                    <div class="ingredient_text">Test</div>
+                </div>
             </div>
         </div>
 
