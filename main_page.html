@@ -7,6 +7,7 @@
 <link rel="shortcut icon" href="#"/>
 <style>
   /* style for entire webpage */
+
   body {
     background-color: black;
     text-align: center;
@@ -159,7 +160,11 @@
     visibility: visible;
     display: block;
   }
-
+  iframe {
+    position : relative;
+    /* top : 100px;
+    left : 100px; */
+  }
   /* style for elements that show up when the game is complete */
   .complete {
     visibility: hidden;
@@ -183,13 +188,18 @@
   <img src="images/delete.png"/>
 </span> -->
 <!-- creating the canvas -->
+
 <canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
 <br>
+<iframe id="myIFrame" src="if.html" title="example of iframes" height="500" width="700" hidden="hidden">
 
+  <p>Your browser does not support iframes.</p>
+</iframe>
 <body onload="start()">
 <script>
   const game_canvas = document.getElementById("myCanvas");
   const game_context = game_canvas.getContext("2d");
+  const my_iframe = document.getElementById("myIFrame");
   let scene_pic;
   function start() {
     scene_pic = loadBackground("images/main_page_map.png");
@@ -218,10 +228,48 @@
     background_img.addEventListener("load", drawBackground, false);
 
     function drawBackground() {}
-
     return background_img;
   }
+  
+  //function with purpose:
+  //on some action (click on canvas), switches canvas to an iframe in that exact position
+  //on repeat of that action (reclick on iframe), switches canvas back in (do I have to write up code for a new iframe for this?)
 
+  //ultimate goals, broken down:
+  //on mouseclick in one of four places, trigger hiding of this and display of an iframe
+  // iframe has two buttons overlayed that then can be used to toggle values
+  // OR, iframe sends events to parent (document) which then captures those events and uses them to make canvas visible and iframe invisible
+  // which is better? buttons = uniformity, but can get in the way. Easy to use across iframes though. 
+  // OTOH, events are more flexible
+  game_canvas.addEventListener("mousedown", e => {
+    //goal: make canvas invisible
+    // create an iframe
+    let not_vis = game_canvas.getAttribute("hidden");
+if (!not_vis) {
+   game_canvas.setAttribute("hidden", "hidden");
+   my_iframe.removeAttribute("hidden");
+}
+})
+
+document.addEventListener("IframeClickEvent", e => {
+  console.log("recieved!");
+  let not_vis = game_canvas.getAttribute("hidden");
+  if (not_vis) {
+    game_canvas.removeAttribute("hidden");
+    my_iframe.setAttribute("hidden", "hidden");
+  }
+})
+
+// my_iframe.addEventListener("mousedown", e => {
+//     //goal: make canvas invisible
+//     // create an iframe
+//     let not_vis = game_canvas.getAttribute("hidden");
+// if (not_vis) {
+//    game_canvas.removeAttribute("hidden");
+//    my_iframe.setAttribute("hidden", "hidden");
+//    //remove iframe
+// }
+// })
 
   /**
    * Draws the image in the specified location. Is needed for redrawing images in the

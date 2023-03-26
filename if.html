@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1 style="color: #f1f1f1;" >Proof of Concept </h1>
+<p style="color: #f1f1f1;">This is an example for an iframe! </p>
+<button type="button" style="color: blueviolet" onclick="sendEvent()">Want to go back?</button> 
+
+<script>
+    function sendEvent() {
+      console.log("clicked!");
+      let event = new CustomEvent("IframeClickEvent");
+      window.parent.document.dispatchEvent(event)
+    }
+</script>
+</body>
+</html> 
