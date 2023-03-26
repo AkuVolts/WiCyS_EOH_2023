@@ -66,6 +66,7 @@ function interceptPacket() {
 
     // button at bottom of page to return to laptop
     var button = document.createElement("button");
+    button.value = "Exit";
     button.innerHTML = "Exit";
     button.style.position = "absolute";
     button.style.bottom = "0";
@@ -79,9 +80,6 @@ function interceptPacket() {
     button.style.border = "none";
     button.style.zIndex = "10000";
    
-    button.onclick = function () {
-        document.body.removeChild(overlay);
-    };
 
     // add the text element to the overlay div
     overlay.appendChild(text);
@@ -94,7 +92,7 @@ function interceptPacket() {
     document.body.appendChild(overlay);
 
     // wait 5 seconds and capture netids
-    setInterval(function() {
+    var interval = setInterval(function() {
         // Define arrays of possible first and last names
         const firstNames = ["Emma", "Noah", "Olivia", "Liam", "Ava", "William", "Sophia", "Mason", "Isabella", "James"];
         const lastNames = ["Smith", "Johnson", "Brown", "Taylor", "Miller", "Wilson", "Moore", "Davis", "Garcia", "Jackson"];
@@ -116,6 +114,14 @@ function interceptPacket() {
         text.innerHTML = "Intercepting...<br>Intercepted!<br><br>Name: " + fullName + "<br>NetID: " + netid + "<br>Credits: " + random_credits;
         text.style.marginTop = "0px";
     }, 5000);
+
+    // event listener for exit button
+    overlay.addEventListener("click", function(e) {
+        if (e.target.value == "Exit") {
+            clearInterval(interval);
+            document.body.removeChild(overlay);
+        }
+    });
     
 }
 
