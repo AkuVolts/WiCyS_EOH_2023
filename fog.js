@@ -15,22 +15,10 @@ function loadJSON(callback) {
     xhr.send(null);
 }
 
-let questions;
-let correct_ingredients;
-let all_ingredients;
-
-questions = ["Y", "U", "H"];
-correct_ingredients = [new Set(['ingredient_1']), new Set(['ingredient_2']), new Set(['ingredient_3'])];
-all_ingredients = [new Map([["ingredient_1","a"], ["ingredient_2","b"], ["ingredient_3","c"], ["ingredient_4","d"], ["ingredient_5","e"]]), new Map([["ingredient_1","f"], ["ingredient_2","g"], ["ingredient_3","h"], ["ingredient_4","i"], ["ingredient_5","j"]]), new Map([["ingredient_1","k"], ["ingredient_2","l"], ["ingredient_3","m"], ["ingredient_4","n"], ["ingredient_5","o"]])];
-
-loadJSON(function(response) {
-    const ingredients = JSON.parse(response);
-    questions = ingredients.questions;
-    correct_ingredients = ingredients.correct_ingredients.map(set => new Set(set));
-    all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
-});
-
-const NUM_LEVELS = questions.length;
+var questions;
+var correct_ingredients;
+var all_ingredients;
+var NUM_LEVELS;
 
 const selected_ingredients = new Set();
 
@@ -47,10 +35,17 @@ function createEnum(values) {
 function initGameState() {
     level = 0;
     score = 0;
+    NUM_LEVELS = questions.length;
     startLevel();
 }
 
 window.onload = function () {
+    loadJSON(function(response) {
+        const ingredients = JSON.parse(response);
+        questions = ingredients.questions;
+        correct_ingredients = ingredients.correct_ingredients.map(set => new Set(set));
+        all_ingredients = ingredients.all_ingredients.map(map => new Map(Object.entries(map)));
+    });
     document.getElementById("startGameDialog").showModal();
 }
 
