@@ -3,6 +3,34 @@
   <head>
     <script type="text/javascript" src="ike.js"></script>
     <style>
+      .bubble {
+        position: fixed;
+        left: 110px;
+        top: 250px;
+        font-family: sans-serif;
+        font-size: 8px;
+        line-height: 12px;
+        width: 100px;
+        background: #fff;
+        border-radius: 40px;
+        padding: 20px;
+        text-align: center;
+        color: #000;
+      }
+
+      .bubble-bottom-left:before {
+        content: "";
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        border-left: 24px solid #ffffff;
+        border-right: 12px solid transparent;
+        border-top: 12px solid #ffffff;
+        border-bottom: 20px solid transparent;
+        left: 30px;
+        bottom: -24px;
+      }
+
       .image-container {
         position: relative;
       }
@@ -29,9 +57,9 @@
         left: 188px;
       }
       .area2 {
-        width: 50px;
-        height: 50px;
-        top: 94px;
+        width: 40px;
+        height: 40px;
+        top: 101px;
         left: 96px;
       }
       .area3 {
@@ -39,6 +67,23 @@
         height: 50px;
         top: 94px;
         left: 555px;
+      }
+      .squirrel1 {
+        position: absolute;
+        width: auto;
+        height: auto;
+        top: 124px;
+        left: 658px;
+        background-color: transparent;
+      }
+      .squirrel2 {
+        position: absolute;
+        width: auto;
+        height: auto;
+        top: 375px;
+        left: 100px;
+        background-color: transparent;
+        cursor: pointer;
       }
       .overlay div:hover {
         background-color: rgba(0, 0, 0, 0.507);
@@ -61,8 +106,9 @@
         </a>
       </div>
     </div>
-    <div style="height: 300vh; width: 210vw" background="ike_images/ike_background_v2.png">
-      <img src="ike_images\small_squirrel_v2.png" alt="small_squirrel_v2 image" />
-    </div>
+    <div class="squirrel1"><img src="ike_images\small_squirrel_v2_o_t.png" alt="small_squirrel_v2 image"/></div>
+    <div class="squirrel2" onclick="squirrelText()"><img src="ike_images\small_squirrel_v2_t.png" alt="small_squirrel_v2 image"/></div>
+    <script>window.onload=squirrelText</script>
+    <div id="bubbleDIV" class="bubble bubble-bottom-left"><p id='squirrelText'></p></div>
   </body>
 </html>

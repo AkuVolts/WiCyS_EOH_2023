@@ -219,3 +219,34 @@ function laptop() {
         }
     })
 }
+
+clicks = 0;
+function squirrelText() {
+    if (clicks == 0) {
+        i = 0
+    } else if (clicks == 1) {
+        var b = document.getElementById("bubbleDIV");
+        b.style.display = "none";
+    } else {
+        var b = document.getElementById("bubbleDIV");
+        b.style.display = "block";
+        i = (clicks % 3) + 1;
+    }
+    var text = document.getElementById("squirrelText");
+    // I messed up the switch statements here, but idc just add the hints in this order: 
+    // hint 1 in case 3, hint 2 in case 1, and hint 3 in case 2.
+    switch(i) {
+        case 1: 
+            text.innerHTML = 'case 1!'; // Hint 2
+            break;
+        case 2:
+            text.innerHTML = 'case 2!'; // Hint 3
+            break;
+        case 3:
+            text.innerHTML = 'case 3!'; // Hint 1
+            break;
+        case 0:
+            text.innerHTML = "We made it to Ikenberry Dining Hall! Let's get something to eat! Click on me if you need any hints!"
+    }
+    clicks += 1;
+}
