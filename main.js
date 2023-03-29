@@ -17,10 +17,13 @@ const follinger = new Buildings(505, 201, 43, 59, " If you voted on election day
   const game_canvas = document.getElementById("myCanvas");
   const game_context = game_canvas.getContext("2d");
   let scene_pic;
+  let curr_pic;
+  let start_pic;
   
   function start() {
+    start_pic = loadBackground("images/start_page.png");
     scene_pic = loadBackground("images/main_page_map.png");
-
+    curr_pic = start_pic;
     setInterval(update, 20)  // infinite loop, runs every 2 ms
 
   }
