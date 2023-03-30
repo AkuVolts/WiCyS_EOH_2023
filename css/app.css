@@ -1,0 +1,26 @@
+.app-container {
+  height: 500px;
+  width: 700px;
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.app-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  align-items: center;
+  justify-items: center;
+  height:100%;
+  width:100%;
+}
+
+.content-container {
+}
