@@ -202,9 +202,22 @@
   let curr_pic;
   let start_pic;
   let blink = false;
+  const StartScreen = new FontFace('StartScreen', 'url(https://fonts.gstatic.com/s/delicioushandrawn/v3/wlpsgx_NAUNkpmKQifcxkQchDFo3fJ1F25BC.woff2)');
+  const Cinzel = new FontFace('Cinzel', 'url(https://fonts.gstatic.com/s/cinzeldecorative/v14/daaCSScvJGqLYhG8nNt8KPPswUAPni7TTMw.woff2)');
+  const RockSalt = new FontFace('RockSalt', 'url(https://fonts.gstatic.com/s/cinzeldecorative/v14/daaCSScvJGqLYhG8nNt8KPPswUAPni7TTMw.woff2)');
+  
   function start() {
     start_pic = loadBackground("images/start_page.png");
     scene_pic = loadBackground("images/main_page_map.png");
+    StartScreen.load().then((font) => {
+      document.fonts.add(font);
+    });
+    Cinzel.load().then((font) => {
+      document.fonts.add(font);
+    });
+    RockSalt.load().then((font) => {
+      document.fonts.add(font);
+    });
     curr_pic = start_pic;
     setInterval(update, 20);  // infinite loop, runs every 2 ms
   }
@@ -421,14 +434,14 @@ function update() {
     draw(curr_pic, 0, 0, 700, 500);
     if(curr_pic == start_pic){
       game_context.fillStyle = "#FFFFFF";
-      game_context.font ="24px Serif";
+      game_context.font ="24px StartScreen";
       game_context.textAlign = "center";
-      game_context.fillText("Cybersecurity Dinner", 350, 390);
-      game_context.font ="34px Serif";
+      game_context.fillText("Cybersecurity Late Night", 350, 390);
+      game_context.font ="bold 34px RockSalt";
       game_context.fillText("Adventure", 350, 430);
       if(blink==true){
         game_context.fillStyle = "#FFFFFF";
-        game_context.font ="bold 24px Arial";
+        game_context.font ="21px Cinzel";
         
         // display the fact in the middle of the rectangle
         game_context.fillText("Press Enter To Start", 350, 470);
