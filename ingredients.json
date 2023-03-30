@@ -1,0 +1,27 @@
+{
+    "questions": [
+        "Personal information should never be shared on unfamiliar websites on the internet. Which of these are examples of personal information?",
+        "Malicious phishing (scam) emails are often sent to steal your information. How can you tell an email you receive is a phishing email?",
+        "Passwords are strongest when they are long and easy to remember, but not obvious to others. Which of these could be considered a strong password?",
+        "Software often has mistakes (vulnerabilities) which attackers look for. Which of these actions can help protect you from them?",
+        "Phones have a lot features that make things more convenient. Which of these greatly reduce your security?",
+        "Lots of websites collect information on you when you visit them. How can you protect yourself?",
+        "Which of these passwords take longer than a week to crack?"
+    ],
+    "all_ingredients": [{"ingredient_1": "Address", "ingredient_2": "SSN", "ingredient_3": "Birth Date", "ingredient_4": "Full Name", "ingredient_5": "Favorite Color"}, 
+                        {"ingredient_1": "Asks for money or personal info", "ingredient_2": "It has many typos", "ingredient_3": "Email is long", "ingredient_4": "Tells you to click on strange links", "ingredient_5": "Too good to be true"},
+                        {"ingredient_1": "password123", "ingredient_2": "123456789", "ingredient_3": "cowsandhorsesjump", "ingredient_4": "GGEZ!", "ingredient_5": "Long13Winter"},
+                        {"ingredient_1": "Running updates", "ingredient_2": "Downloading unknown programs", "ingredient_3": "Don't worry about it", "ingredient_4": "Don't run updates", "ingredient_5": "Open random files"},
+                        {"ingredient_1": "Most social media", "ingredient_2": "FaceID", "ingredient_3": "Fingerprint unlocking", "ingredient_4": "Two Factor Authentication", "ingredient_5": "Texting people you know"},
+                        {"ingredient_1": "Use an adblocker", "ingredient_2": "Say no to cookies", "ingredient_3": "Log out of Instagram", "ingredient_4": "Sign up for free things", "ingredient_5": "Incognito mode is enough"},
+                        {"ingredient_1": "6857test2143", "ingredient_2": "_42Horses&9cows^Jump!", "ingredient_3": "adsfds1", "ingredient_4": "adsfds1590!", "ingredient_5": "Woohoo1999"}
+                    ],
+    "correct_ingredients": [["ingredient_1", "ingredient_2", "ingredient_3", "ingredient_4"],
+                            ["ingredient_1", "ingredient_2", "ingredient_4", "ingredient_5"],
+                            ["ingredient_3", "ingredient_5"],
+                            ["ingredient_1"],
+                            ["ingredient_1", "ingredient_2", "ingredient_3"],
+                            ["ingredient_1", "ingredient_2", "ingredient_3"],
+                            ["ingredient_2", "ingredient_4"]
+    ]
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISR Dining Hall Daily Special</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #eee;
+            font-family: sans-serif;
+            margin: 0;
+        }
+        h1 {
+        color: black;
+        font-family: monospace;
+        margin-top: 0;
+    }
+
+    #background-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+
+    #background-image div {
+        background-image: url('images/background.png');
+        width: 800px;
+        height: 600px;
+    }
+
+    #background-image div img {
+        display: block;
+        width: 400px;
+        height: 300px;
+        margin: 150px auto;
+    }
+
+    #container {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+    }
+
+    #input {
+        margin-top: 20px;
+        background-color: black;
+        color: white;
+        border: none;
+        width: 40%;
+        padding: 10px;
+        font-family: monospace;
+    }
+
+    .s {
+        padding-top: 20px;
+        text-align: center;
+        font-family: monospace;
+        color: black;
+        font-size: 18px;
+    }
+    .s_2 {
+        padding-top: 20px;
+        text-align: center;
+        font-family: monospace;
+        color: black;
+        font-size: 18px;
+    }
+
+    @keyframes fade-out {
+        0% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    #access-button {
+        margin-top: 20px;
+        background-color: #4CAF50;
+        color: white;
+        font-family: monospace;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 4px;
+    }
+</style>
+</head>
+
+<body>
+    <div id="background-image">
+        <div>
+            <a href="command.html">
+                <img src="images/computer.png" style="display: block; width: 200px; height: 150px; margin: 400px auto;" alt="Clickable image">
+            </a>
+        </div>
+    </div>
+    <div id="container">
+        <h1>Hey! We have lost the daily special for the ISR Dining Hall!</h1>
+        <p class="s_2">Please help us find it by entering the daily special below:</p>
+        <input id="input" type="text">
+        <p class="s">Can you find the special before it's too late?</p>
+        <p class="s">The clock is ticking...</p>
+        <p class="s">We need your help! Click the computer to start.</p>
+    </div>
+    <script>
+    
+        const input = document.getElementById("input");
+        input.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                const special = input.value.toLowerCase().trim();
+                if (special === "palak paneer") {
+                    alert("Nice job!");
+                } else {
+                    input.value = "";
+                }
+            }
+        });
+    </script>
+    </body>
+    </html>
