@@ -10,6 +10,16 @@
 </head>
 <body>
 <script>
+
+function start(){
+    // squirrel enters
+    displayText("Wow, it's my lucky day! Is that an i-card I see?");
+    // Click on the icard
+    grab_icard();
+    displayCutAhead();
+    lunchLadyStart();
+
+}
     function update() {
         // step 1 - clear the canvas
         clearCanvas();
@@ -63,15 +73,7 @@
     
       }
 
-      function start(){
-    // squirrel enters
-    displayText("Wow, it's my lucky day! Is that an i-card I see?");
-    // Click on the icard
-    grab_icard();
-    displayCutAhead();
-    lunchLadyStart();
 
-}
 
 
 function displayInput(input) {
