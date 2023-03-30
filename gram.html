@@ -1,0 +1,150 @@
+<html>
+<head>
+<style>
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; 
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; 
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  color: #333;
+  font-weight: 300;
+  line-height: 1.6; 
+}
+
+.container {
+  width: 50%;
+  margin: 2rem; 
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 1.5rem; 
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+.gallery-item {
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  margin:auto; 
+}
+
+.gallery-item01_01 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.gallery-item01_02 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.gallery-item01_03 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.gallery-item02_01 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.gallery-item02_02 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.gallery-item02_03 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.gallery-item03_01 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+.gallery-item03_02 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+.gallery-item03_03 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+
+
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="gallery">
+    <figure class="gallery-item gallery-item01_01">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+    </figure>
+    <figure class="gallery-item gallery-item01_02">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+    </figure>
+    <figure class="gallery-item gallery-item01_03">
+      <img src="osint_img/chonker.jpg" class="gallery-img" >
+    </figure>
+    <figure class="gallery-item gallery-item02_01">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+    </figure>
+    <figure class="gallery-item gallery-item02_02">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+    </figure>
+    <figure class="gallery-item gallery-item02_03">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+    </figure>
+    <figure class="gallery-item gallery-item03_01">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+    </figure>
+    <figure class="gallery-item gallery-item03_02">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+    </figure>
+    <figure class="gallery-item gallery-item03_03">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+    </figure>
+  </div>
+</div>
+
+</body>
+</html>
+
