@@ -137,15 +137,15 @@
         <p class="s">Can you find the special before it's too late?</p>
         <p class="s">The clock is ticking...</p>
         <p class="s">We need your help! Start by clicking on the computer!</p>
-        <button class="myButton" onclick="returnMainPageOnClick">Go Back to Home</a></button>
+        <button class="myButton" onclick="returnMainPageOnClick()">Go Back to Home</a></button>
 
     </div>
     <script>
 
     function returnMainPageOnClick() {
-    let event = new CustomEvent("IframeClickEvent");
-    window.parent.document.dispatchEvent(event);
-}
+        let event = new CustomEvent("IframeClickEvent");
+        window.parent.document.dispatchEvent(event);
+    }
         const input = document.getElementById("input");
         input.addEventListener("keydown", event => {
             if (event.key === "Enter") {
