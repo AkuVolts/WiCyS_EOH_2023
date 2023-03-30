@@ -19,7 +19,8 @@ function exitIke() {
     //alert("This will return to main screen.");
     if (confirm("Would you like to leave Ikenberry Dining Hall?")) {
         // leave
-        window.location.href = "./main_page.html";
+        let event = new CustomEvent("IframeClickEvent");
+        window.parent.document.dispatchEvent(event);
     } else {
         // stay
     }
