@@ -193,7 +193,7 @@ function laptop() {
     text_box.style.width = "180px";
     text_box.style.border = "2px solid #000000";
     text_box.style.padding = "2px";
-    text_box.innerText = "CONTENT"                          // -------------------- TODO -------------------
+    text_box.innerText = "There are two good programs here! The intercept program intercepts network packets and displays the important data inside."                          // -------------------- TODO -------------------
 
     // create the form element
     var form = document.createElement("form");
