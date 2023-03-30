@@ -6,6 +6,21 @@
 <!-- Need the link tag to solve an error with favicon.ico: https://stackoverflow.com/questions/31075893/im-getting-favicon-ico-error -->
 <link rel="shortcut icon" href="#"/>
 <!-- <script src="main.js"></script> -->
+<audio loop = "true" id = "bgm">
+  <source src="sounds/background.wav" type="audio/mpeg">
+</audio>
+<audio loop = "true" id = "isr">
+  <source src="sounds/isr_fur.wav" type="audio/mpeg">
+</audio>
+<audio loop = "true" id = "ike">
+  <source src="sounds/ike.wav" type="audio/mpeg">
+</audio>
+<audio loop = "true" id = "fog">
+  <source src="sounds/fog.wav" type="audio/mpeg">
+</audio>
+<audio loop = "true" id = "far">
+  <source src="sounds/far.wav" type="audio/mpeg">
+</audio>
 <style>
   /* style for entire webpage */
   body {
@@ -331,7 +346,17 @@
   let IKE = new Buildings(580, 412, 40, 52, "IKE_iframe", true);
   let FOG = new Buildings(436, 0, 56, 36, "FOG_iframe", true);
   let building_array = [union, altgeld, morrow, english, siebel, grainger, cif, main, aces, chem, lincoln, follinger, ISR, FAR, IKE, FOG];
+  const bgm = document.getElementById("bgm");
+  const isr_bgm = document.getElementById("isr");
+  const far_bgm = document.getElementById("far");
+  const ike_bgm = document.getElementById("ike");
+  const fog_bgm = document.getElementById("fog");
 
+  let bgm_map = new Map();
+  bgm_map.set("ISR_iframe", isr_bgm);
+  bgm_map.set("FAR_iframe", far_bgm);
+  bgm_map.set("IKE_iframe", ike_bgm);
+  bgm_map.set("FOG_iframe", fog_bgm);
 
   function clearCanvas() {
     // clears everything on the canvas
@@ -390,6 +415,7 @@
 function logKey(key) {
   if (key.code === "Enter" && curr_pic == start_pic) {
     curr_pic = scene_pic;
+    bgm.play();
   }
 }
 
@@ -403,7 +429,10 @@ function logKey(key) {
       }
       else if(building.isInside(x, y)){
         //this is a dining hall! Launch iframe!
+        bgm.pause();
         let iframe = document.getElementById(building.fact);
+        let cur_bgm = bgm_map.get(building.fact);
+        cur_bgm.play();
         let not_vis = game_canvas.getAttribute("hidden");
         if (!not_vis) {
           game_canvas.setAttribute("hidden", "hidden");
@@ -421,6 +450,8 @@ function logKey(key) {
   building_array.forEach(building => {
       if(building.din){
         document.getElementById(building.fact).setAttribute("hidden", "hidden");;
+        bgm_map.get(building.fact).pause();
+        bgm.play();
       }
     });
   if (not_vis) {
