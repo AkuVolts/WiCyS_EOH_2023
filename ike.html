@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="ike.js"></script>
+    <style>
+      .bubble {
+        position: fixed;
+        left: 110px;
+        top: 250px;
+        font-family: sans-serif;
+        font-size: 8px;
+        line-height: 12px;
+        width: 100px;
+        background: #fff;
+        border-radius: 40px;
+        padding: 10px;
+        text-align: center;
+        color: #000;
+      }
+
+      .bubble-bottom-left:before {
+        content: "";
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        border-left: 24px solid #ffffff;
+        border-right: 12px solid transparent;
+        border-top: 12px solid #ffffff;
+        border-bottom: 20px solid transparent;
+        left: 30px;
+        bottom: -24px;
+      }
+
+      .bubble2 {
+        position: fixed;
+        left: 550px;
+        top: 220px;
+        font-family: sans-serif;
+        font-size: 8px;
+        line-height: 12px;
+        width: 100px;
+        background: #fff;
+        border-radius: 40px;
+        padding: 10px;
+        text-align: center;
+        color: #000;
+        display: none;
+      }
+
+      .bubble-top-right:before {
+        content: "";
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        border-left: 24px solid #ffffff;
+        border-right: 12px solid transparent;
+        border-top: 12px solid #ffffff;
+        border-bottom: 20px solid transparent;
+        left: 80px;
+        top: -24px;
+        transform: scaleX(-1) scaleY(-1);
+        display: block;
+      }
+
+      .image-container {
+        position: relative;
+      }
+      .image-container img {
+        width: 700px;
+        height: 500px;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+      .overlay div {
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+      }
+      .area1 {
+        width: 206px;
+        height: 52px;
+        top: 430px;
+        left: 188px;
+      }
+      .area2 {
+        width: 40px;
+        height: 40px;
+        top: 101px;
+        left: 96px;
+      }
+      .area3 {
+        width: 50px;
+        height: 50px;
+        top: 94px;
+        left: 555px;
+      }
+      .squirrel1 {
+        position: absolute;
+        width: auto;
+        height: auto;
+        top: 124px;
+        left: 658px;
+        background-color: transparent;
+      }
+      .squirrel2 {
+        position: absolute;
+        width: auto;
+        height: auto;
+        top: 375px;
+        left: 100px;
+        background-color: transparent;
+        cursor: pointer;
+      }
+      .overlay div:hover {
+        background-color: rgba(0, 0, 0, 0.107);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <h1>Image with Clickable and Hoverable Areas</h1> -->
+    <div class="image-container">
+      <img src="ike_images\ike_background_v2.png" alt="Image"> <!-- Background image of Ikenberry Dining Hall -->
+      <div class="overlay">
+        <a href="#">
+          <div class="area1" onclick="exitIke()"></div>
+        </a>
+        <a href="#">
+          <div class="area2" onclick="laptop()"></div>
+        </a>
+        <a href="#">
+          <div class="area3" onclick="swipeIn()"></div>
+        </a>
+      </div>
+    </div>
+    <div class="squirrel1"><img src="ike_images\small_squirrel_v2_o_t.png" alt="small_squirrel_v2 image"/></div>
+    <div class="squirrel2" onclick="squirrelText()"><img src="ike_images\small_squirrel_v2_t.png" alt="small_squirrel_v2 image"/></div>
+    <div id="bubbleDIV" class="bubble bubble-bottom-left"><p id='squirrelText'>We made it to Ikenberry Dining Hall! Let's get something to eat! Click on me if you need any hints!</p></div>
+    <div id="bubbleDIV2" class="bubble2 bubble-top-right"><p id='OsquirrelText'></p></div>
+    <script>//window.onload=squirrelText</script>
+  </body>
+</html>
