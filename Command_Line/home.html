@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ISR Dining Hall Daily Special</title>
+    <audio id="terminal">
+        <source src="sounds/terminal.wav" type="audio/mpeg">
+      </audio>
+      <audio id="solved">
+        <source src="sounds/puzzle_solve.wav" type="audio/mpeg">
+      </audio>
+      <audio id="wrong_answer">
+        <source src="sounds/wrong.wav" type="audio/mpeg">
+      </audio>
     <style>
         body {
             display: flex;
@@ -109,6 +118,10 @@
         <div>
             <a href="command.html">
                 <img src="images/computer.png" style="display: block; width: 200px; height: 150px; margin: 400px auto;" alt="Clickable image">
+                <script>
+                    const terminal = document.getElementById("terminal");
+                    terminal.play();
+                </script>
             </a>
         </div>
     </div>
@@ -122,13 +135,17 @@
     </div>
     <script>
         const input = document.getElementById("input");
+        const solve = document.getElementById("solved");
+        const wrongans = document.getElementById("wrong_answer");
         input.addEventListener("keydown", event => {
             if (event.key === "Enter") {
                 const special = input.value.toLowerCase().trim();
                 if (special === "palak paneer") {
                     alert("Nice job!");
+                    solve.play();
                 } else {
                     input.value = "";
+                    wrongans.play();
                 }
             }
         });

@@ -187,11 +187,12 @@
 <!-- BEGINNING OF ELEMENTS DISPLAYED ON HTML PAGE -->
 <h1>Cybersecurity Dinner Adventure</h1>
 <!-- this element follows the style of the "ongoing" class--shows up while the game is ongoing -->
-<p class="ongoing">Instructions: Use the arrow keys to navigate locations and complete your tasks. If you find yourself at a pop-up screen within the game, press Escape to close it and return to the overworld. For text-based prompts, hit Enter to submit your input.</p>
-<!-- these elements follow the style of the "complete" class--shows up once the game is complete -->
-<h2 class="complete">CONGRATULATIONS!</h2>
-<p class="complete">You've completed all the cybersecurity puzzles that need to be solved in order to make breakfast.</p>
-<br class="complete">
+<p class="ongoing">
+  It is late at night and you are hungry. You want to go raid some dining halls and get food.
+  However, you are a mere squirrel and don't have the student ID to get into the dining halls.
+  You try to hack into the dining hall's system to get the student ID, but you need to solve some puzzles first.
+  You have 30 minutes to solve all the puzzles and get the student ID before the dining halls close. So let's get started!
+</p>
 
 <!-- creating blinking effect for start screen -->
 <!-- source: https://stackoverflow.com/questions/27427073/how-to-fit-in-an-image-inside-span-tag -->
@@ -516,16 +517,6 @@ function update() {
 
 </script>
 
-<!-- THE FOLLOWING ARE DISPLAYED UNDERNEATH THE GAME CANVAS -->
-<!-- Display tasks and resource links (when the game is ongoing) -->
-  <div class="ongoing" id="taskList">
-    <p class="ongoing">Remaining tasks:</p>
-    <p class="ongoing" id="unlockComputer">- Unlock the Computer &#128187</p>
-    <p class="ongoing" id="makeToast">- Make Toast &#127838 </p>
-    <p class="ongoing" id="openFridge">- Open the Fridge &#127859</p>
-    <p class="ongoing" id="makeCoffee">- Make Coffee &#9749</p>
-  </div>
-
   <!-- Display ending text and additional resource links (when the game is completed) -->
   <p class="complete">We took inspiration from Capture The Flag (CTF) competitions in designing the puzzles you just solved and tried to make them a bit beginner-friendly. CTF competitions are a great way to learn more about cybersecurity, though they definitely aren't the only way.</p>
   <br class="complete">
@@ -540,9 +531,7 @@ function update() {
   <!-- Display resource guides (always displayed) -->
   <div id="resources">
     <p>Resources</p>
-    <p><a href="guides/caesar_ciphers.pdf" target="_blank" rel="noopener noreferrer">On Caesar Ciphers</a></p>
-    <p><a href="guides/number_systems_and_ascii.pdf" target="_blank" rel="noopener noreferrer">Number Systems and ASCII</a></p>
-    <p><a href="guides/cli.pdf" target="_blank" rel="noopener noreferrer">Navigating a Command-Line Interface</a></p>
+
   </div>
 
 </body>
