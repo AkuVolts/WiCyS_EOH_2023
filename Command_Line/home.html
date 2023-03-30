@@ -24,7 +24,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 50%;
+        width: 120%;
     }
 
     #background-image div {
@@ -41,7 +41,7 @@
     }
 
     #container {
-        width: 20%;
+        width: 1000px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -49,6 +49,10 @@
         border-radius: 10px;
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
         padding: 20px;
+        position: relative;
+        top: 195vh;
+        left: -80vh;
+        z-index: 2;
     }
 
     #input {
@@ -137,15 +141,15 @@
         <p class="s">Can you find the special before it's too late?</p>
         <p class="s">The clock is ticking...</p>
         <p class="s">We need your help! Start by clicking on the computer!</p>
-        <button class="myButton" onclick="returnMainPageOnClick()">Go Back to Home</a></button>
+        <button class="myButton" onclick="returnMainPageOnClick">Go Back to Home</a></button>
 
     </div>
     <script>
 
     function returnMainPageOnClick() {
-        let event = new CustomEvent("IframeClickEvent");
-        window.parent.document.dispatchEvent(event);
-    }
+    let event = new CustomEvent("IframeClickEvent");
+    window.parent.document.dispatchEvent(event);
+}
         const input = document.getElementById("input");
         input.addEventListener("keydown", event => {
             if (event.key === "Enter") {
