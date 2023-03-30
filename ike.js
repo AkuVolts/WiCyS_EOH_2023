@@ -158,7 +158,11 @@ function interceptPacket() {
 }
 
 function laptop() {
-    laptop_interacted_flag = true;
+    if (!laptop_interacted_flag) {
+        laptop_interacted_flag = true;
+        hints_available += 1;
+    }
+    
     // create the overlay div element
     var overlay = document.createElement("div");
     overlay.style.position = "fixed";
@@ -189,7 +193,7 @@ function laptop() {
     text_box.style.width = "180px";
     text_box.style.border = "2px solid #000000";
     text_box.style.padding = "2px";
-    text_box.innerText = "CONTENT"
+    text_box.innerText = "CONTENT"                          // -------------------- TODO -------------------
 
     // create the form element
     var form = document.createElement("form");
@@ -305,6 +309,9 @@ function squirrelText() {
             break;
         case 3:
             // Something about the laptop programs?
+            text.innerHTML = 'TODO: Something about the laptop programs?';
+            //b.style.top = "280px";
+            b.style.display = "block";
             break;
         default:
             // NOTHING
