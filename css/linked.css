@@ -1,0 +1,20 @@
+.linked-page {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  align-content: center;
+  align-items: center;
+  justify-content:center;
+  justify-items: center;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.gallery-img {
+  object-fit: contain;
+  margin:auto;
+  /*border: 1px solid rgba(0,0,0,0.3);*/
+  box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+  max-width: 50%;
+}

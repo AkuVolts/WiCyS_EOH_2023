@@ -1,0 +1,37 @@
+<html>
+<head>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/gram.css">
+<!--
+Viewport is 700x500
+
+App container describes the layout for the app
+Currently consists of: 
+  app-header to display the app's name and info
+  content-container to display the contents of a specific app
+-->
+</head>
+
+<body>
+<div class="app-container">
+  <div class="app-header">
+    Kilogram: Amassed Photos
+  </div>
+  <div class="content-container">
+      <div class="gallery">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+      <img src="osint_img/chonker.jpg" class="gallery-img" >
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+      <img src="osint_img/chonker.jpg" class="gallery-img">
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

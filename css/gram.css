@@ -1,20 +1,31 @@
-.gallery {
+.gram-post {
   display: grid;
-  grid-template-rows: repeat(3, 1fr);
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   align-content: center;
   align-items: center;
   justify-content:center;
   justify-items: center;
-  gap: 10px;
+  gap: 2px;
   height: 100%;
   width: 100%;
 }
 
-.gallery-img {
-  object-fit: contain;
-  margin:auto;
-  /*border: 1px solid rgba(0,0,0,0.3);*/
+.post-picture {
+  margin: auto;
   box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
-  max-width: 50%;
+  grid-column: 1 / 4;
+  grid-row: 1 / 5;
+  max-width: 60%;
+  background-color: black;
+}
+
+.post-comment-section {
+
+
+}
+
+.post-comment {
+  grid-column: 4 / 6;
+  grid-row: auto;  
 }
