@@ -101,6 +101,24 @@
         font-size: 16px;
         border-radius: 4px;
     }
+    .myButton {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: monospace;
+}
+
+.myButton:hover {
+  background-color: #3e8e41;
+}
 </style>
 </head>
 
@@ -118,9 +136,16 @@
         <input id="input" type="text">
         <p class="s">Can you find the special before it's too late?</p>
         <p class="s">The clock is ticking...</p>
-        <p class="s">We need your help! Click the computer to start.</p>
+        <p class="s">We need your help! Start by clicking on the computer!</p>
+        <button class="myButton" onclick="returnMainPageOnClick">Go Back to Home</a></button>
+
     </div>
     <script>
+
+    function returnMainPageOnClick() {
+    let event = new CustomEvent("IframeClickEvent");
+    window.parent.document.dispatchEvent(event);
+}
         const input = document.getElementById("input");
         input.addEventListener("keydown", event => {
             if (event.key === "Enter") {
