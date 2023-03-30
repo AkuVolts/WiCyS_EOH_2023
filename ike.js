@@ -185,15 +185,15 @@ function laptop() {
 
     var text_box = document.createElement("p");
     text_box.style.position = "absolute";
-    text_box.style.top = "25%";
-    text_box.style.left = "25%";
+    text_box.style.top = "5%";
+    text_box.style.left = "20%";
     text_box.style.display = "block";
     text_box.style.type = "text";
     text_box.style.fontSize = "10px";
     text_box.style.width = "180px";
     text_box.style.border = "2px solid #000000";
     text_box.style.padding = "2px";
-    text_box.innerText = "There are two good programs here! The intercept program intercepts network packets and displays the important data inside."                          // -------------------- TODO -------------------
+    text_box.innerText = "We can use these programs to intercept and change network packets! The intercept program will intercept packets and display the important data inside. Then submit the necessary data to change the packet!"                          // -------------------- TODO -------------------
 
     // create the form element
     var form = document.createElement("form");
