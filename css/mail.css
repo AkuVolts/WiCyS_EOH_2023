@@ -1,0 +1,48 @@
+.content-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  width: 700px;
+  height: 400px;
+}
+
+.navpane {
+  display:grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(5, 1fr);
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+}
+
+.navitem{
+
+}
+
+.mailpane{
+  display:grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(10, 1fr);
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+}
+
+.mailitem{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.mailitem:nth-child(odd) {
+  background: white;
+}
+
+.mailitem:nth-child(even) {
+  background: grey;
+}
