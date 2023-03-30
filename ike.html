@@ -13,7 +13,7 @@
         width: 100px;
         background: #fff;
         border-radius: 40px;
-        padding: 20px;
+        padding: 10px;
         text-align: center;
         color: #000;
       }
@@ -29,6 +29,37 @@
         border-bottom: 20px solid transparent;
         left: 30px;
         bottom: -24px;
+      }
+
+      .bubble2 {
+        position: fixed;
+        left: 550px;
+        top: 220px;
+        font-family: sans-serif;
+        font-size: 8px;
+        line-height: 12px;
+        width: 100px;
+        background: #fff;
+        border-radius: 40px;
+        padding: 10px;
+        text-align: center;
+        color: #000;
+        display: none;
+      }
+
+      .bubble-top-right:before {
+        content: "";
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        border-left: 24px solid #ffffff;
+        border-right: 12px solid transparent;
+        border-top: 12px solid #ffffff;
+        border-bottom: 20px solid transparent;
+        left: 80px;
+        top: -24px;
+        transform: scaleX(-1) scaleY(-1);
+        display: block;
       }
 
       .image-container {
@@ -47,7 +78,7 @@
       }
       .overlay div {
         position: absolute;
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.05);
         cursor: pointer;
       }
       .area1 {
@@ -86,7 +117,7 @@
         cursor: pointer;
       }
       .overlay div:hover {
-        background-color: rgba(0, 0, 0, 0.507);
+        background-color: rgba(0, 0, 0, 0.107);
       }
     </style>
   </head>
@@ -108,7 +139,8 @@
     </div>
     <div class="squirrel1"><img src="ike_images\small_squirrel_v2_o_t.png" alt="small_squirrel_v2 image"/></div>
     <div class="squirrel2" onclick="squirrelText()"><img src="ike_images\small_squirrel_v2_t.png" alt="small_squirrel_v2 image"/></div>
-    <script>window.onload=squirrelText</script>
-    <div id="bubbleDIV" class="bubble bubble-bottom-left"><p id='squirrelText'></p></div>
+    <div id="bubbleDIV" class="bubble bubble-bottom-left"><p id='squirrelText'>We made it to Ikenberry Dining Hall! Let's get something to eat! Click on me if you need any hints!</p></div>
+    <div id="bubbleDIV2" class="bubble2 bubble-top-right"><p id='OsquirrelText'></p></div>
+    <script>//window.onload=squirrelText</script>
   </body>
 </html>

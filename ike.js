@@ -1,12 +1,18 @@
 // CONSTANTS
 NETID = "squirrel7";
+const valid_number_credits = 10;
 
 // FLAGS
 laptop_interacted_flag = false;
 valid_credits_flag = false;
-const valid_number_credits = 10;
-var netid_credits = {};
+failed_swipe = false;
+default_text_up = true;
+player_bubble_up = true;
 
+// GLOBAL VARS
+hints_available = 2;
+current_hint = 0;
+var netid_credits = {};
 
 function exitIke() {
     // TODO : Not exactly sure how they want to have the pages connected.
@@ -21,11 +27,37 @@ function exitIke() {
 
 function swipeIn() {
     //alert("This will trigger the swipe in event.")
+    var b_text = "";
     if (valid_credits_flag) {
-        alert("Awesome, now you have some meal credits on your account. Have a great meal!");
+        b_text = "Awesome, now you have some meal credits on your account. Have a great meal!"
+        s_text = "Nice work! We made it inside! Let's go eat!"
     } else {
-        alert("Sorry, you do not have enough meal credits left on your account. You need at least 10 credits to enter. You cannot enter the dining hall unless you pay for more credits.")
+        //alert("Sorry, you do not have enough meal credits left on your account. You need at least 10 credits to enter. You cannot enter the dining hall unless you pay for more credits.")
+        if (!failed_swipe) {
+            failed_swipe = true;
+            hints_available += 1;
+        }
+        b_text = "Sorry, the system says you do not have enough meal credits left on your account. You need at least 10 credits to enter. You cannot enter the dining hall unless you pay for more credits."
+        s_text = "We don't have enough credits left on our account to get a meal. But maybe we can trick the system into letting us inside?"
     }
+    var b = document.getElementById("bubbleDIV");
+    var b2 = document.getElementById("bubbleDIV2");
+    b.style.display = "block";
+    b2.style.display = "block";
+    var O_s_text = document.getElementById("OsquirrelText");
+    O_s_text.innerHTML = b_text;
+    var text = document.getElementById("squirrelText");
+    text.innerHTML = s_text;
+    setTimeout(function() {
+        // WAIT and then hide attendant speech bubble.
+        b2.style.display = "none";
+        setTimeout(function() {
+            // Wait and then hide player speech bubble.
+            b.style.display = "none";
+        }, 4000);
+    }, 6500);
+    
+    
 }
 
 function interceptPacket() {
@@ -126,6 +158,7 @@ function interceptPacket() {
 }
 
 function laptop() {
+    laptop_interacted_flag = true;
     // create the overlay div element
     var overlay = document.createElement("div");
     overlay.style.position = "fixed";
@@ -145,6 +178,18 @@ function laptop() {
     img.style.transform = "translate(-50%, -50%)";
     img.style.width = "80%";
     img.style.height = "auto";
+
+    var text_box = document.createElement("p");
+    text_box.style.position = "absolute";
+    text_box.style.top = "25%";
+    text_box.style.left = "25%";
+    text_box.style.display = "block";
+    text_box.style.type = "text";
+    text_box.style.fontSize = "10px";
+    text_box.style.width = "180px";
+    text_box.style.border = "2px solid #000000";
+    text_box.style.padding = "2px";
+    text_box.innerText = "CONTENT"
 
     // create the form element
     var form = document.createElement("form");
@@ -194,6 +239,7 @@ function laptop() {
 
     // add the image and form elements to the overlay div
     overlay.appendChild(img);
+    overlay.appendChild(text_box);
     overlay.appendChild(form);
 
     // add the overlay div to the document body
@@ -220,33 +266,47 @@ function laptop() {
     })
 }
 
-clicks = 0;
 function squirrelText() {
-    if (clicks == 0) {
-        i = 0
-    } else if (clicks == 1) {
-        var b = document.getElementById("bubbleDIV");
-        b.style.display = "none";
-    } else {
-        var b = document.getElementById("bubbleDIV");
-        b.style.display = "block";
-        i = (clicks % 3) + 1;
-    }
+    var b = document.getElementById("bubbleDIV");
     var text = document.getElementById("squirrelText");
-    // I messed up the switch statements here, but idc just add the hints in this order: 
-    // hint 1 in case 3, hint 2 in case 1, and hint 3 in case 2.
-    switch(i) {
-        case 1: 
-            text.innerHTML = 'case 1!'; // Hint 2
+    /*if (!laptop_interacted_flag && failed_swipe) {
+        text.innerHTML = 'The I think I have something on my laptop that can help us!';
+        b.style.top = "280px";
+        b.style.display = "block";
+        return;
+    } else {
+        //text.innerHTML = "We made it to Ikenberry Dining Hall! Let's get something to eat! Click on me if you need any hints!"
+        if (default_text_up) {
+            text.innerHTML = "Let's check in with the cashier so we can get something to eat!";
+            b.style.display = "block";
+            default_text_up = !default_text_up;
+            return;
+        }
+        if (player_bubble_up) {
+            b.style.display = "none";
+            player_bubble_up = !player_bubble_up;
+            return;
+        }
+    }*/
+    current_hint += 1;
+    current_hint = current_hint % hints_available;
+    switch (current_hint) {
+        case 0:
+            b.style.display = "none";
+            break;
+        case 1:
+            text.innerHTML = "Let's check in with the cashier so we can get something to eat!";
+            b.style.display = "block";
             break;
         case 2:
-            text.innerHTML = 'case 2!'; // Hint 3
+            text.innerHTML = 'The I think I have something on my laptop that can help us!';
+            b.style.top = "280px";
+            b.style.display = "block";
             break;
         case 3:
-            text.innerHTML = 'case 3!'; // Hint 1
+            // Something about the laptop programs?
             break;
-        case 0:
-            text.innerHTML = "We made it to Ikenberry Dining Hall! Let's get something to eat! Click on me if you need any hints!"
-    }
-    clicks += 1;
+        default:
+            // NOTHING
+    }    
 }
