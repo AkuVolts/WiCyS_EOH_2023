@@ -1,147 +1,96 @@
 <html>
 <head>
 <style>
-*,
-*::after,
-*::before {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit; 
+
+/*
+Viewport is 700x500
+*/
+
+/* App container describes the layout for the app
+  Currently consists of: 
+    app-header to display the app's name and info
+    content-container to display the contents of a specific app
+*/
+.app-container {
+  height: 500px;
+  width: 700px;
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
 }
 
-html {
-  box-sizing: border-box;
-  font-size: 62.5%; 
+.app-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  align-items: center;
+  justify-items: center;
+  height:100%;
+  width:100%;
 }
 
-body {
-  font-family: "Nunito", sans-serif;
-  color: #333;
-  font-weight: 300;
-  line-height: 1.6; 
-}
-
-.container {
-  width: 50%;
-  margin: 2rem; 
+.content-container {
 }
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  grid-gap: 1.5rem; 
-}
-
-div.gallery:hover {
-  border: 1px solid #777;
-}
-
-.gallery-item {
-  width: auto;
+  grid-template-columns: repeat(3, 1fr);
+  align-content: center;
+  align-items: center;
+  justify-content:center;
+  justify-items: center;
+  gap: 10px;
   height: 100%;
-  object-fit: cover;
-  display: block;
-  margin:auto; 
+  width: 100%;
 }
 
-.gallery-item01_01 {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 1;
-    grid-row-end: 2;
+.gallery-img {
+  object-fit: contain;
+  margin:auto;
+  /*border: 1px solid rgba(0,0,0,0.3);*/
+  box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+  max-width: 50%;
 }
-
-.gallery-item01_02 {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 1;
-    grid-row-end: 2;
-}
-
-.gallery-item01_03 {
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 2;
-}
-
-.gallery-item02_01 {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 3;
-}
-
-.gallery-item02_02 {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 3;
-}
-
-.gallery-item02_03 {
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 2;
-    grid-row-end: 3;
-}
-
-.gallery-item03_01 {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 3;
-    grid-row-end: 4;
-}
-
-.gallery-item03_02 {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 4;
-}
-
-.gallery-item03_03 {
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 3;
-    grid-row-end: 4;
-}
-
-
 
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="gallery">
-    <figure class="gallery-item gallery-item01_01">
+<div class="app-container">
+  <div class="app-header">
+    Kilogram: Amassed Photos
+  </div>
+  <div class="content-container">
+      <div class="gallery">
       <img src="osint_img/chonker.jpg" class="gallery-img">
-    </figure>
-    <figure class="gallery-item gallery-item01_02">
       <img src="osint_img/chonker.jpg" class="gallery-img">
-    </figure>
-    <figure class="gallery-item gallery-item01_03">
       <img src="osint_img/chonker.jpg" class="gallery-img" >
-    </figure>
-    <figure class="gallery-item gallery-item02_01">
       <img src="osint_img/chonker.jpg" class="gallery-img">
-    </figure>
-    <figure class="gallery-item gallery-item02_02">
       <img src="osint_img/chonker.jpg" class="gallery-img">
-    </figure>
-    <figure class="gallery-item gallery-item02_03">
       <img src="osint_img/chonker.jpg" class="gallery-img">
-    </figure>
-    <figure class="gallery-item gallery-item03_01">
       <img src="osint_img/chonker.jpg" class="gallery-img">
-    </figure>
-    <figure class="gallery-item gallery-item03_02">
       <img src="osint_img/chonker.jpg" class="gallery-img">
-    </figure>
-    <figure class="gallery-item gallery-item03_03">
       <img src="osint_img/chonker.jpg" class="gallery-img">
-    </figure>
+    </div>
+    <!-- 
+    <div class="gallery">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+    </div>
+    -->
   </div>
 </div>
 
