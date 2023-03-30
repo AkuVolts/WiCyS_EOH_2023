@@ -141,7 +141,8 @@ function startLevelDialogOnClick() {
 }
 
 function returnMainPageOnClick() {
-    location.href = 'main_page.html';
+    let event = new CustomEvent("IframeClickEvent");
+    window.parent.document.dispatchEvent(event);
 }
 
 function startLevel() {

@@ -5,11 +5,183 @@
 <title>Cybersecurity Dinner Adventure</title>
 <!-- Need the link tag to solve an error with favicon.ico: https://stackoverflow.com/questions/31075893/im-getting-favicon-ico-error -->
 <link rel="shortcut icon" href="#"/>
-<link rel="stylesheet" type="text/css" href="main_page_styles.css"/>
+<!-- <script src="main.js"></script> -->
+<audio loop = "true" id = "bgm">
+  <source src="sounds/background.wav" type="audio/mpeg">
+</audio>
+<audio loop = "true" id = "isr">
+  <source src="sounds/isr_fur.wav" type="audio/mpeg">
+</audio>
+<audio loop = "true" id = "ike">
+  <source src="sounds/ike.wav" type="audio/mpeg">
+</audio>
+<audio loop = "true" id = "fog">
+  <source src="sounds/fog.wav" type="audio/mpeg">
+</audio>
+<audio loop = "true" id = "far">
+  <source src="sounds/far.wav" type="audio/mpeg">
+</audio>
+<style>
+  /* style for entire webpage */
+  body {
+    background-color: black;
+    text-align: center;
+    color: white;
+    font-family: courier;
+  }
 
-<!-- Add audios once the basic framework is made -->
+  /* style for guide hyperlinks */
+  a
+  {
+    color: rgb(123, 213, 255);
+  }
 
-<!-- Add scripts-->
+  /* style for blinking start screen */
+  /* source: https://www.freecodecamp.org/news/make-it-blink-html-tutorial-how-to-use-the-blink-tag-with-code-examples/ */
+  #blinkingStartScreen {
+    animation: blink 1s steps(1, end) infinite;
+
+    /* for positioning the start screen image with text */
+    width: 700px;
+    height: 500px;
+    position: absolute;
+    visibility: visible;
+  }
+
+  @keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+  /* source for how to style an element by id: https://blog.hubspot.com/website/css-id */
+  /* style for scrolling text box (i.e. terminal) */
+  #myTerminal {
+    background-color: rgb(0, 8, 8);
+    color: white;
+    width: 605px;
+    height: 377px;
+    overflow-y: scroll;
+    position: absolute;
+    visibility: hidden;
+    text-align: left;
+    word-break: break-all;  /* allows wraparound without spaces - https://css-tricks.com/almanac/properties/o/overflow-wrap/*/
+  }
+
+  /* style the terminal files with respect to linux color code: https://www.2daygeek.com/understanding-the-color-code-of-linux-files/ */
+  /* text: white , directory: blue, executable: green */
+  .executable_file {
+    color: limegreen;
+  }
+  .subdirectory {
+    color: mediumblue;
+  }
+
+  /* source for how to style tab-related elements: https://www.w3schools.com/howto/howto_js_vertical_tabs.asp*/
+  /* style the tab */
+  .tab {
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+
+    width: 200px; /* width of tab */
+    height: 500px; /* make the same as game canvas' height */
+    position: absolute;
+    visibility: hidden;
+  }
+
+  /* style the buttons inside the tab */
+  .tab button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 17px;
+  }
+
+  /* change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* create an active/current "tab button" class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* style the tab content */
+  .tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    border-left: none;
+
+    width: 500px; /* width of tab content */
+    height: 500px;  /* make the same as game canvas' height */
+    position: absolute;
+
+    visibility: hidden;
+    background-color: white;
+    color:black;
+    text-align: left;
+  }
+
+  /* source for styling button: https://www.w3schools.com/css/css3_buttons.asp */
+  .button {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    background-color: rgb(181, 255, 207);
+    color: black;
+    font-size: 16px;
+    padding: 16px 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  /* style the button on hover */
+  .button:hover {
+    background-color: rgb(168, 240, 194);
+  }
+
+  /* style for the list of hints */
+  .hint_list {
+    color: black;
+    width: 500px;
+    height: 300px;
+    overflow-y: scroll;
+    visibility: hidden;
+    text-align: left;
+  }
+
+  /* source for display parameter: https://stackoverflow.com/questions/2928688/how-to-hide-elements-without-having-them-take-space-on-the-page */
+  /* style for elements that show up while game is ongoing */
+  .ongoing {
+    visibility: visible;
+    display: block;
+  }
+
+  /* style for elements that show up when the game is complete */
+  .complete {
+    visibility: hidden;
+    display: none;
+  }
+</style>
 </head>
 
 <!-- BEGINNING OF ELEMENTS DISPLAYED ON HTML PAGE -->
@@ -18,87 +190,340 @@
 <p class="ongoing">Instructions: Use the arrow keys to navigate locations and complete your tasks. If you find yourself at a pop-up screen within the game, press Escape to close it and return to the overworld. For text-based prompts, hit Enter to submit your input.</p>
 <!-- these elements follow the style of the "complete" class--shows up once the game is complete -->
 <h2 class="complete">CONGRATULATIONS!</h2>
-<p class="complete">You've completed all the cybersecurity puzzles and successfully survived through your nighttime adventure! </p>
+<p class="complete">You've completed all the cybersecurity puzzles that need to be solved in order to make breakfast.</p>
 <br class="complete">
-<!-- messages and p elements can be edited later based on the code-->
-
-
-<!-- creating the game terminal -->
-<div id="gameTerminal">
-  <div id = "input0">~</div>
-</div>
-
-<!-- creating the hint view -->
-<!-- source: https://www.w3schools.com/howto/howto_js_vertical_tabs.asp -->
-
-<!-- this is just inspiration for new hint icons and what they do, make new ones for our page-->
-<!-- <div class="tab">
-  <button class="tablinks" onclick="viewHints(event, 'Computer')" id="defaultOpen">Unlocking the computer</button>
-  <button class="tablinks" onclick="viewHints(event, 'Toast')">Making toast</button>
-  <button class="tablinks" onclick="viewHints(event, 'Fridge')">Opening the fridge</button>
-  <button class="tablinks" onclick="viewHints(event, 'Coffee')">Brewing coffee</button>
-</div> -->
-
-<!-- creating the structure of hints under each puzzle hint tab -->
-<!-- when the tab for the puzzle is selected, will display the content (i.e. hints and "Get a Hint" button) -->
-<!-- <div id="Computer" class="tabcontent">
-  <h3>Hints for computer puzzle</h3>
-  <h4 id="Computer_hint_instruction">Click on the button below to get a hint for this puzzle. To go back to the game, press ESCAPE.</h4>
-  <div class="hint_list" id="Computer_hint_listing"></div>
-  <button class="button" id="Computer_btn" onclick="addHintToView(event, 'Computer')">Get a hint</button>
-</div>
-
-<div id="Toast" class="tabcontent">
-  <h3>Hints for toast puzzle</h3>
-  <h4 id="Toast_hint_instruction">Click on the button below to get a hint for this puzzle. To go back to the game, press ESCAPE.</h4>
-  <div class="hint_list" id="Toast_hint_listing"></div>
-  <button class="button" id="Toast_btn" onclick="addHintToView(event, 'Toast')">Get a hint</button>
-</div>
-
-<div id="Fridge" class="tabcontent">
-  <h3>Hints for fridge puzzle</h3>
-  <h4 id="Fridge_hint_instruction">Click on the button below to get a hint for this puzzle. To go back to the game, press ESCAPE.</h4>
-  <div class="hint_list" id="Fridge_hint_listing"></div>
-  <button class="button" id="Fridge_btn" onclick="addHintToView(event, 'Fridge')">Get a hint</button>
-</div>
-
-<div id="Coffee" class="tabcontent">
-  <h3>Hints for coffee puzzle</h3>
-  <h4 id="Coffee_hint_instruction">Click on the button below to get a hint for this puzzle. To go back to the game, press ESCAPE.</h4>
-  <div class="hint_list" id="Coffee_hint_listing"></div>
-  <button class="button" id="Coffee_btn" onclick="addHintToView(event, 'Coffee')">Get a hint</button>
-</div> -->
 
 <!-- creating blinking effect for start screen -->
 <!-- source: https://stackoverflow.com/questions/27427073/how-to-fit-in-an-image-inside-span-tag -->
 <!-- <span id="blinkingStartScreen">
-  <img src="images/eceb-2-1.png"/>
-</span>
-
+  <img src="images/delete.png"/>
+</span> -->
 <!-- creating the canvas -->
-<div id="entireCanvas" width="700" height="500">
-  <!-- creating the canvas -->
-  <canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
-  <iframe id="login-iframe" width="700" height="500" src="./login.html" frameborder="0" style="display: none;"></iframe>
-  <iframe id="email-iframe" width="700" height="500" src="./email.html" frameborder="0" style="display: none; "></iframe>
-  <iframe id="osintiframe" src="./email_login.html" width="700" height="500" frameborder="0" style="display: none;"></iframe>
-  <iframe id="sqliframe" src="./sql_login.html" width="700" height="500" frameborder="0" style="display: none;"></iframe>
-  <button type="button" id="closeiframe" onclick = "closeComputer()" style="display: none; background-color: #f44336;font-size: 24px;border-radius: 8px;width: 50px;"> X </button>
-</div>
+<canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
+<iframe id="FOG_iframe" src="fog.html" title="FOG" height="500" width="700" hidden="hidden"></iframe>
+<iframe id="ISR_iframe" src="Command_Line/home.html" title="ISR" height="500" width="700" hidden="hidden" frameBorder="0"></iframe>
+<iframe id="IKE_iframe" src="ike.html" title="IKE" height="500" width="700" hidden="hidden" frameBorder="0"></iframe>
+<iframe id="FAR_iframe" src="osint.html" title="FAR" height="500" width="700" hidden="hidden" frameBorder="0"></iframe>
 <br>
-<script src="eoh_2022.js"></script> -->
 
 <body onload="start()">
+<!-- <script type="text/javascript" src="main.js"> -->
+<script>
+  
+  // Get the canvas context and save the original region data
+  const game_canvas = document.getElementById("myCanvas");
+  const game_context = game_canvas.getContext("2d");
+  let scene_pic;
+  let curr_pic;
+  let start_pic;
+  let blink = false;
+  const StartScreen = new FontFace('StartScreen', 'url(https://fonts.gstatic.com/s/delicioushandrawn/v3/wlpsgx_NAUNkpmKQifcxkQchDFo3fJ1F25BC.woff2)');
+  const Cinzel = new FontFace('Cinzel', 'url(https://fonts.gstatic.com/s/cinzeldecorative/v14/daaCSScvJGqLYhG8nNt8KPPswUAPni7TTMw.woff2)');
+  const RockSalt = new FontFace('RockSalt', 'url(https://fonts.gstatic.com/s/cinzeldecorative/v14/daaCSScvJGqLYhG8nNt8KPPswUAPni7TTMw.woff2)');
+  
+  function start() {
+    start_pic = loadBackground("images/start_page.png");
+    scene_pic = loadBackground("images/main_page_map.png");
+    StartScreen.load().then((font) => {
+      document.fonts.add(font);
+    });
+    Cinzel.load().then((font) => {
+      document.fonts.add(font);
+    });
+    RockSalt.load().then((font) => {
+      document.fonts.add(font);
+    });
+    curr_pic = start_pic;
+    setInterval(update, 20);  // infinite loop, runs every 2 ms
+  }
+
+
+  /**
+   * Initial loading of background (image takes up the entire canvas space).
+   * Loads the image into the page. Must be called prior to drawing or will face the problem
+   * of the image not always displaying when the page is opened/refreshed.
+   * 
+   * @param img_url String representing the path to the image
+   * @return Object representing the background image
+   */
+   function loadBackground(img_url) {
+    const background_img = new Image();
+    background_img.src = img_url;
+
+    // load images first
+    // - Note: the following line is needed to fix the problem of the background img not always
+    // displaying when the page is refreshed
+    // - Source: https://stackoverflow.com/questions/22889641/simple-html5-canvas-image-not-displaying
+    background_img.addEventListener("load", drawBackground, false);
+
+    function drawBackground() {}
+
+    return background_img;
+  }
+
+
+  /**
+   * Draws the image in the specified location. Is needed for redrawing images in the
+   * infinite loop that updates the game visuals.
+   * 
+   * @param img Object representing the image
+   * @param x Integer representing the x-coordinate of where the image should be positioned in the canvas
+   * @param y Integer representing the y-coordinate of where the image shoudl be positioned in the canvas
+   * @param width Integer representing the width of the image
+   * @param height Integer representing the height of the image
+   */
+   function draw(img, x, y, width, height) {
+    game_context.drawImage(img, sx=x, sy=y, swidth=width, sheight=height);
+  }
+
+  class Buildings {
+    constructor(x, y, width, height, fact, isDinHall) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.fact = fact;
+        this.given_hint = false;
+        this.displayFact = false;
+        this.highlight = false;
+        if(isDinHall){
+          this.highlight_color = "red";
+          this.din = true;
+        }
+        else{
+          this.highlight_color = "#FFFF00";
+        }
+    }
+
+    display() {
+        return this.fact;
+    }
+
+    // check if mouse is inside the building
+    isInside(x, y) {
+        return (x >= this.x && x < this.x + this.width && y >= this.y && y < this.y + this.height);
+    }
+
+    // highlight the building while mouse is inside
+    highlight() {
+      if(this.highlight){
+        game_context.clearRect(this.x, this.y, this.width, this.height);
+        game_context.fillStyle = this.highlight_color;
+        game_context.fillRect(this.x, this.y, this.width, this.height);
+      }
+    }
+
+    displayFact(){
+      if(this.displayFact){
+        game_context.clearRect(175, 125, 350, 250);
+        // set the color of the rectangle to light brown
+        game_context.fillStyle = "#F5DEB3";
+        game_context.fillRect(175, 125, 350, 250);
+        game_context.fillStyle = "#FFFFFF";
+        game_context.font ="bold 24px Arial";
+        game_context.textAlign = "center";
+        // display the fact in the middle of the rectangle
+        game_context.fillText(this.fact, 350, 300);
+      }
+    }
+}
+
+
+  let union = new Buildings(121, 193, 43, 83, "How do data breaches happen? Turns out that human error plays a big role: in fact, one study found that human error was a major cause of 95% of data breaches. That’s why cybersecurity systems need to be careful about how much access they give users, to limit the damage they can cause.", false);
+  let altgeld = new Buildings(189, 345, 83, 43, "Cryptography is based on protecting information through different algorithms, or ways of encoding your messages. These algorithms usually have keys, specific values used to hide and then reveal information, and you either need to have those keys or spend millions of years to crack the code. The keys can be symmetric, where you encode and decode with the same value, or asymmetric, where you encode with a public key value and decode with a private key, only known by the receiver.", false);
+  let morrow = new Buildings(313, 29, 67, 40, "Are aliens real? Some people believe so, and think that crop circles contain hidden messages. If so, then maybe the reason we view it as a hoax is because we don’t have the tools to decrypt their codes, and if our cryptography methods got to the right point, maybe we’d be able to exchange messages back and forth. More likely, though, is that crop circles are man-made creations, but it’s a fun thought exercise.", false);
+  let english = new Buildings(281, 421, 63, 35, "What kinds of techniques can you use to break unknown codes? One way is to rely on the letter frequencies, both of individual and of combinations of letters. The most common English letter is ‘e’ and the least common is ‘z’, so if the frequencies in the coded text look different, you can use these proportions to try and crack substitution ciphers.",  false);
+  let siebel = new Buildings(13, 29, 55, 35, "Where did malware start? The first computer worm was created in 1971 and called “Creeper”. It printed the message \"I'M THE CREEPER. CATCH ME IF YOU CAN!\" as it moved across the system. The second worm and first antivirus, Reaper, was created to delete Creeper.", false);
+  let grainger = new Buildings(49, 137, 39, 51, "Did you know that “phone phreaking” was the ancestor of hacking? In the 1960’s and 70’s, people would make noises that sounded like the tones phone operators used, fooling the system into letting them make free calls across the world. Famous “phone phreaks” include Steve Jobs and Steve Wozniak, the founders of Apple. Many phone phreaks later went on to become computer hackers during the 1980’s.", false);
+  let cif = new Buildings(49, 317, 39, 59, "Is computer security important for schools? The answer is yes, just like it is for all big organizations: after all, they have a lot of sensitive systems and data that they rely on for their daily functioning. One historical Illinois college was forced to shut down due to a combination of COVID and a bad ransomware attack, and another ransomware attack on the Baltimore County School Systems cost the schools 10 million and caused issues that lasted over a year. ", false);
+  let main = new Buildings(576, 265, 44, 55, "How do websites keep our information safe? OpenSSL is one of the most commonly used cryptographic libraries in the world, and is used by the majority of HTTPS websites. It allows people to safely communicate over computer networks without having to worry about other users eavesdropping, makes sure they’re talking to who they want to talk to, and keeps the data safe from being changed. OpenSSL is also open source, so anyone can help make OpenSSL better!", false);
+  let aces = new Buildings(581, 133, 51, 51, "What are the most dangerous places to target with a cyberattack? You might think of banks or airplanes, but you probably didn’t consider the food industry. Our food chain is fragile, and as the agriculture industry becomes more and more online, it’s also becoming a tempting target for ransomware, malware that encrypts data and asks for money to unlock it. That’s why some researchers are paying close attention to how to keep agriculture systems safe and secure.", false);
+  let chem = new Buildings(189, 97, 51, 23, "The future is quantum! Current cryptography methods rely on pure math and algorithms and are pretty difficult to break, taking a classical computer trillions of years to crack. If quantum computing becomes a reality, though, then all these combinations can be tested at the same time, making it easy to discover the right combination. That’s why researchers are currently working on new and innovative ways to harness quantum properties in new cryptographic algorithms.", false);
+  let lincoln = new Buildings(397, 353, 71, 35, "What was the worst malware? Some might say “Mydoom”, the fastest spreading email virus and also the most expensive computer virus ever, costing an estimated $38 million. It was first found in 2004, but its aftereffects lasted till 2009. Even after multiple investigations and a $500,000 bounty, the original creator still is unknown.", false);
+  let follinger = new Buildings(505, 201, 43, 59, " If you voted on election day in 2022 in Champaign County, you may have noticed that voting seemed to be going particularly slowly. That was because of repeated DDOS (distributed denial of service) attacks on the website and servers, causing connectivity issues. Denial of service attacks are attacks where a website is flooded with traffic until it is overwhelmed, and when these attacks are spread over many different devices, it's even harder to filter out.", false);
+  let ISR = new Buildings(144, 24, 92, 44, "ISR_iframe", true);
+  let FAR = new Buildings(580, 16, 60, 48, "FAR_iframe", true);
+  let IKE = new Buildings(580, 412, 40, 52, "IKE_iframe", true);
+  let FOG = new Buildings(436, 0, 56, 36, "FOG_iframe", true);
+  let building_array = [union, altgeld, morrow, english, siebel, grainger, cif, main, aces, chem, lincoln, follinger, ISR, FAR, IKE, FOG];
+  const bgm = document.getElementById("bgm");
+  const isr_bgm = document.getElementById("isr");
+  const far_bgm = document.getElementById("far");
+  const ike_bgm = document.getElementById("ike");
+  const fog_bgm = document.getElementById("fog");
+
+  let bgm_map = new Map();
+  bgm_map.set("ISR_iframe", isr_bgm);
+  bgm_map.set("FAR_iframe", far_bgm);
+  bgm_map.set("IKE_iframe", ike_bgm);
+  bgm_map.set("FOG_iframe", fog_bgm);
+
+  function clearCanvas() {
+    // clears everything on the canvas
+    game_context.clearRect(0, 0, 700, 500);
+  }
+
+  function wrapText(text, mid_x, mid_y, max_width, height) {
+    let words = text.split(' ');
+    let lines = []
+    let line = '';
+
+    for(let n = 0; n < words.length; n++) {
+      let check = line + words[n] + ' ';
+      let w = game_context.measureText(check).width;
+      if (w > max_width && n > 0) {
+        lines.push(line);
+        line = words[n] + ' ';
+        y += height;
+      }
+      else {
+        line = check;
+      }
+    }
+    lines.push(line);
+    for (let i = 0; i<lines.length; i++){
+      game_context.fillText(lines[i], mid_x, mid_y + (height*(2 * i + 1 - lines.length)));
+    }
+  }
+
+  // call highlight function when mouse is over a building
+  //this only works when the mouse moves, you want to maintain the hovering and unhover if we move off a
+  game_canvas.addEventListener("mousemove", (evt) => {
+
+    x = evt.pageX - game_canvas.offsetLeft;
+    y = evt.pageY - game_canvas.offsetTop;
+    // calling the highlight function according to the building
+    building_array.forEach(building => {
+      if(building.isInside(x, y)){
+        building.highlight = true;
+      }
+      else{
+        building.highlight = false;
+      }
+    });
+  }, false);
+
+  // Add a mouseout listener to restore the original canvas data
+  game_canvas.addEventListener('mouseout', (evt) => {
+    building_array.forEach(building => {
+      building.displayFact = false;
+      building.highlight = false;
+    });
+  });
+  document.addEventListener('keydown', logKey)
+
+function logKey(key) {
+  if (key.code === "Enter" && curr_pic == start_pic) {
+    curr_pic = scene_pic;
+    bgm.play();
+  }
+}
+
+
+  game_canvas.addEventListener("click", (evt) => {
+    x = evt.pageX - game_canvas.offsetLeft;
+    y = evt.pageY - game_canvas.offsetTop;
+    building_array.forEach(building => {
+      if(building.isInside(x, y) && !building.din){
+        building.displayFact = true;
+      }
+      else if(building.isInside(x, y)){
+        //this is a dining hall! Launch iframe!
+        bgm.pause();
+        let iframe = document.getElementById(building.fact);
+        let cur_bgm = bgm_map.get(building.fact);
+        cur_bgm.play();
+        let not_vis = game_canvas.getAttribute("hidden");
+        if (!not_vis) {
+          game_canvas.setAttribute("hidden", "hidden");
+          iframe.removeAttribute("hidden");
+        }
+      }
+      else{
+        building.displayFact = false;
+      }
+    });
+  }, false);
+
+  document.addEventListener("IframeClickEvent", e => {
+  let not_vis = game_canvas.getAttribute("hidden");
+  building_array.forEach(building => {
+      if(building.din){
+        document.getElementById(building.fact).setAttribute("hidden", "hidden");;
+        bgm_map.get(building.fact).pause();
+        bgm.play();
+      }
+    });
+  if (not_vis) {
+    game_canvas.removeAttribute("hidden");
+  }
+})
+let total_blinks = 0;
+function update() {
+    // step 1 - clear the canvas
+    clearCanvas();
+    draw(curr_pic, 0, 0, 700, 500);
+    if(curr_pic == start_pic){
+      game_context.fillStyle = "#FFFFFF";
+      game_context.font ="24px StartScreen";
+      game_context.textAlign = "center";
+      game_context.fillText("Cybersecurity Late Night", 350, 390);
+      game_context.font ="bold 34px RockSalt";
+      game_context.fillText("Adventure", 350, 430);
+      if(blink==true){
+        game_context.fillStyle = "#FFFFFF";
+        game_context.font ="21px Cinzel";
+        
+        // display the fact in the middle of the rectangle
+        game_context.fillText("Press Enter To Start", 350, 470);
+        if(total_blinks < 30){ total_blinks ++;}
+        else{ 
+          blink = false;
+          total_blinks = 0;
+        }
+      }
+      else{
+        if(total_blinks < 20){ total_blinks ++;}
+        else{ 
+          blink = true;
+          total_blinks = 0;
+        }
+      }
+    }
+    else{
+    building_array.forEach(b => {
+      if(b.highlight){
+        //game_context.clearRect(b.x, b.y, b.width, b.height);
+        game_context.fillStyle = b.highlight_color;
+        game_context.globalAlpha = 0.8;
+        game_context.fillRect(b.x, b.y, b.width, b.height);
+        game_context.globalAlpha = 1.0;
+      }
+      if(b.displayFact){
+        game_context.clearRect(175, 125, 350, 250);
+        // set the color of the rectangle to light brown
+        game_context.fillStyle = "#F5DEB3";
+        game_context.fillRect(125, 75, 400, 320);
+        game_context.fillStyle = "#36454F";
+        game_context.font ="bold 16px Arial";
+        game_context.textAlign = "center";
+        wrapText(b.fact, 325, 235, 395, 15);
+      }
+    });
+  }
+    
+}
+
+</script>
+
 <!-- THE FOLLOWING ARE DISPLAYED UNDERNEATH THE GAME CANVAS -->
 <!-- Display tasks and resource links (when the game is ongoing) -->
-
-<!-- change destination names and add destinations(dining halls)-->
   <div class="ongoing" id="taskList">
-    <!-- <p class="ongoing">Remaining Destinations:</p>
-    <p class="ongoing" id="unlockComputer">- Checkers &#127829</p>
-    <p class="ongoing" id="makeToast">- Moonbucks &#9749 </p>
-    <p class="ongoing" id="openFridge">- Teamote &#129483</p>
-    <p class="ongoing" id="makeCoffee">- CFK &#127831</p> -->
+    <p class="ongoing">Remaining tasks:</p>
+    <p class="ongoing" id="unlockComputer">- Unlock the Computer &#128187</p>
+    <p class="ongoing" id="makeToast">- Make Toast &#127838 </p>
+    <p class="ongoing" id="openFridge">- Open the Fridge &#127859</p>
+    <p class="ongoing" id="makeCoffee">- Make Coffee &#9749</p>
   </div>
 
   <!-- Display ending text and additional resource links (when the game is completed) -->
@@ -110,15 +535,14 @@
   <p class="complete">- <a href="https://overthewire.org/wargames/">https://overthewire.org/wargames/</a> is a great way to gain confidence navigating the Linux command-line and learning some common code exploits.</p>
   <p class="complete">- <a href="https://picoctf.org/">https://picoctf.org/</a> is a fantastic starting point if you want to dive a bit deeper than our game goes.</p>
   <p class="complete">- <a href="https://ctftime.org/">https://ctftime.org/</a> lists upcoming CTFs if you’re looking for more past picoCTF.</p>
-  <!-- can include other/more links, tbd later-->
   <br>
 
   <!-- Display resource guides (always displayed) -->
   <div id="resources">
     <p>Resources</p>
-    <!-- put in resources to learn about various cybersecurity concepts-->
-    <!-- any links/pages that will give an introductory level overview for SQL, OSINT, terminal commands, 
-        network packets and web hacking, cryptography, computer ethics and basic safety-->
+    <p><a href="guides/caesar_ciphers.pdf" target="_blank" rel="noopener noreferrer">On Caesar Ciphers</a></p>
+    <p><a href="guides/number_systems_and_ascii.pdf" target="_blank" rel="noopener noreferrer">Number Systems and ASCII</a></p>
+    <p><a href="guides/cli.pdf" target="_blank" rel="noopener noreferrer">Navigating a Command-Line Interface</a></p>
   </div>
 
 </body>
