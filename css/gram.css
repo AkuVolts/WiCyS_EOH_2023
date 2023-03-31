@@ -45,5 +45,13 @@
 .post-comment-header-follow {
   color: blue;
   font-weight: bold;
+}
+
+.post-comment-footer {
+  width: 90%;
+}
+
+.gram-icons {
+  max-width: 90%;
 
 }
