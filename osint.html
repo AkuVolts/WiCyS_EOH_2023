@@ -13,8 +13,6 @@
     text-align: center;
     color: white;
     font-family: courier;
-    margin: 0 !important;
-    padding: 0 !important;
   }
 
   /* style for guide hyperlinks */
@@ -170,12 +168,29 @@
   }
 </style>
 </head>
-<canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
-<iframe id="insta.iframe" src="instagram.html" title="Instagram" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
-<iframe id="email.iframe" src="email.html" title="Email" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
-<iframe id="linkedin.iframe" src="linkedin.html" title="Linkedin" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
-<br>
 
+<!-- BEGINNING OF ELEMENTS DISPLAYED ON HTML PAGE -->
+<h1>Cybersecurity Dinner Adventure</h1>
+<!-- this element follows the style of the "ongoing" class--shows up while the game is ongoing -->
+<p class="ongoing">Instructions: Use the arrow keys to navigate locations and complete your tasks. If you find yourself at a pop-up screen within the game, press Escape to close it and return to the overworld. For text-based prompts, hit Enter to submit your input.</p>
+<!-- these elements follow the style of the "complete" class--shows up once the game is complete -->
+<h2 class="complete">CONGRATULATIONS!</h2>
+<p class="complete">You've completed all the cybersecurity puzzles that need to be solved in order to make breakfast.</p>
+<br class="complete">
+
+<!-- creating blinking effect for start screen -->
+<!-- source: https://stackoverflow.com/questions/27427073/how-to-fit-in-an-image-inside-span-tag -->
+<!-- <span id="blinkingStartScreen">
+  <img src="images/delete.png"/>
+</span> -->
+<!-- creating the canvas -->
+<canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
+<iframe id="insta.iframe" src="gram.html" title="Instagram" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
+<iframe id="linkedin.iframe" src="linkedin.html" title="LinkedIn" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
+<br>
+        
+  <p id="resultDialogText"></p>
+  <button id="returnMainPageButton">I know the answer!</button>
 
 <body onload="start()">
 <!-- <script type="text/javascript" src="main.js"> -->
@@ -204,7 +219,6 @@
     setInterval(update, 20);  // infinite loop, runs every 2 ms
   }
 
-  
 
   /**
    * Initial loading of background (image takes up the entire canvas space).
@@ -229,7 +243,11 @@
     return background_img;
   }
 
-
+  document.getElementById("insta.iframe").addEventListener("click", (ev) => {
+            game.canvas.removeAttribute("hidden");
+            iframe.setAttribute("hidden", "hidden");
+            console.log("clicked on iframe");
+          });
   /**
    * Draws the image in the specified location. Is needed for redrawing images in the
    * infinite loop that updates the game visuals.
@@ -253,10 +271,14 @@
     // clears everything on the canvas
     game_context.clearRect(0, 0, 700, 500);
   }
-
+  insta_app = document.getElementById("insta.iframe")
+  insta_app.contentWindow.document.addEventListener("click", (ev) => {
+    console.log("iframe click");
+  });
   
   const originalData = game_context.getImageData(0, 0, game_canvas.width, game_canvas.height);
 
+  
   // call highlight function when mouse is over a building
   //this only works when the mouse moves, you want to maintain the hovering and unhover if we move off a
   game_canvas.addEventListener("mousemove", (evt) => {
@@ -264,12 +286,12 @@
     x = evt.pageX - game_canvas.offsetLeft;
     y = evt.pageY - game_canvas.offsetTop;
     // calling the highlight function according to the building
-    building_array.forEach(building => {
-      if(building.isInside(x, y)){
-        building.highlight = true;
+    app_array.forEach(app => {
+      if(app.isInside(x, y)){
+        app.highlight = true;
       }
       else{
-        building.highlight = false;
+        app.highlight = false;
       }
     });
   }, false);
@@ -285,34 +307,67 @@
 
     x = evt.pageX - game_canvas.offsetLeft;
     y = evt.pageY - game_canvas.offsetTop;
-      if (scene < 14){
+      if (scene < 15){
         scene += 1;
       }
       else {
-        let iframe = document.getElementById(app.iframe);
-        let not_vis = game_canvas.getAttribute("hidden");
-        if (!not_vis) {
-          game_canvas.setAttribute("hidden", "hidden");
-          iframe.removeAttribute("hidden");
+        //let iframe = document.getElementById(app.iframe);
+        let iframe = null;
+        //iframe.src = "gram.html";
+        //let instaFrame = document.getElementById("insta.iframe");
+        //let linkedFrame = document.getElementById("insta.iframe");
+        console.log(x + ",  " + y);
+        
+        //if (instaFrame.isInside(app_x, app_y)) {
+        if (x >= 265 && x <= 321 && y >= 95 && y <= 161) {
+          // They clicked on Insta
+          iframe = document.getElementById("insta.iframe");
+          iframe.contentWindow.document.addEventListener("click", (ev) => {
+            console.log("iframe click");
+            let not_vis = game_canvas.getAttribute("hidden");
+            if (not_vis && iframe) {
+              iframe.setAttribute("hidden", "hidden");
+              game_canvas.removeAttribute("hidden");
+            }
+          });
+          let not_vis = game_canvas.getAttribute("hidden");
+          if (!not_vis && iframe) {
+            game_canvas.setAttribute("hidden", "hidden");
+            iframe.removeAttribute("hidden");
+          }
+          //iframe.removeAttribute("hidden");
+          console.log("clicked on Insta");
+        } 
+        else if ( x >= 265 && x <= 321 && y >= 257 && y <= 327 ) {
+          // They clicked on Linked
+          //iframe = document.getElementById("linkedin.iframe");
+          console.log("clicked on linked");
         }
+        else {
+          console.log("clicked on nothing");        
+        }
+        //let selectedApp = 0;
+        //let not_vis = game_canvas.getAttribute("hidden");
+        //if (!not_vis && iframe) {
+          //game_canvas.setAttribute("hidden", "hidden");
+          //iframe.removeAttribute("hidden");
+        //}
       }
-      
-
   }, false);
 
-  document.addEventListener("iframechange", (evt) => {
-
-x = evt.pageX - game_canvas.offsetLeft;
-y = evt.pageY - game_canvas.offsetTop;
-// calling the highlight function according to the building
-building_array.forEach(building => {
-  let iframe = document.getElementById(app.iframe);
-        let not_vis = game_canvas.getAttribute("hidden");
-        if (not_vis) {
-          game_canvas.removeAttribute("hidden");
-          iframe.setAttribute("hidden", "hidden");
-        }
-      })
+document.addEventListener("IframeClickEvent", (evt) => {
+  //x = evt.pageX - game_canvas.offsetLeft;
+  //y = evt.pageY - game_canvas.offsetTop;
+  // calling the highlight function according to the building
+  console.log("iframe click");
+  let not_vis = game_canvas.getAttribute("hidden");
+  app_array.forEach(app => {
+    let iframe = document.getElementById(app.iframe);
+    iframe.setAttribute("hidden", "hidden");
+  })
+  if (not_vis) {
+    game_canvas.removeAttribute("hidden");
+  }
   })
   
   /**
@@ -332,6 +387,44 @@ function highlightOnHover(canvas, x, y, width, height, highlightColor) {
 let x_ = 500;
 let y_ = 200;
 
+
+
+
+
+
+function displayText(text) {
+    game_context.font = "bold 16px Arial";
+    let mid_x = x_;
+    let bot_y = y_;
+    let max_width = 100;
+    let height = 15;
+    let words = text.split(' ');
+    let lines = []
+    let line = '';
+    for(let n = 0; n < words.length; n++) {
+      let check = line + words[n] + ' ';
+      let w = game_context.measureText(check).width;
+      if (w > max_width && n > 0) {
+        lines.push(line);
+        line = words[n] + ' ';
+      }
+      else {
+        line = check;
+      }
+    }
+    lines.push(line);
+    game_context.fillStyle = "white";
+    game_context.fillRect(mid_x - 5 - max_width/2, bot_y - 10 - height*2*lines.length, max_width + 5, 5 + (height*2*lines.length));
+    game_context.textAlign = "center";
+    game_context.fillStyle = "black";
+    for (let i = 0; i<lines.length; i++){
+      game_context.fillText(lines[i], mid_x, bot_y + (height*(2 * i + 1 - 2*lines.length)));
+    }
+  }  
+  
+  
+  
+/*
 function displayText(text) {
         text_size = game_context.measureText(text).width;
         game_context.beginPath();
@@ -346,15 +439,49 @@ function displayText(text) {
         game_context.textAlign = "center";
     
         game_context.fillStyle = "black";
-
       
         game_context.fillText(text, x_, y_ - 5);
     
       }
+      */
       let extra_x = 435;
       let extra_y = 430;
 
       function displayExtraText(text) {
+        game_context.font = "bold 16px Arial";
+        let mid_x = extra_x;
+        let mid_y = extra_y - 30;
+        let height = 10;
+        let max_width = 150;
+        let words = text.split(' ');
+        let lines = []
+        let line = '';
+
+      for(let n = 0; n < words.length; n++) {
+        let check = line + words[n] + ' ';
+        let w = game_context.measureText(check).width;
+        if (w > max_width && n > 0) {
+          lines.push(line);
+          line = words[n] + ' ';
+          y += height;
+        }
+        else {
+          line = check;
+       }
+      }
+      lines.push(line);
+      game_context.fillStyle = "white";
+      game_context.fillRect(mid_x - 5 - max_width/2, mid_y - 13 - height*lines.length, max_width + 5, 13 + 2*height*lines.length);
+      game_context.textAlign = "center";
+      game_context.fillStyle = "black";
+      for (let i = 0; i<lines.length; i++){
+        game_context.fillText(lines[i], mid_x, mid_y + (height*(2 * i + 1 - lines.length)));
+    }
+  }
+
+
+
+  function displayExtraLongText(text) {
         text_size = game_context.measureText(text).width;
         game_context.beginPath();
         game_context.fillStyle = "white";
@@ -371,8 +498,8 @@ function displayText(text) {
 
       
         game_context.fillText(text, extra_x + 5, extra_y + 10);
-    
-      }
+  }
+      
 
       function displayThoughtBubble(text) {
         // text_size = game_context.measureText(text).width;
@@ -430,7 +557,7 @@ function displayText(text) {
   }
 
   let text = "";
-  let scene = 0;
+  let scene = 14;
 
   let small_id_x = 300;
   let small_id_y = 255;
@@ -454,11 +581,12 @@ function displayText(text) {
     // highlight the building while mouse is inside
     
 
-    
+    // x,y 
     let instagram = new App(121, 193, 43, 83, "insta.iframe");
-    let email = new App(121, 193, 43, 83);
-    let linkedin = new App(121, 193, 43, 83);
-    let app_array = [instagram, email, linkedin];
+    //let email = new App(121, 193, 43, 83, "email.iframe");
+    let linkedin = new App(265, 257, 60, 70, "linkedin.iframe");
+    //let app_array = [instagram, email, linkedin];
+    let app_array = [instagram, linkedin];
 
     game_canvas.addEventListener("mousemove", (evt) => {
 
@@ -474,11 +602,23 @@ function displayText(text) {
     });
   }, false);
 
-function back(){
-  
+  //document.addEventListener('keydown', logKey);
+  //insta.iframe.contentWindow.addEventListener("keydown", logKey);
+  //email.iframe.contentWindow.addEventListener("keydown", logKey);
+  //linkedin.iframe.contentWindow.addEventListener("keydown", logKey);
+  //function logKey(key) {
 
+    //if (key.code === "Escape") {
+      //key.preventDefault();
 
-}
+      //if (is_hint_view_displayed) {
+        // close out hint view
+        //changeHintVisibility("hidden");
+        //is_hint_view_displayed = false;
+      //} else {
+        //if (is_whiteboard_scene) {
+        //}
+//}
 
 function update() {
     // step 1 - clear the canvas
@@ -489,14 +629,15 @@ function update() {
     // draw(broken_id, 300, 250, 50, 50)
     
     if (scene == 1) {
-      displayText("Wow, it's my lucky day!\nIs that an i-card I see?");
+
+      displayText("Wow, it's my lucky day! Is that an i-card I see?");
             
     }
     if (scene == 2) {
       moveCharacter();
     }
     if (scene == 3) {
-      displayExtraText("Oh hey there! You can cut ahead of us!");
+      displayExtraLongText("Oh hey there! You can cut ahead of us!");
     }
     if (scene == 4) {
       displayText("Thanks guys!");
@@ -506,8 +647,8 @@ function update() {
       moveCharacter();
     }
     if (scene == 6) {
-      extra_x = 300;
-      extra_y = 450;
+      extra_x = 130;
+      extra_y = 490;
       displayExtraText("Good Morning! Do you have your i-card with you?");
     }
     if (scene == 7) {
@@ -521,12 +662,14 @@ function update() {
     if (scene == 9 ) {
       game_context.fillStyle = "white";
       game_context.fillRect(0, 0, 700, 500);
-      draw(broken_id, 100, 30, 500, 500);
+      draw(broken_id, 100, 10, 500, 500);
       extra_x  = 340; 
       displayExtraText("'Hmm, this i-card is ripped up!'")
     }
     if (scene == 10) {
-      displayExtraText("You can only enter if you get these,\n questions correct 'Daphne Dog'.");
+      extra_x = 130;
+      extra_y = 490;
+      displayExtraText("You can only enter if you get these, questions correct 'Daphne Dog'.");
     }
     if (scene == 11) {
       extra_x  = 250; 
@@ -537,7 +680,7 @@ function update() {
     }
     if (scene == 13) {
       // extra_x  = 300; 
-      displayExtraText("What's your major?");
+      displayExtraText("What's your UID?");
     }
     if (scene == 14) {
       // extra_x  = 300; 
@@ -555,15 +698,42 @@ function update() {
         game_context.global_alpha = 1.0;
       }
       })
+      let button = document.getElementById('returnMainPageButton');
+      button.textContent = "I'm ready to answer!";
+      button.onclick = () =>{
+        scene = 16;
+      };
       //highlightOnHover(phone, 0, 0, 200, 200, "red");
       // scene += 1;
 
     }
+    
 
     if (scene == 16) {
-      // game_context.fillStyle = "white";
-      // game_context.fillRect(0, 0, 700, 500);
-      // draw(phone, -40, -38, 800, 665);
+      
+      game_context.fillStyle = "white";
+      game_context.fillRect(100, 10, 500, 500);
+      extra_x = 250;
+      extra_y = 350;
+      displayExtraText("What is your UID?");
+      let answer = prompt("What is your UID?");
+      let correct = answer.includes("978202895476");
+      if (correct){
+        scene = 17;
+      } else{
+        scene = 13;
+      }
+      
+      
+    }
+
+    if (scene ==  17) {
+      game_context.fillStyle = "white";
+      game_context.fillRect(100, 10, 500, 500);
+      extra_x = 250;
+      extra_y = 350;
+      displayExtraText("Congrats, you got into the dining hall!");
+
     }
 
      
@@ -572,6 +742,40 @@ function update() {
   }
 
 </script>
+
+<!-- THE FOLLOWING ARE DISPLAYED UNDERNEATH THE GAME CANVAS -->
+<!-- Display tasks and resource links (when the game is ongoing) -->
+  <div class="ongoing" id="taskList">
+    <p class="ongoing">Remaining tasks:</p>
+    <p class="ongoing" id="unlockComputer">- Unlock the Computer &#128187</p>
+    <p class="ongoing" id="makeToast">- Make Toast &#127838 </p>
+    <p class="ongoing" id="openFridge">- Open the Fridge &#127859</p>
+    <p class="ongoing" id="makeCoffee">- Make Coffee &#9749</p>
+  </div>
+
+  <!-- Display ending text and additional resource links (when the game is completed) -->
+  <p class="complete">We took inspiration from Capture The Flag (CTF) competitions in designing the puzzles you just solved and tried to make them a bit beginner-friendly. CTF competitions are a great way to learn more about cybersecurity, though they definitely aren't the only way.</p>
+  <br class="complete">
+  <p class="complete">Or, if you're not into CTFs, some things you can do are generally learn more about operating systems (especially Linux), improve your programming skills, read CTF challenge write-ups, or watch talks from DEF CON (an annual security conference) to get inspired about interesting security topics.</p>
+  <br class="complete">
+  <p class="complete">Some additional links:</p>
+  <p class="complete">- <a href="https://overthewire.org/wargames/">https://overthewire.org/wargames/</a> is a great way to gain confidence navigating the Linux command-line and learning some common code exploits.</p>
+  <p class="complete">- <a href="https://picoctf.org/">https://picoctf.org/</a> is a fantastic starting point if you want to dive a bit deeper than our game goes.</p>
+  <p class="complete">- <a href="https://ctftime.org/">https://ctftime.org/</a> lists upcoming CTFs if you’re looking for more past picoCTF.</p>
+  <br>
+
+  <!-- Display resource guides (always displayed) -->
+  <div id="resources">
+    <p>Resources</p>
+    <p><a href="guides/caesar_ciphers.pdf" target="_blank" rel="noopener noreferrer">On Caesar Ciphers</a></p>
+    <p><a href="guides/number_systems_and_ascii.pdf" target="_blank" rel="noopener noreferrer">Number Systems and ASCII</a></p>
+    <p><a href="guides/cli.pdf" target="_blank" rel="noopener noreferrer">Navigating a Command-Line Interface</a></p>
+  </div>
+  <div id="level_buttons">
+    <button id="submit" onclick="submitButtonOnclick()">Submit</button>
+    <button id="lowerReturnMainPageButton" onclick="returnMainPageOnClick()">Return Home</button>
+</div>
+
 </body>
 </html>
 
@@ -588,7 +792,6 @@ function update() {
 </head>
 <body>
 <script>
-
 function start(){
     // squirrel enters
     displayText("Wow, it's my lucky day! Is that an i-card I see?");
@@ -596,7 +799,6 @@ function start(){
     grab_icard();
     displayCutAhead();
     lunchLadyStart();
-
 }
     function update() {
         // step 1 - clear the canvas
@@ -650,29 +852,18 @@ function start(){
         game_context.fillText(text, x, y + 20);
     
       }
-
-
-
-
 function displayInput(input) {
-
 }
-
 function typeAnswer(input) {
-
 }
-
-
 function grab_icard() {
     // the card attaches to the squirrel
 }
-
 function displayCutAhead() {
     // frog says 
     displayText("Oh hey Squirrel! You can go ahead of me.");
     
 }
-
 function lunchLadyStart() {
     // lunchlady repsonds,
     displayText("Good Morning! Do you have your i-card with you?");
@@ -687,32 +878,22 @@ function lunchLadyStart() {
     displayText("What's your major?");
     displayThoughtBubble("Let me use my phone to see if I can find some information about this person");
     firstQuestion();
-
 }
-
 function giveToLunchLady() {
     // gives icard to lunch lady
     // swipes card
 }
-
-
 function firstQuestion() {
     // clicks phone to open
     // opens up linkedin app
-
         displayInput("Try to find the major from this page!")
         optionOnPhone();
         // repsonse to lunch lady: 
         typedFirstResponse();
-
 }
-
-
-
 function optionOnPhone() {
     // Click this if you know the answer.
 }
-
 function typedFirstResponse() {
     displayInput("My major is ____.")
     // not case sensitive type:
@@ -724,9 +905,7 @@ function typedFirstResponse() {
         // Try Again!
         firstQuestion();
     // }
-
 }
-
 function nextQuestion() {
     // lunch lady says
     displayText("What's your id number?")
@@ -742,9 +921,7 @@ function nextQuestion() {
         // repsonse to lunch lady: 
         typedSecondResponse();
     // }
-
 }
-
 function typedSecondResponse() {
     displayInput("My id number is 97820234__.")
     typeAnswer();
@@ -755,23 +932,18 @@ function typedSecondResponse() {
         // Try Again!
         nextQuestion();
     // }
-
 }
-
 function worryBubble() {
     // squirrel finds out he only has first 8 numbers. looks on phone again
 }
-
 function answerToLunchLady() {
     // lucnh lady says
     displayText("looks like you are Daphne Dog! You may enter.")
     walkIn()
 }
-
 function walkIn() {
     // squirrel walks in!
 }
-
     </script>
     
 </body>
