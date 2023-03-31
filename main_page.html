@@ -296,6 +296,34 @@
       }
     });
   }, false);
+ 
+  class App {
+  constructor(app_x, app_y, width, height, app) {
+      this.x = app_x;
+      this.y = app_y;
+      this.width = width;
+      this.height = height;
+      this.highlight = false;
+      this.iframe = app;
+  
+  }
+
+  // check if mouse is inside this
+  isInside(app_x, app_y) {
+      return (app_x >= this.x && app_x < this.x + this.width && app_y >= this.y && app_y < this.y + this.height);
+  }
+}
+function appCoordinate(pageX, pageY){
+  let app_x = pageX - game_canvas.offsetLeft;
+  let app_y = pageY - game_canvas.offsetTop;
+  return {app_x, app_y};
+}
+
+let instagram = new App(428, 95, 60, 70, "insta.iframe");
+//let email = new App(121, 193, 43, 83, "email.iframe");
+let linkedin = new App(428, 257, 60, 70, "linkedin.iframe");
+//let app_array = [instagram, email, linkedin];
+let app_array = [instagram, linkedin];
 
   // Add a mouseout listener to restore the original canvas data
   game_canvas.addEventListener('mouseout', (evt) => {
@@ -306,9 +334,12 @@
 
   game_canvas.addEventListener("click", (evt) => {
     let launchedApp = false;
-    x = evt.pageX - game_canvas.offsetLeft;
-    y = evt.pageY - game_canvas.offsetTop;
-      if (scene < 15){
+    //x = evt.pageX - game_canvas.offsetLeft;
+    //y = evt.pageY - game_canvas.offsetTop;
+    let coords = appCoordinate(evt.pageX, evt.pageY);
+    x = coords.app_x;
+    y = coords.app_y;
+      if (scene < 15 || scene == 17){
         scene += 1;
       }
       else {
@@ -319,13 +350,16 @@
         let not_vis = game_canvas.getAttribute("hidden");
         if (!not_vis && iframe) {
         }
-        if (x >= 265 && x <= 321 && y >= 95 && y <= 161) {
+        //if (x >= 265 && x <= 321 && y >= 95 && y <= 161) {
+        if (instagram.isInside(x,y)){
+
           // They clicked on Insta
           iframe = document.getElementById("insta.iframe");
           //iframe.removeAttribute("hidden");
           console.log("clicked on Insta");
         } 
-        else if ( x >= 265 && x <= 321 && y >= 257 && y <= 327 ) {
+        //else if ( x >= 265 && x <= 321 && y >= 257 && y <= 327 ) {
+        else if (linkedin.isInside(x,y)){
           // They clicked on Linked
           iframe = document.getElementById("linkedin.iframe");
           console.log("clicked on linked");
@@ -507,33 +541,11 @@ function moveCharacter() {
 }
 
 let text = "";
-let scene = 14;
+let scene = 15;
 
 let small_id_x = 300;
 let small_id_y = 255;
 
-class App {
-  constructor(app_x, app_y, width, height, app) {
-      this.x = app_x;
-      this.y = app_y;
-      this.width = width;
-      this.height = height;
-      this.highlight = false;
-      this.iframe = app;
-  
-  }
-
-  // check if mouse is inside this
-  isInside(app_x, app_y) {
-      return (app_x >= this.x && app_x < this.x + this.width && app_y >= this.y && app_y < this.y + this.height);
-  }
-}
-
-let instagram = new App(121, 193, 43, 83, "insta.iframe");
-//let email = new App(121, 193, 43, 83, "email.iframe");
-let linkedin = new App(265, 257, 60, 70, "linkedin.iframe");
-//let app_array = [instagram, email, linkedin];
-let app_array = [instagram, linkedin];
 
 game_canvas.addEventListener("mousemove", (evt) => {
   app_x = evt.pageX - game_canvas.offsetLeft;
@@ -618,7 +630,8 @@ function update() {
   if (scene == 15) {
     game_context.fillStyle = "white";
     game_context.fillRect(0, 0, 700, 500);
-    draw(phone, -40, -38, 800, 665);
+    draw(phone, 120, -38, 800, 665);
+    draw(broken_id, -50, 10, 500, 500);
     app_array.forEach(b =>{
     if(b.highlight){
       game_context.global_alpha = 0.7;
@@ -638,17 +651,63 @@ function update() {
     game_context.fillRect(100, 10, 500, 500);
     extra_x = 250;
     extra_y = 350;
+    displayExtraText("What is your major?");
+    let answer = prompt("What is your major?");
+    if (answer){
+      answer = answer.toLowerCase();
+      let correct = answer.includes("information science");
+      if (correct){
+        scene = 17;
+      } else{
+        scene = 13;
+      }
+    }else{
+      scene = 15;
+    }
+    //let correct = answer.includes("978202895476");
+  }
+  if (scene == 17) {
+    displayExtraText("Good job, you got that one right! One more question: what is your UID?");
+  }
+   if (scene == 18) {
+    game_context.fillStyle = "white";
+    game_context.fillRect(0, 0, 700, 500);
+    draw(phone, 120, -38, 800, 665);
+    draw(broken_id, -50, 10, 500, 500);
+    app_array.forEach(b =>{
+    if(b.highlight){
+      game_context.global_alpha = 0.7;
+      game_context.fillStyle = "#FFFF00";
+      game_context.fillRect(b.x, b.y, b.width, b.height);
+      game_context.global_alpha = 1.0;
+    }});
+    let button = document.getElementById('returnMainPageButton');
+    button.textContent = "I'm ready to answer!";
+    button.onclick = () =>{
+      scene = 19;
+    };
+  }
+   if (scene == 19){
+    game_context.fillStyle = "white";
+    game_context.fillRect(100, 10, 500, 500);
+    extra_x = 250;
+    extra_y = 350;
     displayExtraText("What is your UID?");
     let answer = prompt("What is your UID?");
-    let correct = answer.includes("978202895476");
-    if (correct){
-      scene = 17;
-    } else{
-      scene = 13;
+    if (answer){
+      let correct = answer.includes("978202895476");
+      if (correct){
+        scene = 20;
+      } else{
+        scene = 17;
+      }
+    }else{
+      scene = 18;
     }
-  }
+   }
+  
 
-  if (scene ==  17) {
+  if (scene ==  20) {
     game_context.fillStyle = "white";
     game_context.fillRect(100, 10, 500, 500);
     extra_x = 250;
