@@ -1,0 +1,14 @@
+Add logo to headers?
+
+Style gram
+Add images to gram
+
+Style mail
+Create mail content
+  Do emails open on click or are we pulling the data from the subject line?
+  Split mail pane into sender/subj?
+
+Make linked in analogue
+  picture
+  information - what do we need here?
+  

@@ -1,3 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/billabong');
+
 .app-container {
   height: 500px;
   width: 700px;
@@ -11,16 +13,22 @@
 
 .app-header {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: flex-start;
   font-family: sans-serif;
-  font-size: 48px;
+  font-size: 24px;
   font-weight: bold;
-  align-items: center;
   justify-items: center;
   height:100%;
   width:100%;
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: darkgrey;
 }
 
 .content-container {
+}
+
+#instagram {
+  font-family: 'Billabong', sans-serif;
 }
