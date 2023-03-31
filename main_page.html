@@ -185,9 +185,8 @@
 </span> -->
 <!-- creating the canvas -->
 <canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
-<iframe id="insta.iframe" src="instagram.html" title="Instagram" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
-<iframe id="email.iframe" src="email.html" title="Email" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
-<iframe id="linkedin.iframe" src="linkedin.html" title="Linkedin" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
+<iframe id="insta.iframe" src="gram.html" title="Instagram" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
+<iframe id="linkedin.iframe" src="linkedin.html" title="LinkedIn" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
 <br>
         
   <p id="resultDialogText"></p>
@@ -298,43 +297,60 @@
   let hasClicked = false;
 
   game_canvas.addEventListener("click", (evt) => {
-console.log("clickdetected");
+
     x = evt.pageX - game_canvas.offsetLeft;
     y = evt.pageY - game_canvas.offsetTop;
       if (scene < 15){
         scene += 1;
       }
       else {
-
         //let iframe = document.getElementById(app.iframe);
-        let iframe = document.getElementById("insta.iframe");
-        iframe.src = "gram.html";
+        let iframe = null;
+        //iframe.src = "gram.html";
+        //let instaFrame = document.getElementById("insta.iframe");
+        //let linkedFrame = document.getElementById("insta.iframe");
+        console.log(x + ",  " + y);
+        
+        //if (instaFrame.isInside(app_x, app_y)) {
+        if (x >= 265 && x <= 321 && y >= 95 && y <= 161) {
+          // They clicked on Insta
+          iframe = document.getElementById("insta.iframe");
+          //iframe.removeAttribute("hidden");
+          console.log("clicked on Insta");
+        } 
+        else if ( x >= 265 && x <= 321 && y >= 257 && y <= 327 ) {
+          // They clicked on Linked
+          iframe = document.getElementById("linkedin.iframe");
+          console.log("clicked on linked");
+        }
+        else {
+          console.log("clicked on nothing");        
+        }
+        let selectedApp = 0;
         let not_vis = game_canvas.getAttribute("hidden");
-        if (!not_vis) {
+        if (!not_vis && iframe) {
           game_canvas.setAttribute("hidden", "hidden");
           iframe.removeAttribute("hidden");
-        }else {
-          game_canvas.removeAttribute("hidden");
+        }
+        else if (not_vis && iframe) {
+          game.canvas.removeAttribute("hidden");
           iframe.setAttribute("hidden", "hidden");
         }
       }
-      
-
   }, false);
 
-  document.addEventListener("iframechange", (evt) => {
-console.log("detectiframechange");
-x = evt.pageX - game_canvas.offsetLeft;
-y = evt.pageY - game_canvas.offsetTop;
-// calling the highlight function according to the building
-app_array.forEach(app => {
-  let iframe = document.getElementById(app.iframe);
-        let not_vis = game_canvas.getAttribute("hidden");
-        if (not_vis) {
-          game_canvas.removeAttribute("hidden");
-          iframe.setAttribute("hidden", "hidden");
-        }
-      })
+document.addEventListener("iframechange", (evt) => {
+  x = evt.pageX - game_canvas.offsetLeft;
+  y = evt.pageY - game_canvas.offsetTop;
+  // calling the highlight function according to the building
+  app_array.forEach(app => {
+    let iframe = document.getElementById(app.iframe);
+      let not_vis = game_canvas.getAttribute("hidden");
+      if (not_vis) {
+        game_canvas.removeAttribute("hidden");
+        iframe.setAttribute("hidden", "hidden");
+      }
+    })
   })
   
   /**
@@ -549,8 +565,8 @@ function displayText(text) {
     // highlight the building while mouse is inside
     
 
-    
-    let instagram = new App(265, 95, 56, 66, "insta.iframe");
+    // x,y 
+    let instagram = new App(121, 193, 43, 83, "insta.iframe");
     //let email = new App(121, 193, 43, 83, "email.iframe");
     let linkedin = new App(265, 257, 60, 70, "linkedin.iframe");
     //let app_array = [instagram, email, linkedin];
@@ -658,19 +674,18 @@ function update() {
       game_context.fillStyle = "white";
       game_context.fillRect(0, 0, 700, 500);
       draw(phone, -40, -38, 800, 665);
-      extra_x = 100;
-      displayExtraText("Click anywhere to open Instagram!");
-      //app_array.forEach(b =>{
-      //if(b.highlight){
-        //game_context.global_alpha = 0.7;
-        //game_context.fillStyle = "#FFFF00";
-        //game_context.fillRect(b.x, b.y, b.width, b.height);
-        //game_context.global_alpha = 1.0;
+      app_array.forEach(b =>{
+      if(b.highlight){
+        game_context.global_alpha = 0.7;
+        game_context.fillStyle = "#FFFF00";
+        game_context.fillRect(b.x, b.y, b.width, b.height);
+        game_context.global_alpha = 1.0;
       }
-    }
-      
+      })
+      //highlightOnHover(phone, 0, 0, 200, 200, "red");
+      // scene += 1;
 
-    
+    }
 
     if (scene == 16) {
 
@@ -682,7 +697,7 @@ function update() {
      
     //step 2 - draw buildings and/or display facts    
   
-  
+  }
 
 </script>
 
