@@ -298,15 +298,14 @@
   let hasClicked = false;
 
   game_canvas.addEventListener("click", (evt) => {
-
+console.log("clickdetected");
     x = evt.pageX - game_canvas.offsetLeft;
     y = evt.pageY - game_canvas.offsetTop;
-      if (scene < 14){
+      if (scene < 15){
         scene += 1;
       }
       else {
-        scene +=1
-        /*
+
         //let iframe = document.getElementById(app.iframe);
         let iframe = document.getElementById("insta.iframe");
         iframe.src = "gram.html";
@@ -314,15 +313,17 @@
         if (!not_vis) {
           game_canvas.setAttribute("hidden", "hidden");
           iframe.removeAttribute("hidden");
+        }else {
+          game_canvas.removeAttribute("hidden");
+          iframe.setAttribute("hidden", "hidden");
         }
-        */
       }
       
 
   }, false);
 
   document.addEventListener("iframechange", (evt) => {
-
+console.log("detectiframechange");
 x = evt.pageX - game_canvas.offsetLeft;
 y = evt.pageY - game_canvas.offsetTop;
 // calling the highlight function according to the building
@@ -524,7 +525,7 @@ function displayText(text) {
   }
 
   let text = "";
-  let scene = 0;
+  let scene = 15;
 
   let small_id_x = 300;
   let small_id_y = 255;
@@ -549,9 +550,9 @@ function displayText(text) {
     
 
     
-    let instagram = new App(121, 193, 43, 83, "insta.iframe");
+    let instagram = new App(265, 95, 56, 66, "insta.iframe");
     //let email = new App(121, 193, 43, 83, "email.iframe");
-    let linkedin = new App(121, 193, 43, 83, "linkedin.iframe");
+    let linkedin = new App(265, 257, 60, 70, "linkedin.iframe");
     //let app_array = [instagram, email, linkedin];
     let app_array = [instagram, linkedin];
 
@@ -657,18 +658,19 @@ function update() {
       game_context.fillStyle = "white";
       game_context.fillRect(0, 0, 700, 500);
       draw(phone, -40, -38, 800, 665);
-      app_array.forEach(b =>{
-      if(b.highlight){
-        game_context.global_alpha = 0.7;
-        game_context.fillStyle = "#FFFF00";
-        game_context.fillRect(b.x, b.y, b.width, b.height);
-        game_context.global_alpha = 1.0;
+      extra_x = 100;
+      displayExtraText("Click anywhere to open Instagram!");
+      //app_array.forEach(b =>{
+      //if(b.highlight){
+        //game_context.global_alpha = 0.7;
+        //game_context.fillStyle = "#FFFF00";
+        //game_context.fillRect(b.x, b.y, b.width, b.height);
+        //game_context.global_alpha = 1.0;
       }
-      })
-      //highlightOnHover(phone, 0, 0, 200, 200, "red");
-      // scene += 1;
-
     }
+      
+
+    
 
     if (scene == 16) {
 
@@ -680,7 +682,7 @@ function update() {
      
     //step 2 - draw buildings and/or display facts    
   
-  }
+  
 
 </script>
 
