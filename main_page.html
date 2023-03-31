@@ -190,7 +190,7 @@
 <br>
         
   <p id="resultDialogText"></p>
-  <button id="returnMainPageButton" onclick="returnMainPageOnClick()">Return Home!</button>
+  <button id="returnMainPageButton" onclick="returnMainPageOnClick()">I know the answer!</button>
 
 <body onload="start()">
 <!-- <script type="text/javascript" src="main.js"> -->
@@ -243,7 +243,11 @@
     return background_img;
   }
 
-
+  document.getElementById("insta.iframe").addEventListener("click", (ev) => {
+            game.canvas.removeAttribute("hidden");
+            iframe.setAttribute("hidden", "hidden");
+            console.log("clicked on iframe");
+          });
   /**
    * Draws the image in the specified location. Is needed for redrawing images in the
    * infinite loop that updates the game visuals.
@@ -267,7 +271,10 @@
     // clears everything on the canvas
     game_context.clearRect(0, 0, 700, 500);
   }
-
+  insta_app = document.getElementById("insta.iframe")
+  insta_app.contentWindow.document.addEventListener("click", (ev) => {
+    console.log("iframe click");
+  });
   
   const originalData = game_context.getImageData(0, 0, game_canvas.width, game_canvas.height);
 
@@ -315,42 +322,52 @@
         if (x >= 265 && x <= 321 && y >= 95 && y <= 161) {
           // They clicked on Insta
           iframe = document.getElementById("insta.iframe");
+          iframe.contentWindow.document.addEventListener("click", (ev) => {
+            console.log("iframe click");
+            let not_vis = game_canvas.getAttribute("hidden");
+            if (not_vis && iframe) {
+              iframe.setAttribute("hidden", "hidden");
+              game_canvas.removeAttribute("hidden");
+            }
+          });
+          let not_vis = game_canvas.getAttribute("hidden");
+          if (!not_vis && iframe) {
+            game_canvas.setAttribute("hidden", "hidden");
+            iframe.removeAttribute("hidden");
+          }
           //iframe.removeAttribute("hidden");
           console.log("clicked on Insta");
         } 
         else if ( x >= 265 && x <= 321 && y >= 257 && y <= 327 ) {
           // They clicked on Linked
-          iframe = document.getElementById("linkedin.iframe");
+          //iframe = document.getElementById("linkedin.iframe");
           console.log("clicked on linked");
         }
         else {
           console.log("clicked on nothing");        
         }
-        let selectedApp = 0;
-        let not_vis = game_canvas.getAttribute("hidden");
-        if (!not_vis && iframe) {
-          game_canvas.setAttribute("hidden", "hidden");
-          iframe.removeAttribute("hidden");
-        }
-        else if (not_vis && iframe) {
-          game.canvas.removeAttribute("hidden");
-          iframe.setAttribute("hidden", "hidden");
-        }
+        //let selectedApp = 0;
+        //let not_vis = game_canvas.getAttribute("hidden");
+        //if (!not_vis && iframe) {
+          //game_canvas.setAttribute("hidden", "hidden");
+          //iframe.removeAttribute("hidden");
+        //}
       }
   }, false);
 
-document.addEventListener("iframechange", (evt) => {
-  x = evt.pageX - game_canvas.offsetLeft;
-  y = evt.pageY - game_canvas.offsetTop;
+document.addEventListener("IframeClickEvent", (evt) => {
+  //x = evt.pageX - game_canvas.offsetLeft;
+  //y = evt.pageY - game_canvas.offsetTop;
   // calling the highlight function according to the building
+  console.log("iframe click");
+  let not_vis = game_canvas.getAttribute("hidden");
   app_array.forEach(app => {
     let iframe = document.getElementById(app.iframe);
-      let not_vis = game_canvas.getAttribute("hidden");
-      if (not_vis) {
-        game_canvas.removeAttribute("hidden");
-        iframe.setAttribute("hidden", "hidden");
-      }
-    })
+    iframe.setAttribute("hidden", "hidden");
+  })
+  if (not_vis) {
+    game_canvas.removeAttribute("hidden");
+  }
   })
   
   /**
@@ -541,7 +558,7 @@ function displayText(text) {
   }
 
   let text = "";
-  let scene = 15;
+  let scene = 14;
 
   let small_id_x = 300;
   let small_id_y = 255;
@@ -682,13 +699,15 @@ function update() {
         game_context.global_alpha = 1.0;
       }
       })
+      //let button
       //highlightOnHover(phone, 0, 0, 200, 200, "red");
       // scene += 1;
 
     }
+    
 
     if (scene == 16) {
-
+      
       // game_context.fillStyle = "white";
       // game_context.fillRect(0, 0, 700, 500);
       // draw(phone, -40, -38, 800, 665);
