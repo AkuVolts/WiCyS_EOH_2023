@@ -216,12 +216,12 @@ function laptop() {
 
     var second_box = document.createElement("p");
     second_box.style.position = "relative";
-    second_box.style.top = "25%";
+    second_box.style.top = "39%";
     second_box.style.left = "20%";
     second_box.style.display = "block";
     second_box.style.type = "text";
     second_box.style.fontSize = "12px";
-    second_box.style.width = "200px";
+    second_box.style.width = "400px";
     second_box.style.border = "2px solid #000000";
     second_box.style.padding = "2px";
     second_box.innerText = "Something about those netids looks strange. Could it be a code? It reminds me of something called...ROT13... That is, \'rotation by 13 places\'..."                          // -------------------- TODO -------------------
