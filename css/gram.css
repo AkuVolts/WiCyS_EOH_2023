@@ -1,0 +1,57 @@
+.gram-post {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  align-content: center;
+  align-items: center;
+  justify-content:center;
+  justify-items: left;
+  gap: 2px;
+  height: 100%;
+  width: 100%;
+}
+
+.post-picture {
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+  grid-column: 1 / 4;
+  grid-row: 1 / 6;
+  max-width: 60%;
+  background-color: black;
+}
+
+.post-comment {
+  grid-column: 4 / 6;
+  grid-row: auto;  
+}
+
+.post-comment-header {
+  display:flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: flex-start;
+  align-items:flex-start;
+  border-bottom: .1rem solid gray;
+}
+
+.post-comment-header-username {
+  color: black;
+  font-weight: bold;
+
+}
+
+.post-comment-header-follow {
+  color: blue;
+  font-weight: bold;
+}
+
+.post-comment-footer {
+  width: 90%;
+}
+
+.gram-icons {
+  max-width: 90%;
+
+}
