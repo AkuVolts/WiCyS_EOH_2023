@@ -20,12 +20,26 @@
   background-color: black;
 }
 
-.post-comment-section {
-
-
-}
-
 .post-comment {
   grid-column: 4 / 6;
   grid-row: auto;  
+}
+
+.post-comment-header {
+  display:flex;
+  flex-direction: row;
+  gap: 30px;
+
+}
+
+.post-comment-header-username {
+  color: black;
+  font-weight: bold;
+
+}
+
+.post-comment-header-follow {
+  color: blue;
+  font-weight: bold;
+
 }
