@@ -280,12 +280,12 @@
     x = evt.pageX - game_canvas.offsetLeft;
     y = evt.pageY - game_canvas.offsetTop;
     // calling the highlight function according to the building
-    building_array.forEach(building => {
-      if(building.isInside(x, y)){
-        building.highlight = true;
+    app_array.forEach(app => {
+      if(app.isInside(x, y)){
+        app.highlight = true;
       }
       else{
-        building.highlight = false;
+        app.highlight = false;
       }
     });
   }, false);
@@ -305,12 +305,17 @@
         scene += 1;
       }
       else {
-        let iframe = document.getElementById(app.iframe);
+        scene +=1
+        /*
+        //let iframe = document.getElementById(app.iframe);
+        let iframe = document.getElementById("insta.iframe");
+        iframe.src = "gram.html";
         let not_vis = game_canvas.getAttribute("hidden");
         if (!not_vis) {
           game_canvas.setAttribute("hidden", "hidden");
           iframe.removeAttribute("hidden");
         }
+        */
       }
       
 
@@ -321,7 +326,7 @@
 x = evt.pageX - game_canvas.offsetLeft;
 y = evt.pageY - game_canvas.offsetTop;
 // calling the highlight function according to the building
-building_array.forEach(building => {
+app_array.forEach(app => {
   let iframe = document.getElementById(app.iframe);
         let not_vis = game_canvas.getAttribute("hidden");
         if (not_vis) {
@@ -545,9 +550,10 @@ function displayText(text) {
 
     
     let instagram = new App(121, 193, 43, 83, "insta.iframe");
-    let email = new App(121, 193, 43, 83, "email.iframe");
+    //let email = new App(121, 193, 43, 83, "email.iframe");
     let linkedin = new App(121, 193, 43, 83, "linkedin.iframe");
-    let app_array = [instagram, email, linkedin];
+    //let app_array = [instagram, email, linkedin];
+    let app_array = [instagram, linkedin];
 
     game_canvas.addEventListener("mousemove", (evt) => {
 
