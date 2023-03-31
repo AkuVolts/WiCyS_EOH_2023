@@ -14,6 +14,10 @@
 </audio>
 <audio loop = "true" id = "ike">
   <source src="sounds/ike.wav" type="audio/mpeg">
+  <script>
+  var music = document.getElementById("ike");
+  music.volume = 0.2;
+  </script>
 </audio>
 <audio loop = "true" id = "fog">
   <source src="sounds/fog.wav" type="audio/mpeg">
@@ -200,9 +204,9 @@
 </span> -->
 <!-- creating the canvas -->
 <canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
-<iframe id="FOG_iframe" src="fog.html" title="FOG" height="500" width="700" hidden="hidden"></iframe>
+<iframe id="FOG_iframe" src="fog.html" title="FOG" height="650" width="700" hidden="hidden"></iframe>
 <iframe id="ISR_iframe" src="Command_Line/home.html" title="ISR" height="500" width="700" hidden="hidden" frameBorder="0"></iframe>
-<iframe id="IKE_iframe" src="ike.html" title="IKE" height="500" width="700" hidden="hidden" frameBorder="0"></iframe>
+<iframe id="IKE_iframe" src="ike.html" title="IKE" height="520" width="710" hidden="hidden" frameBorder="0"></iframe>
 <iframe id="FAR_iframe" src="osint.html" title="FAR" height="500" width="700" hidden="hidden" frameBorder="0"></iframe>
 <br>
 
@@ -220,7 +224,7 @@
   const StartScreen = new FontFace('StartScreen', 'url(https://fonts.gstatic.com/s/delicioushandrawn/v3/wlpsgx_NAUNkpmKQifcxkQchDFo3fJ1F25BC.woff2)');
   const Cinzel = new FontFace('Cinzel', 'url(https://fonts.gstatic.com/s/cinzeldecorative/v14/daaCSScvJGqLYhG8nNt8KPPswUAPni7TTMw.woff2)');
   const RockSalt = new FontFace('RockSalt', 'url(https://fonts.gstatic.com/s/cinzeldecorative/v14/daaCSScvJGqLYhG8nNt8KPPswUAPni7TTMw.woff2)');
-  
+  const Raleway = new FontFace('Raleway', 'url(https://fonts.gstatic.com/s/raleway/v28/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCGPrEHJA.woff2)')
   function start() {
     start_pic = loadBackground("images/start_page.png");
     scene_pic = loadBackground("images/main_page_map.png");
@@ -231,6 +235,9 @@
       document.fonts.add(font);
     });
     RockSalt.load().then((font) => {
+      document.fonts.add(font);
+    });
+    Raleway.load().then((font) => {
       document.fonts.add(font);
     });
     curr_pic = start_pic;
@@ -340,7 +347,7 @@
   let aces = new Buildings(581, 133, 51, 51, "What are the most dangerous places to target with a cyberattack? You might think of banks or airplanes, but you probably didn’t consider the food industry. Our food chain is fragile, and as the agriculture industry becomes more and more online, it’s also becoming a tempting target for ransomware, malware that encrypts data and asks for money to unlock it. That’s why some researchers are paying close attention to how to keep agriculture systems safe and secure.", false);
   let chem = new Buildings(189, 97, 51, 23, "The future is quantum! Current cryptography methods rely on pure math and algorithms and are pretty difficult to break, taking a classical computer trillions of years to crack. If quantum computing becomes a reality, though, then all these combinations can be tested at the same time, making it easy to discover the right combination. That’s why researchers are currently working on new and innovative ways to harness quantum properties in new cryptographic algorithms.", false);
   let lincoln = new Buildings(397, 353, 71, 35, "What was the worst malware? Some might say “Mydoom”, the fastest spreading email virus and also the most expensive computer virus ever, costing an estimated $38 million. It was first found in 2004, but its aftereffects lasted till 2009. Even after multiple investigations and a $500,000 bounty, the original creator still is unknown.", false);
-  let follinger = new Buildings(505, 201, 43, 59, " If you voted on election day in 2022 in Champaign County, you may have noticed that voting seemed to be going particularly slowly. That was because of repeated DDOS (distributed denial of service) attacks on the website and servers, causing connectivity issues. Denial of service attacks are attacks where a website is flooded with traffic until it is overwhelmed, and when these attacks are spread over many different devices, it's even harder to filter out.", false);
+  let follinger = new Buildings(505, 192, 43, 70, " If you voted on election day in 2022 in Champaign County, you may have noticed that voting seemed to be going particularly slowly. That was because of repeated DDOS (distributed denial of service) attacks on the website and servers, causing connectivity issues. Denial of service attacks are attacks where a website is flooded with traffic until it is overwhelmed, and when these attacks are spread over many different devices, it's even harder to filter out.", false);
   let ISR = new Buildings(144, 24, 92, 44, "ISR_iframe", true);
   let FAR = new Buildings(580, 16, 60, 48, "FAR_iframe", true);
   let IKE = new Buildings(580, 412, 40, 52, "IKE_iframe", true);
@@ -505,7 +512,7 @@ function update() {
         game_context.fillStyle = "#F5DEB3";
         game_context.fillRect(125, 75, 400, 320);
         game_context.fillStyle = "#36454F";
-        game_context.font ="bold 16px Arial";
+        game_context.font ="16px Raleway";
         game_context.textAlign = "center";
         wrapText(b.fact, 325, 235, 395, 15);
       }

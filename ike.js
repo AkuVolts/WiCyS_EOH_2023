@@ -33,6 +33,8 @@ function swipeIn() {
         b_text = "Awesome, now you have some meal credits on your account. Have a great meal!"
         s_text = "Nice work! We made it inside! Let's go eat!"
     } else {
+        let mySound = new Audio('sounds/ike_denied.wav')
+        mySound.play()
         //alert("Sorry, you do not have enough meal credits left on your account. You need at least 10 credits to enter. You cannot enter the dining hall unless you pay for more credits.")
         if (!failed_swipe) {
             failed_swipe = true;
@@ -146,6 +148,9 @@ function interceptPacket() {
         // print name, netid, credits to page
         text.innerHTML = "Intercepting...<br>Intercepted!<br><br>Name: " + fullName + "<br>NetID: " + netid + "<br>Credits: " + random_credits;
         text.style.marginTop = "0px";
+        let mySound = new Audio("./sounds/ike_scanner.wav");
+        mySound.volume = 0.6;
+        mySound.play();
     }, 5000);
 
     // event listener for exit button
@@ -159,7 +164,11 @@ function interceptPacket() {
 }
 
 function laptop() {
-    laptop_interacted_flag = true;
+    if (!laptop_interacted_flag) {
+        laptop_interacted_flag = true;
+        // hints_available += 1;
+    }
+    
     // create the overlay div element
     var overlay = document.createElement("div");
     overlay.style.position = "fixed";
@@ -182,15 +191,15 @@ function laptop() {
 
     var text_box = document.createElement("p");
     text_box.style.position = "absolute";
-    text_box.style.top = "25%";
-    text_box.style.left = "25%";
+    text_box.style.top = "5%";
+    text_box.style.left = "20%";
     text_box.style.display = "block";
     text_box.style.type = "text";
     text_box.style.fontSize = "10px";
     text_box.style.width = "180px";
     text_box.style.border = "2px solid #000000";
     text_box.style.padding = "2px";
-    text_box.innerText = "CONTENT"
+    text_box.innerText = "We can use these programs to intercept and change network packets! The intercept program will intercept packets and display the important data inside. Then submit the necessary data to change the packet!"                          // -------------------- TODO -------------------
 
     // create the form element
     var form = document.createElement("form");
@@ -303,9 +312,6 @@ function squirrelText() {
             text.innerHTML = 'The I think I have something on my laptop that can help us!';
             b.style.top = "280px";
             b.style.display = "block";
-            break;
-        case 3:
-            // Something about the laptop programs?
             break;
         default:
             // NOTHING
