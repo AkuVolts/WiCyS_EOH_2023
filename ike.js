@@ -146,7 +146,7 @@ function interceptPacket() {
         // add netid and credits to dictionary
         netid_credits[netid] = random_credits;
         // print name, netid, credits to page
-        text.innerHTML = "Intercepting...<br>Intercepted!<br><br>Name: " + fullName + "<br>NetID: " + netid + "<br>Credits: " + random_credits;
+        text.innerHTML = "Intercepting...<br>Intercepted!<br><br>Name: " + fullName + "<br>NetID: " + rotc13(netid) + "<br>Credits: " + random_credits;
         text.style.marginTop = "0px";
         let mySound = new Audio("./sounds/ike_scanner.wav");
         mySound.volume = 0.6;
@@ -163,6 +163,19 @@ function interceptPacket() {
     
 }
 
+function rotc13(netid){
+    let rotcid = '';
+    for (let i = 0; i < netid.length; i++) {
+       if(netid[i]>='a' && netid[i]<='z'){
+        rotcid += String.fromCharCode(((netid[i].charCodeAt(0)-97)+13)%26 + 97);
+       }
+       else{
+        rotcid+=netid[i];
+       }
+    }
+    console.log(rotcid);
+    return rotcid;
+}
 function laptop() {
     if (!laptop_interacted_flag) {
         laptop_interacted_flag = true;
@@ -200,6 +213,20 @@ function laptop() {
     text_box.style.border = "2px solid #000000";
     text_box.style.padding = "2px";
     text_box.innerText = "We can use these programs to intercept and change network packets! The intercept program will intercept packets and display the important data inside. Then submit the necessary data to change the packet!"                          // -------------------- TODO -------------------
+
+    var second_box = document.createElement("p");
+    second_box.style.position = "relative";
+    second_box.style.top = "25%";
+    second_box.style.left = "20%";
+    second_box.style.display = "block";
+    second_box.style.type = "text";
+    second_box.style.fontSize = "12px";
+    second_box.style.width = "200px";
+    second_box.style.border = "2px solid #000000";
+    second_box.style.padding = "2px";
+    second_box.innerText = "Something about those netids looks strange. Could it be a code? It reminds me of something called...ROT13... That is, \'rotation by 13 places\'..."                          // -------------------- TODO -------------------
+    second_box.hidden = "hidden";
+
 
     var response_box = document.createElement("p");
     response_box.style.position = "absolute";
@@ -270,6 +297,7 @@ function laptop() {
     overlay.addEventListener("click", function (e) {
         if (e.target.value == "Intercept") {
             interceptPacket();
+            overlay.appendChild(second_box);
         } else if (e.target.id == "submit") {
             // check value of credits using netid
             if (netid_credits[input.value] != undefined ) {
