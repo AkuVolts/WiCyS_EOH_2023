@@ -205,7 +205,7 @@
 <!-- creating the canvas -->
 <canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
 <iframe id="FOG_iframe" src="fog.html" title="FOG" height="650" width="700" hidden="hidden"></iframe>
-<iframe id="ISR_iframe" src="Command_Line/home.html" title="ISR" height="500" width="700" hidden="hidden" frameBorder="0"></iframe>
+<iframe id="ISR_iframe" src="Command_Line/home.html" title="ISR" height="600" width="700" hidden="hidden" frameBorder="0"></iframe>
 <iframe id="IKE_iframe" src="ike.html" title="IKE" height="520" width="710" hidden="hidden" frameBorder="0"></iframe>
 <iframe id="FAR_iframe" src="osint.html" title="FAR" height="500" width="700" hidden="hidden" frameBorder="0"></iframe>
 <br>
@@ -370,18 +370,43 @@
     game_context.clearRect(0, 0, 700, 500);
   }
 
-  function wrapText(text, mid_x, mid_y, max_width, height) {
+  // function wrapText(text, mid_x, mid_y, max_width, height) {
+  //   let words = text.split(' ');
+  //   let lines = []
+  //   let line = '';
+
+  //   for(let n = 0; n < words.length; n++) {
+  //     let check = line + words[n] + ' ';
+  //     let w = game_context.measureText(check).width;
+  //     if (w > max_width && n > 0) {
+  //       lines.push(line);
+  //       line = words[n] + ' ';
+  //       y += height;
+  //     }
+  //     else {
+  //       line = check;
+  //     }
+  //   }
+  //   lines.push(line);
+  //   for (let i = 0; i<lines.length; i++){
+  //     game_context.fillText(lines[i], mid_x, mid_y + (height*(2 * i + 1 - lines.length)));
+  //   }
+  // }
+
+  function wrapTextAroundEllipse(text, x, y, x_radius, y_radius, start_y_pos, line_height) {
     let words = text.split(' ');
     let lines = []
     let line = '';
-
+    curr_y_pos = start_y_pos;
+    max_width = 2*x_radius*Math.sqrt(1 - (((curr_y_pos - (y + y_radius))/y_radius)**2));
     for(let n = 0; n < words.length; n++) {
       let check = line + words[n] + ' ';
       let w = game_context.measureText(check).width;
       if (w > max_width && n > 0) {
         lines.push(line);
         line = words[n] + ' ';
-        y += height;
+        curr_y_pos += height;
+        max_width = 2*x_radius*Math.sqrt(1 - (((curr_y_pos - (y + y_radius))/y_radius)**2));
       }
       else {
         line = check;
@@ -507,14 +532,20 @@ function update() {
         game_context.globalAlpha = 1.0;
       }
       if(b.displayFact){
-        game_context.clearRect(175, 125, 350, 250);
+        //game_context.clearRect(175, 125, 350, 250);
         // set the color of the rectangle to light brown
         game_context.fillStyle = "#F5DEB3";
-        game_context.fillRect(125, 75, 400, 320);
+        //game_context.fillRect(125, 75, 400, 320);
+        // game_context.beginPath();
+        // game_context.ellipse(350, 300, 100, 100, 0, 0, 2*Math.PI, false);
+        // game_context.fillStyle = "white";
+        // game_context.fill();
         game_context.fillStyle = "#36454F";
         game_context.font ="16px Raleway";
         game_context.textAlign = "center";
-        wrapText(b.fact, 325, 235, 395, 15);
+        //wrapText(b.fact, 325, 235, 395, 15);
+
+        wrapTextAroundEllipse("This is a short test phrase to wrap around the ellipse, alright?", 350, 300, 100, 100, 310, 15);
       }
     });
   }
