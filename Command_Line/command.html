@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <audio id="computer">
+      <source src="sounds/computer.wav" type="audio/mpeg">
+  </audio>
     <style>
       body {
         display: flex;
@@ -149,13 +152,14 @@ function cd(dirName) {
   }
   cli.innerHTML += `<p>> ${input.value}</p>`;
 }
+const comp = document.getElementById("computer");
 
 input.addEventListener("keydown", event => {
   if (event.key === "Enter") {
     const parts = input.value.split(" ");
     const command = parts[0];
     const args = parts.slice(1);
-
+    comp.play();
     switch (command) {
       case "ls":
         cli.innerHTML += `<p>> ${input.value}</p>`;
