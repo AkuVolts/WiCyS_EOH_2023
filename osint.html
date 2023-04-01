@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- <script src="main.js"></script> -->
+<style>
+  /* style for entire webpage */
+  body {
+    background-color: black;
+    text-align: center;
+    color: white;
+    font-family: courier;
+  }
+
+  /* style for guide hyperlinks */
+  a
+  {
+    color: rgb(123, 213, 255);
+  }
+
+  /* style for blinking start screen */
+  /* source: https://www.freecodecamp.org/news/make-it-blink-html-tutorial-how-to-use-the-blink-tag-with-code-examples/ */
+  #blinkingStartScreen {
+    animation: blink 1s steps(1, end) infinite;
+
+    /* for positioning the start screen image with text */
+    width: 700px;
+    height: 500px;
+    position: absolute;
+    visibility: visible;
+  }
+
+  @keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+  /* source for how to style an element by id: https://blog.hubspot.com/website/css-id */
+  /* style for scrolling text box (i.e. terminal) */
+  #myTerminal {
+    background-color: rgb(0, 8, 8);
+    color: white;
+    width: 605px;
+    height: 377px;
+    overflow-y: scroll;
+    position: absolute;
+    visibility: hidden;
+    text-align: left;
+    word-break: break-all;  /* allows wraparound without spaces - https://css-tricks.com/almanac/properties/o/overflow-wrap/*/
+  }
+
+  /* style the terminal files with respect to linux color code: https://www.2daygeek.com/understanding-the-color-code-of-linux-files/ */
+  /* text: white , directory: blue, executable: green */
+  .executable_file {
+    color: limegreen;
+  }
+  .subdirectory {
+    color: mediumblue;
+  }
+
+  /* source for how to style tab-related elements: https://www.w3schools.com/howto/howto_js_vertical_tabs.asp*/
+  /* style the tab */
+  .tab {
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+
+    width: 200px; /* width of tab */
+    height: 500px; /* make the same as game canvas' height */
+    position: absolute;
+    visibility: hidden;
+  }
+
+  /* style the buttons inside the tab */
+  .tab button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 17px;
+  }
+
+  /* change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* create an active/current "tab button" class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* style the tab content */
+  .tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    border-left: none;
+
+    width: 500px; /* width of tab content */
+    height: 500px;  /* make the same as game canvas' height */
+    position: absolute;
+
+    visibility: hidden;
+    background-color: white;
+    color:black;
+    text-align: left;
+  }
+
+  /* source for styling button: https://www.w3schools.com/css/css3_buttons.asp */
+  .button {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    background-color: rgb(181, 255, 207);
+    color: black;
+    font-size: 16px;
+    padding: 16px 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  /* style the button on hover */
+  .button:hover {
+    background-color: rgb(168, 240, 194);
+  }
+
+  /* style for the list of hints */
+  .hint_list {
+    color: black;
+    width: 500px;
+    height: 300px;
+    overflow-y: scroll;
+    visibility: hidden;
+    text-align: left;
+  }
+
+  /* source for display parameter: https://stackoverflow.com/questions/2928688/how-to-hide-elements-without-having-them-take-space-on-the-page */
+  /* style for elements that show up while game is ongoing */
+  .ongoing {
+    visibility: visible;
+    display: block;
+  }
+
+  /* style for elements that show up when the game is complete */
+  .complete {
+    visibility: hidden;
+    display: none;
+  }
+</style>
+</head>
+
+
+
+<!-- creating blinking effect for start screen -->
+<!-- source: https://stackoverflow.com/questions/27427073/how-to-fit-in-an-image-inside-span-tag -->
+<!-- <span id="blinkingStartScreen">
+  <img src="images/delete.png"/>
+</span> -->
+<!-- creating the canvas -->
+
+
+
+<canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
+<iframe id="insta.iframe" src="/gram.html" title="Instagram" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
+<!-- <iframe id="linkedin.iframe" src="linkedin.html" title="LinkedIn" height="500" width="700" hidden="hidden" frameBorder = 0></iframe> -->
+<iframe id="linkedin.iframe" src="/osint_img/daphne_linkedin.png" title="LinkedIn" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
+<br>
+        
+<p id="resultDialogText"></p>
+<button id="returnMainPageButton" hidden="hidden">I know the answer!</button>
+<br>
+<p id="space"></p>
+<button id="returnStart" onclick="goBackMain()">Exit the puzzle?</button>
+<body onload="start()">
+<!-- <script type="text/javascript" src="main.js"> -->
+<script>
+  
+  // Get the canvas context and save the original region data
+  const game_canvas = document.getElementById("myCanvas");
+  const game_context = game_canvas.getContext("2d");
+  let scene_pic;
+  let curr_pic;
+  let start_pic;
+  let small_broken_id;
+  let squirrel_pic;
+  let broken_id;
+  let phone;
+  
+  
+  function start() {
+    start_pic = loadBackground("images/start_page.png");
+    scene_pic = loadBackground("osint_background.png");
+    small_broken_id = loadBackground("small_broken_id.png");
+    squirrel_pic = loadBackground("squirrel.png");
+    broken_id = loadBackground("brokenid.png");
+    phone = loadBackground("phone.png");
+    curr_pic = scene_pic;
+    setInterval(update, 20);  // infinite loop, runs every 2 ms
+  }
+
+
+  /**
+   * Initial loading of background (image takes up the entire canvas space).
+   * Loads the image into the page. Must be called prior to drawing or will face the problem
+   * of the image not always displaying when the page is opened/refreshed.
+   * 
+   * @param img_url String representing the path to the image
+   * @return Object representing the background image
+   */
+   function loadBackground(img_url) {
+    const background_img = new Image();
+    background_img.src = img_url;
+
+    // load images first
+    // - Note: the following line is needed to fix the problem of the background img not always
+    // displaying when the page is refreshed
+    // - Source: https://stackoverflow.com/questions/22889641/simple-html5-canvas-image-not-displaying
+    background_img.addEventListener("load", drawBackground, false);
+
+    function drawBackground() {}
+
+    return background_img;
+  }
+
+  document.getElementById("insta.iframe").addEventListener("click", (ev) => {
+            game.canvas.removeAttribute("hidden");
+            iframe.setAttribute("hidden", "hidden");
+            console.log("clicked on iframe");
+          });
+  /**
+   * Draws the image in the specified location. Is needed for redrawing images in the
+   * infinite loop that updates the game visuals.
+   * 
+   * @param img Object representing the image
+   * @param x Integer representing the x-coordinate of where the image should be positioned in the canvas
+   * @param y Integer representing the y-coordinate of where the image shoudl be positioned in the canvas
+   * @param width Integer representing the width of the image
+   * @param height Integer representing the height of the image
+   */
+   function draw(img, x, y, width, height) {
+    game_context.drawImage(img, sx=x, sy=y, swidth=width, sheight=height);
+  }
+
+
+  /**
+   * Updates game visuals and stats.
+   */
+
+  function clearCanvas() {
+    // clears everything on the canvas
+    game_context.clearRect(0, 0, 700, 500);
+  }
+  insta_app = document.getElementById("insta.iframe")
+  insta_app.contentWindow.document.addEventListener("click", (ev) => {
+    console.log("iframe click");
+  });
+  
+  const originalData = game_context.getImageData(0, 0, game_canvas.width, game_canvas.height);
+
+  
+  // call highlight function when mouse is over a building
+  //this only works when the mouse moves, you want to maintain the hovering and unhover if we move off a
+  game_canvas.addEventListener("mousemove", (evt) => {
+
+    x = evt.pageX - game_canvas.offsetLeft;
+    y = evt.pageY - game_canvas.offsetTop;
+    // calling the highlight function according to the building
+    app_array.forEach(app => {
+      if(app.isInside(x, y)){
+        app.highlight = true;
+      }
+      else{
+        app.highlight = false;
+      }
+    });
+  }, false);
+ 
+  class App {
+  constructor(app_x, app_y, width, height, app) {
+      this.x = app_x;
+      this.y = app_y;
+      this.width = width;
+      this.height = height;
+      this.highlight = false;
+      this.iframe = app;
+  
+  }
+
+  // check if mouse is inside this
+  isInside(app_x, app_y) {
+      return (app_x >= this.x && app_x < this.x + this.width && app_y >= this.y && app_y < this.y + this.height);
+  }
+}
+function appCoordinate(pageX, pageY){
+  let app_x = pageX - game_canvas.offsetLeft;
+  let app_y = pageY - game_canvas.offsetTop;
+  return {app_x, app_y};
+}
+function goBackMain(){
+  let event = new CustomEvent("IframeClickEvent");
+  window.parent.document.dispatchEvent(event);
+}
+let instagram = new App(428, 95, 60, 70, "insta.iframe");
+//let email = new App(121, 193, 43, 83, "email.iframe");
+let linkedin = new App(428, 257, 60, 70, "linkedin.iframe");
+//let app_array = [instagram, email, linkedin];
+let app_array = [instagram, linkedin];
+let uid_failures = 0;
+  let hasClicked = false;
+
+  game_canvas.addEventListener("click", (evt) => {
+    let launchedApp = false;
+    //x = evt.pageX - game_canvas.offsetLeft;
+    //y = evt.pageY - game_canvas.offsetTop;
+    let coords = appCoordinate(evt.pageX, evt.pageY);
+    x = coords.app_x;
+    y = coords.app_y;
+      if ((scene < 15 && !(scene==2 || scene==5)) || scene == 17 || scene == 20){
+        scene += 1;
+      }
+      else {
+        let iframe = null;
+        //iframe.src = "gram.html";
+        console.log("clicked on " + x + ",  " + y);
+        // Find out whether the game canvas was hidden or not 
+        let not_vis = game_canvas.getAttribute("hidden");
+        if (!not_vis && iframe) {
+        }
+        //if (x >= 265 && x <= 321 && y >= 95 && y <= 161) {
+        if (instagram.isInside(x,y)){
+
+          // They clicked on Insta
+          iframe = document.getElementById("insta.iframe");
+          //iframe.removeAttribute("hidden");
+          console.log("clicked on Insta");
+        } 
+        //else if ( x >= 265 && x <= 321 && y >= 257 && y <= 327 ) {
+        else if (linkedin.isInside(x,y)){
+          // They clicked on Linked
+          iframe = document.getElementById("linkedin.iframe");
+          console.log("clicked on linked");
+        }
+        else {
+          console.log("clicked on nothing");        
+        }
+        // If we clicked in an app window and the canvas is visible
+        // then we should have launched an app
+        if (iframe && !not_vis) {
+          // If we launched an app, we need to close it if someone clicks on it
+          iframe.contentWindow.document.addEventListener("click", (ev) => {
+            console.log("iframe click");
+            let not_vis = game_canvas.getAttribute("hidden");
+            if (not_vis && iframe) {
+              iframe.setAttribute("hidden", "hidden");
+              game_canvas.removeAttribute("hidden");
+            }
+          });
+          // We also need to hide the game canvas and show the app 
+          game_canvas.setAttribute("hidden", "hidden");
+          iframe.removeAttribute("hidden");
+        }
+      }
+  }, false);
+
+document.addEventListener("IframeClickEvent", (evt) => {
+  //x = evt.pageX - game_canvas.offsetLeft;
+  //y = evt.pageY - game_canvas.offsetTop;
+  // calling the highlight function according to the building
+  console.log("iframe click");
+  let not_vis = game_canvas.getAttribute("hidden");
+  app_array.forEach(app => {
+    let iframe = document.getElementById(app.iframe);
+    iframe.setAttribute("hidden", "hidden");
+  })
+  if (not_vis) {
+    game_canvas.removeAttribute("hidden");
+  }
+  })
+  
+  /**
+ * 
+ * Highlights buildings on the canvas when the mouse hovers over them.
+ * @param canvas game canvas
+ * @param x x-coordinate of the building
+ * @param y y-coordinate of the building
+ * @param width width of the building
+ * @param height height of the building
+ * @param highlightColor color we want to highlight the building with
+ */
+function highlightOnHover(canvas, x, y, width, height, highlightColor) {
+  console.log("highlighted" + x);
+}
+
+let x_ = 500;
+let y_ = 200;
+
+function displayText(text) {
+    game_context.font = "bold 16px Arial";
+    let mid_x = x_;
+    let bot_y = y_;
+    let max_width = 100;
+    let height = 15;
+    let words = text.split(' ');
+    let lines = []
+    let line = '';
+    for(let n = 0; n < words.length; n++) {
+      let check = line + words[n] + ' ';
+      let w = game_context.measureText(check).width;
+      if (w > max_width && n > 0) {
+        lines.push(line);
+        line = words[n] + ' ';
+      }
+      else {
+        line = check;
+      }
+    }
+    lines.push(line);
+    game_context.fillStyle = "white";
+    game_context.fillRect(mid_x - 5 - max_width/2, bot_y - 10 - height*2*lines.length, max_width + 5, 5 + (height*2*lines.length));
+    game_context.textAlign = "center";
+    game_context.fillStyle = "black";
+    for (let i = 0; i<lines.length; i++){
+      game_context.fillText(lines[i], mid_x, bot_y + (height*(2 * i + 1 - 2*lines.length)));
+    }
+  }  
+  
+  let extra_x = 435;
+  let extra_y = 430;
+
+  function displayExtraText(text) {
+    game_context.font = "bold 16px Arial";
+    let mid_x = extra_x;
+    let mid_y = extra_y - 30;
+    let height = 10;
+    let max_width = 150;
+    let words = text.split(' ');
+    let lines = []
+    let line = '';
+    for(let n = 0; n < words.length; n++) {
+      let check = line + words[n] + ' ';
+      let w = game_context.measureText(check).width;
+      if (w > max_width && n > 0) {
+        lines.push(line);
+        line = words[n] + ' ';
+        y += height;
+      }
+      else {
+        line = check;
+      }
+    }
+    lines.push(line);
+    game_context.fillStyle = "white";
+    game_context.fillRect(mid_x - 5 - max_width/2, mid_y - 13 - height*lines.length, max_width + 5, 13 + 2*height*lines.length);
+    game_context.textAlign = "center";
+    game_context.fillStyle = "black";
+    for (let i = 0; i<lines.length; i++){
+      game_context.fillText(lines[i], mid_x, mid_y + (height*(2 * i + 1 - lines.length)));
+    }
+  }
+
+
+function displayExtraLongText(text) {
+  text_size = game_context.measureText(text).width;
+  game_context.beginPath();
+  game_context.fillStyle = "white";
+  middle_value = (text_size) / 2 + 5
+  game_context.fillRect(extra_x - middle_value, extra_y - 30, text_size + 20, 60);
+  
+  
+  game_context.fill();
+
+  game_context.font = "bold 24px Arial";
+  game_context.textAlign = "center";
+
+  game_context.fillStyle = "black";
+
+
+  game_context.fillText(text, extra_x + 5, extra_y + 10);
+}
+      
+
+function displayThoughtBubble(text) {
+  text_size = game_context.measureText(text).width;
+  
+  game_context.beginPath();
+  let mid_x = extra_x;
+  let mid_y = extra_y - 30;
+  let height = 10;
+  let max_width = 300;
+  let words = text.split(' ');
+  let lines = []
+  let line = '';
+  for(let n = 0; n < words.length; n++) {
+      let check = line + words[n] + ' ';
+      let w = game_context.measureText(check).width;
+      if (w > max_width && n > 0) {
+        lines.push(line);
+        line = words[n] + ' ';
+        y += height;
+      }
+      else {
+        line = check;
+      }
+    }
+  game_context.fillStyle = "white";
+  middle_value = (text_size) / 2 + 5
+  game_context.ellipse(mid_x, y_ - 15, text_size/5, 100, 0, 0, 2*Math.PI, false);
+  game_context.fill();
+
+  game_context.font = "bold 24px Arial";
+  game_context.textAlign = "center";
+
+  game_context.fillStyle = "black";
+
+  console.log("lines length " + lines);
+  //game_context.fillText(text, middle_value, y_ - 15, text_size/1.5, 100);
+  for (let i = 0; i<lines.length; i++){
+      console.log("i " + i);
+      game_context.fillText(lines[i], mid_x, y_ - 15 + (height*(2 * i + 1 - lines.length)));
+    }
+}
+
+
+let go_to_icard = false;
+let char_speed = 3;
+
+let squirrel_expected_x = 300;
+let squirrel_expected_y = 430;
+
+function moveCharacter() {
+// move left
+  x_ -= char_speed;
+  // y_ -= char_speed;
+  if (scene == 5) {
+    small_id_x -= char_speed;
+  }
+  if (x_ < squirrel_expected_x) {
+    scene += 1;
+  }
+}
+
+let text = "";
+let scene = 0;
+
+let small_id_x = 300;
+let small_id_y = 255;
+
+
+game_canvas.addEventListener("mousemove", (evt) => {
+  app_x = evt.pageX - game_canvas.offsetLeft;
+  app_y = evt.pageY - game_canvas.offsetTop;
+  app_array.forEach(app => {
+    if(app.isInside(app_x, app_y)){
+      app.highlight = true;
+    }
+    else{
+      app.highlight = false;
+    }
+  });
+}, false);
+
+function update() {
+  // step 1 - clear the canvas
+  clearCanvas();
+  draw(curr_pic, 0, 0, 700, 500);
+  draw(small_broken_id, small_id_x, small_id_y, 50, 50);
+  draw(squirrel_pic, x_, y_, 110, 110);
+  // draw(broken_id, 300, 250, 50, 50)
+  
+  if (scene == 1) {
+
+    displayText("Wow, it's my lucky day! Is that an i-card I see?");
+          
+  }
+  if (scene == 2) {
+    moveCharacter();
+  }
+  if (scene == 3) {
+    displayExtraLongText("Oh hey there! You can cut ahead of us!");
+  }
+  if (scene == 4) {
+    displayText("Thanks guys!");
+  }
+  if (scene == 5) {
+    squirrel_expected_x = 170;
+    moveCharacter();
+  }
+  if (scene == 6) {
+    extra_x = 130;
+    extra_y = 490;
+    displayExtraText("Good Morning! Do you have your i-card with you?");
+  }
+  if (scene == 7) {
+    displayText("Yeah, here you go!");
+  }
+  if (scene == 8) {
+    small_id_x = 80;
+    small_id_y = 360;
+    console.log(y);
+  }
+  if (scene == 9 ) {
+    game_context.fillStyle = "white";
+    game_context.fillRect(0, 0, 700, 500);
+    draw(broken_id, 100, 10, 500, 500);
+    extra_x  = 340; 
+    displayExtraText("'Hmm, this i-card is ripped up!'")
+  }
+  if (scene == 10) {
+    extra_x = 130;
+    extra_y = 490;
+    displayExtraText("You can only enter if you get these questions correct, 'Daphne Dog'.");
+  }
+  if (scene == 11) {
+    extra_x  = 250; 
+    displayExtraText("I can see if you're lying or not!");
+  }
+  if (scene == 12) {
+    displayText("Okay!");
+  }
+  if (scene == 13) {
+    // extra_x  = 300; 
+    //displayExtraText("What's your UID?");
+    displayExtraText("What's your major?");
+  }
+  if (scene == 14) {
+    // extra_x  = 300; 
+    displayThoughtBubble("Let me use my phone to see if I can find some information about this person");
+  }
+  if (scene == 15) {
+    game_context.fillStyle = "white";
+    game_context.fillRect(0, 0, 700, 500);
+    draw(phone, 120, -38, 800, 665);
+    draw(broken_id, -50, 10, 500, 500);
+    app_array.forEach(b =>{
+    if(b.highlight){
+      game_context.global_alpha = 0.7;
+      game_context.fillStyle = "#FFFF00";
+      game_context.fillRect(b.x, b.y, b.width, b.height);
+      game_context.global_alpha = 1.0;
+    }});
+    let button = document.getElementById('returnMainPageButton');
+    button.removeAttribute("hidden");
+    button.textContent = "I'm ready to answer!";
+    button.onclick = () =>{
+      scene = 16;
+    };
+  }
+
+  if (scene == 16) {
+    game_context.fillStyle = "white";
+    game_context.fillRect(100, 10, 500, 500);
+    extra_x = 250;
+    extra_y = 350;
+    displayExtraText("What is your major?");
+    let answer = prompt("What is your major?");
+    if (answer){
+      answer = answer.toLowerCase();
+      let correct = answer.includes("information science");
+      if (correct){
+        scene = 17;
+        document.getElementById('returnMainPageButton').setAttribute("hidden", "hidden");
+      } else{
+        scene = 13;
+      }
+    }else{
+      scene = 15;
+    }
+    //let correct = answer.includes("978202895476");
+  }
+  if(scene == 17){
+    displayExtraText("That's correct! Next question: what is your birthday?");
+  }
+  if(scene == 18){
+    game_context.fillStyle = "white";
+    game_context.fillRect(0, 0, 700, 500);
+    draw(phone, 120, -38, 800, 665);
+    draw(broken_id, -50, 10, 500, 500);
+    app_array.forEach(b =>{
+    if(b.highlight){
+      game_context.global_alpha = 0.7;
+      game_context.fillStyle = "#FFFF00";
+      game_context.fillRect(b.x, b.y, b.width, b.height);
+      game_context.global_alpha = 1.0;
+    }});
+    let button = document.getElementById('returnMainPageButton');
+    button.removeAttribute("hidden");
+    button.textContent = "I'm ready to answer!";
+    button.onclick = () =>{
+      scene = 19;
+    };
+  }
+  if(scene == 19){
+    game_context.fillStyle = "white";
+    game_context.fillRect(100, 10, 500, 500);
+    extra_x = 250;
+    extra_y = 350;
+    displayExtraText("What is your birthday?");
+    let answer = prompt("What is your birthday?");
+    if (answer){
+      let correct = answer.includes("03/03") || answer.includes("03-03") || answer.includes("March 3rd");
+      if (correct){
+        scene = 20;
+        document.getElementById('returnMainPageButton').setAttribute("hidden", "hidden");
+      } else{
+        scene = 17;
+      }
+    }else{
+      scene = 18;
+    }
+  }
+  if (scene == 20) {
+    displayExtraText("Good job, you got that one right too! One more question: what is your UID?");
+  }
+   if (scene == 21) {
+    game_context.fillStyle = "white";
+    game_context.fillRect(0, 0, 700, 500);
+    draw(phone, 120, -38, 800, 665);
+    draw(broken_id, -50, 10, 500, 500);
+    app_array.forEach(b =>{
+    if(b.highlight){
+      game_context.global_alpha = 0.7;
+      game_context.fillStyle = "#FFFF00";
+      game_context.fillRect(b.x, b.y, b.width, b.height);
+      game_context.global_alpha = 1.0;
+    }});
+    let button = document.getElementById('returnMainPageButton');
+    button.removeAttribute("hidden");
+    button.textContent = "I'm ready to answer!";
+    button.onclick = () =>{
+      scene = 22;
+    };
+  }
+   if (scene == 22){
+    game_context.fillStyle = "white";
+    game_context.fillRect(100, 10, 500, 500);
+    extra_x = 250;
+    extra_y = 350;
+    displayExtraText("What is your UID?");
+    let txt = "What is your UID?";
+    if(uid_failures >=2){
+      txt = "What is your UID? Hint: UIDs are 12 chars";
+    }
+    let answer = prompt(txt);
+    if (answer){
+      let correct = answer.includes("978202895476");
+      if (correct){
+        scene = 23;
+        document.getElementById('returnMainPageButton').setAttribute("hidden", "hidden");
+      } else{
+        uid_failures +=1;
+        scene = 20;
+      }
+    }else{
+      scene = 21;
+    }
+   }
+  
+
+  if (scene ==  23) {
+    displayExtraText("Looks like you really are Daphne Dog! Enjoy your meal!");
+  }
+}
+
+</script>
+
+</body>
+</html>

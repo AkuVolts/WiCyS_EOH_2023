@@ -30,6 +30,24 @@
         font-size: 20px;
         overflow: auto;
       }
+      .myButton {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: monospace;
+}
+
+.myButton:hover {
+  background-color: #3e8e41;
+}
       #input {
         margin-top: 20px;
         background-color: black;
@@ -39,12 +57,12 @@
         padding: 10px;
         font-family: monospace;
       };
-      
+
     </style>
   </head>
 
   <body>
-    
+
     <div id="container">
       <h1>Computer Task: Find the Meal of the Day</h1>
 
@@ -55,6 +73,7 @@
       <h1>Enter Commands Here:</h1>
       <input id="input" type="text"/>
       <p class="hint" style="font-size: 20px; font-family: monospace;margin-top:50px">Hint: try the 'ls', 'cd', and 'cat' commands!</p>
+      <button class="myButton"><a href="home.html">Close Computer</a></button>
     </div>
   </body>
   <script>

@@ -33,6 +33,8 @@ function swipeIn() {
         b_text = "Awesome, now you have some meal credits on your account. Have a great meal!"
         s_text = "Nice work! We made it inside! Let's go eat!"
     } else {
+        let mySound = new Audio('sounds/ike_denied.wav')
+        mySound.play()
         //alert("Sorry, you do not have enough meal credits left on your account. You need at least 10 credits to enter. You cannot enter the dining hall unless you pay for more credits.")
         if (!failed_swipe) {
             failed_swipe = true;
@@ -140,12 +142,15 @@ function interceptPacket() {
         let fullName = `${firstNames[firstNameIndex]} ${lastNames[lastNameIndex]}`;
         let netid = firstNames[firstNameIndex][0].toLowerCase() + lastNames[lastNameIndex].toLowerCase() + getRandomInt(1, 100);
         // create random number of credits
-        var random_credits = Math.floor(Math.random() * 15);
+        var random_credits = Math.floor(Math.random() * 15 + 1);
         // add netid and credits to dictionary
         netid_credits[netid] = random_credits;
         // print name, netid, credits to page
-        text.innerHTML = "Intercepting...<br>Intercepted!<br><br>Name: " + fullName + "<br>NetID: " + netid + "<br>Credits: " + random_credits;
+        text.innerHTML = "Intercepting...<br>Intercepted!<br><br>Name: " + fullName + "<br>NetID: " + rotc13(netid) + "<br>Credits: " + random_credits;
         text.style.marginTop = "0px";
+        let mySound = new Audio("./sounds/ike_scanner.wav");
+        mySound.volume = 0.6;
+        mySound.play();
     }, 5000);
 
     // event listener for exit button
@@ -158,8 +163,25 @@ function interceptPacket() {
     
 }
 
+function rotc13(netid){
+    let rotcid = '';
+    for (let i = 0; i < netid.length; i++) {
+       if(netid[i]>='a' && netid[i]<='z'){
+        rotcid += String.fromCharCode(((netid[i].charCodeAt(0)-97)+13)%26 + 97);
+       }
+       else{
+        rotcid+=netid[i];
+       }
+    }
+    console.log(rotcid);
+    return rotcid;
+}
 function laptop() {
-    laptop_interacted_flag = true;
+    if (!laptop_interacted_flag) {
+        laptop_interacted_flag = true;
+        // hints_available += 1;
+    }
+    
     // create the overlay div element
     var overlay = document.createElement("div");
     overlay.style.position = "fixed";
@@ -181,16 +203,40 @@ function laptop() {
     img.style.height = "auto";
 
     var text_box = document.createElement("p");
-    text_box.style.position = "absolute";
-    text_box.style.top = "25%";
-    text_box.style.left = "25%";
+    text_box.style.position = "relative";
+    text_box.style.top = "15%";
+    text_box.style.left = "20%";
     text_box.style.display = "block";
     text_box.style.type = "text";
-    text_box.style.fontSize = "10px";
-    text_box.style.width = "180px";
+    text_box.style.fontSize = "12px";
+    text_box.style.width = "200px";
     text_box.style.border = "2px solid #000000";
     text_box.style.padding = "2px";
-    text_box.innerText = "CONTENT"
+    text_box.innerText = "We can use these programs to intercept and change network packets! The intercept program will intercept packets and display the important data inside. Then submit the necessary data to change the packet!"                          // -------------------- TODO -------------------
+
+    var second_box = document.createElement("p");
+    second_box.style.position = "relative";
+    second_box.style.top = "39%";
+    second_box.style.left = "20%";
+    second_box.style.display = "block";
+    second_box.style.type = "text";
+    second_box.style.fontSize = "12px";
+    second_box.style.width = "400px";
+    second_box.style.border = "2px solid #000000";
+    second_box.style.padding = "2px";
+    second_box.innerText = "Something about those netids looks strange. Could it be a code? It reminds me of something called...ROT13... That is, \'rotation by 13 places\'..."                          // -------------------- TODO -------------------
+    second_box.hidden = "hidden";
+
+
+    var response_box = document.createElement("p");
+    response_box.style.position = "absolute";
+    response_box.style.top = "25%";
+    response_box.style.left = "60%";
+    response_box.style.display = "none";
+    response_box.style.type = "text";
+    response_box.style.fontSize = "12px";
+    response_box.style.width = "100px";
+    response_box.style.padding = "2px";
 
     // create the form element
     var form = document.createElement("form");
@@ -241,6 +287,7 @@ function laptop() {
     // add the image and form elements to the overlay div
     overlay.appendChild(img);
     overlay.appendChild(text_box);
+    overlay.appendChild(response_box);
     overlay.appendChild(form);
 
     // add the overlay div to the document body
@@ -250,17 +297,30 @@ function laptop() {
     overlay.addEventListener("click", function (e) {
         if (e.target.value == "Intercept") {
             interceptPacket();
+            overlay.appendChild(second_box);
         } else if (e.target.id == "submit") {
             // check value of credits using netid
             if (netid_credits[input.value] != undefined ) {
                 if (netid_credits[input.value] >= 10) {
                     valid_credits_flag = true;
+                    response_box.style.display = "block";
+                    response_box.style.border =  "2px solid #02c025";
+                    response_box.innerText = "Nice! Let's see if that worked!"
                 } else {
                     valid_credits_flag = false;
+                    response_box.style.display = "block";
+                    response_box.style.border =  "2px solid #ff0000";
+                    response_box.innerText = "That user doesn't have more than 10 credits.";
                 }
             } else {
-                alert("NetID not found.");
+                //alert("NetID not found.");
+                response_box.style.display = "block";
+                response_box.style.border =  "2px solid #ff0000";
+                response_box.innerText = "NetID not found.";
             }
+            setTimeout(function() {
+                response_box.style.display = "none";
+            }, 3000)
         } else if (e.target.value == "Exit") {
             document.body.removeChild(overlay);
         }
@@ -271,7 +331,7 @@ function squirrelText() {
     var b = document.getElementById("bubbleDIV");
     var text = document.getElementById("squirrelText");
     /*if (!laptop_interacted_flag && failed_swipe) {
-        text.innerHTML = 'The I think I have something on my laptop that can help us!';
+        text.innerHTML = 'I think I have something on my laptop that can help us!';
         b.style.top = "280px";
         b.style.display = "block";
         return;
@@ -300,12 +360,9 @@ function squirrelText() {
             b.style.display = "block";
             break;
         case 2:
-            text.innerHTML = 'The I think I have something on my laptop that can help us!';
+            text.innerHTML = 'I think I have something on my laptop that can help us!';
             b.style.top = "280px";
             b.style.display = "block";
-            break;
-        case 3:
-            // Something about the laptop programs?
             break;
         default:
             // NOTHING
