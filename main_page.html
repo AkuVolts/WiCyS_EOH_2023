@@ -507,7 +507,25 @@ function displayThoughtBubble(text) {
   text_size = game_context.measureText(text).width;
   
   game_context.beginPath();
-  
+  let mid_x = extra_x;
+  let mid_y = extra_y - 30;
+  let height = 10;
+  let max_width = 300;
+  let words = text.split(' ');
+  let lines = []
+  let line = '';
+  for(let n = 0; n < words.length; n++) {
+      let check = line + words[n] + ' ';
+      let w = game_context.measureText(check).width;
+      if (w > max_width && n > 0) {
+        lines.push(line);
+        line = words[n] + ' ';
+        y += height;
+      }
+      else {
+        line = check;
+      }
+    }
   game_context.fillStyle = "white";
   middle_value = (text_size) / 2 + 5
   game_context.ellipse(middle_value, y_ - 15, text_size/5, 100, 0, 0, 2*Math.PI, false);
@@ -518,9 +536,14 @@ function displayThoughtBubble(text) {
 
   game_context.fillStyle = "black";
 
-
-  game_context.fillText(text, middle_value, y_ - 15, text_size/1.5, 100);
+  console.log("lines length " + lines);
+  //game_context.fillText(text, middle_value, y_ - 15, text_size/1.5, 100);
+  for (let i = 0; i<lines.length; i++){
+      console.log("i " + i);
+      game_context.fillText(lines[i], mid_x, y_ - 15 + (height*(2 * i + 1 - lines.length)));
+    }
 }
+
 
 let go_to_icard = false;
 let char_speed = 3;
@@ -541,7 +564,7 @@ function moveCharacter() {
 }
 
 let text = "";
-let scene = 15;
+let scene = 13;
 
 let small_id_x = 300;
 let small_id_y = 255;
