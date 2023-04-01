@@ -1,4 +1,7 @@
 const states = createEnum(['START', 'LEVEL_IN_PROGRESS', 'LEVEL_COMPLETE']);
+const solved = document.getElementById("solved");
+const wrongans = document.getElementById("wrong_answer");
+const sizzle = document.getElementById("sizzle");
 
 let level = -1;
 let state = states.START;
@@ -65,6 +68,7 @@ function gameStart() {
                 selected_ingredients.add(ingredient.id);
                 ingredient_display.style.display = "block";
                 document.getElementById("chosen_"+ingredient.id).style.display = "block";
+                sizzle.play();
             }
             else {
                 selected_ingredients.delete(ingredient.id)
@@ -119,6 +123,7 @@ function submitButtonOnclick() {
     let buttonMsg = level_passed ? "Start Next Level" : "Retry Level"; 
     let msg = level_passed ? "Congratulations, you passed the level! Click the button below to begin the next one." 
         : "That was not quite right. Please click the button below to try again.";
+    let sound = level_passed ? solved : wrongans;
     if (level >= NUM_LEVELS) {
         buttonMsg = "Restart Game";
         msg = "Congratulations, you have completed Fields of Green! You are one step closer to protecting yourself in cyberspace!";
@@ -128,7 +133,8 @@ function submitButtonOnclick() {
     
     document.getElementById("level").textContent = "Level: " + (level + 1);
     document.getElementById("resultDialogText").textContent = msg;
-    document.getElementById("resultDialogButton").textContent = buttonMsg;     
+    document.getElementById("resultDialogButton").textContent = buttonMsg;  
+    sound.play();
     document.getElementById("resultDialog").showModal();
     // Display end game indicator if won. Otherwise, toggle buttons.
 
