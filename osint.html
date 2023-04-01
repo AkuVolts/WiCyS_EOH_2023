@@ -2,8 +2,6 @@
 <html>
 <head>
 <meta charset = "utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
-<!-- Need the link tag to solve an error with favicon.ico: https://stackoverflow.com/questions/31075893/im-getting-favicon-ico-error -->
-<!-- <link rel="shortcut icon" href="#"/> -->
 <!-- <script src="main.js"></script> -->
 <style>
   /* style for entire webpage */
@@ -168,7 +166,7 @@
 </style>
 </head>
 
-<!-- BEGINNING OF ELEMENTS DISPLAYED ON HTML PAGE -->
+
 
 <!-- creating blinking effect for start screen -->
 <!-- source: https://stackoverflow.com/questions/27427073/how-to-fit-in-an-image-inside-span-tag -->
@@ -176,14 +174,20 @@
   <img src="images/delete.png"/>
 </span> -->
 <!-- creating the canvas -->
+
+
+
 <canvas id="myCanvas" width="700" height="500" style="background-color: #f1f1f1;"></canvas>
-<iframe id="insta.iframe" src="gram.html" title="Instagram" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
-<iframe id="linkedin.iframe" src="linkedin.html" title="LinkedIn" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
+<iframe id="insta.iframe" src="/gram.html" title="Instagram" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
+<!-- <iframe id="linkedin.iframe" src="linkedin.html" title="LinkedIn" height="500" width="700" hidden="hidden" frameBorder = 0></iframe> -->
+<iframe id="linkedin.iframe" src="/osint_img/daphne_linkedin.png" title="LinkedIn" height="500" width="700" hidden="hidden" frameBorder = 0></iframe>
 <br>
         
-  <p id="resultDialogText"></p>
-  <button id="returnMainPageButton">I know the answer!</button>
-
+<p id="resultDialogText"></p>
+<button id="returnMainPageButton" hidden="hidden">I know the answer!</button>
+<br>
+<p id="space"></p>
+<button id="returnStart" onclick="goBackMain()">Exit the puzzle?</button>
 <body onload="start()">
 <!-- <script type="text/javascript" src="main.js"> -->
 <script>
@@ -287,33 +291,79 @@
       }
     });
   }, false);
+ 
+  class App {
+  constructor(app_x, app_y, width, height, app) {
+      this.x = app_x;
+      this.y = app_y;
+      this.width = width;
+      this.height = height;
+      this.highlight = false;
+      this.iframe = app;
+  
+  }
 
-  // Add a mouseout listener to restore the original canvas data
-  game_canvas.addEventListener('mouseout', (evt) => {
-    game_context.putImageData(originalData, 0, 0);
-  });
-
+  // check if mouse is inside this
+  isInside(app_x, app_y) {
+      return (app_x >= this.x && app_x < this.x + this.width && app_y >= this.y && app_y < this.y + this.height);
+  }
+}
+function appCoordinate(pageX, pageY){
+  let app_x = pageX - game_canvas.offsetLeft;
+  let app_y = pageY - game_canvas.offsetTop;
+  return {app_x, app_y};
+}
+function goBackMain(){
+  let event = new CustomEvent("IframeClickEvent");
+  window.parent.document.dispatchEvent(event);
+}
+let instagram = new App(428, 95, 60, 70, "insta.iframe");
+//let email = new App(121, 193, 43, 83, "email.iframe");
+let linkedin = new App(428, 257, 60, 70, "linkedin.iframe");
+//let app_array = [instagram, email, linkedin];
+let app_array = [instagram, linkedin];
+let uid_failures = 0;
   let hasClicked = false;
 
   game_canvas.addEventListener("click", (evt) => {
-
-    x = evt.pageX - game_canvas.offsetLeft;
-    y = evt.pageY - game_canvas.offsetTop;
-      if (scene < 15){
+    let launchedApp = false;
+    //x = evt.pageX - game_canvas.offsetLeft;
+    //y = evt.pageY - game_canvas.offsetTop;
+    let coords = appCoordinate(evt.pageX, evt.pageY);
+    x = coords.app_x;
+    y = coords.app_y;
+      if ((scene < 15 && !(scene==2 || scene==5)) || scene == 17 || scene == 20){
         scene += 1;
       }
       else {
-        //let iframe = document.getElementById(app.iframe);
         let iframe = null;
         //iframe.src = "gram.html";
-        //let instaFrame = document.getElementById("insta.iframe");
-        //let linkedFrame = document.getElementById("insta.iframe");
-        console.log(x + ",  " + y);
-        
-        //if (instaFrame.isInside(app_x, app_y)) {
-        if (x >= 265 && x <= 321 && y >= 95 && y <= 161) {
+        console.log("clicked on " + x + ",  " + y);
+        // Find out whether the game canvas was hidden or not 
+        let not_vis = game_canvas.getAttribute("hidden");
+        if (!not_vis && iframe) {
+        }
+        //if (x >= 265 && x <= 321 && y >= 95 && y <= 161) {
+        if (instagram.isInside(x,y)){
+
           // They clicked on Insta
           iframe = document.getElementById("insta.iframe");
+          //iframe.removeAttribute("hidden");
+          console.log("clicked on Insta");
+        } 
+        //else if ( x >= 265 && x <= 321 && y >= 257 && y <= 327 ) {
+        else if (linkedin.isInside(x,y)){
+          // They clicked on Linked
+          iframe = document.getElementById("linkedin.iframe");
+          console.log("clicked on linked");
+        }
+        else {
+          console.log("clicked on nothing");        
+        }
+        // If we clicked in an app window and the canvas is visible
+        // then we should have launched an app
+        if (iframe && !not_vis) {
+          // If we launched an app, we need to close it if someone clicks on it
           iframe.contentWindow.document.addEventListener("click", (ev) => {
             console.log("iframe click");
             let not_vis = game_canvas.getAttribute("hidden");
@@ -322,28 +372,10 @@
               game_canvas.removeAttribute("hidden");
             }
           });
-          let not_vis = game_canvas.getAttribute("hidden");
-          if (!not_vis && iframe) {
-            game_canvas.setAttribute("hidden", "hidden");
-            iframe.removeAttribute("hidden");
-          }
-          //iframe.removeAttribute("hidden");
-          console.log("clicked on Insta");
-        } 
-        else if ( x >= 265 && x <= 321 && y >= 257 && y <= 327 ) {
-          // They clicked on Linked
-          //iframe = document.getElementById("linkedin.iframe");
-          console.log("clicked on linked");
+          // We also need to hide the game canvas and show the app 
+          game_canvas.setAttribute("hidden", "hidden");
+          iframe.removeAttribute("hidden");
         }
-        else {
-          console.log("clicked on nothing");        
-        }
-        //let selectedApp = 0;
-        //let not_vis = game_canvas.getAttribute("hidden");
-        //if (!not_vis && iframe) {
-          //game_canvas.setAttribute("hidden", "hidden");
-          //iframe.removeAttribute("hidden");
-        //}
       }
   }, false);
 
@@ -379,11 +411,6 @@ function highlightOnHover(canvas, x, y, width, height, highlightColor) {
 let x_ = 500;
 let y_ = 200;
 
-
-
-
-
-
 function displayText(text) {
     game_context.font = "bold 16px Arial";
     let mid_x = x_;
@@ -414,497 +441,344 @@ function displayText(text) {
     }
   }  
   
-  
-  
-/*
-function displayText(text) {
-        text_size = game_context.measureText(text).width;
-        game_context.beginPath();
-        game_context.fillStyle = "white";
-        middle_value = (text_size) / 2 + 5
-        game_context.fillRect(x_ - middle_value, y_ - 30, text_size + 10, 30);
-        
-        
-        game_context.fill();
-    
-        game_context.font = "bold 24px Arial";
-        game_context.textAlign = "center";
-    
-        game_context.fillStyle = "black";
-      
-        game_context.fillText(text, x_, y_ - 5);
-    
-      }
-      */
-      let extra_x = 435;
-      let extra_y = 430;
+  let extra_x = 435;
+  let extra_y = 430;
 
-      function displayExtraText(text) {
-        game_context.font = "bold 16px Arial";
-        let mid_x = extra_x;
-        let mid_y = extra_y - 30;
-        let height = 10;
-        let max_width = 150;
-        let words = text.split(' ');
-        let lines = []
-        let line = '';
-
-      for(let n = 0; n < words.length; n++) {
-        let check = line + words[n] + ' ';
-        let w = game_context.measureText(check).width;
-        if (w > max_width && n > 0) {
-          lines.push(line);
-          line = words[n] + ' ';
-          y += height;
-        }
-        else {
-          line = check;
-       }
+  function displayExtraText(text) {
+    game_context.font = "bold 16px Arial";
+    let mid_x = extra_x;
+    let mid_y = extra_y - 30;
+    let height = 10;
+    let max_width = 150;
+    let words = text.split(' ');
+    let lines = []
+    let line = '';
+    for(let n = 0; n < words.length; n++) {
+      let check = line + words[n] + ' ';
+      let w = game_context.measureText(check).width;
+      if (w > max_width && n > 0) {
+        lines.push(line);
+        line = words[n] + ' ';
+        y += height;
       }
-      lines.push(line);
-      game_context.fillStyle = "white";
-      game_context.fillRect(mid_x - 5 - max_width/2, mid_y - 13 - height*lines.length, max_width + 5, 13 + 2*height*lines.length);
-      game_context.textAlign = "center";
-      game_context.fillStyle = "black";
-      for (let i = 0; i<lines.length; i++){
-        game_context.fillText(lines[i], mid_x, mid_y + (height*(2 * i + 1 - lines.length)));
+      else {
+        line = check;
+      }
+    }
+    lines.push(line);
+    game_context.fillStyle = "white";
+    game_context.fillRect(mid_x - 5 - max_width/2, mid_y - 13 - height*lines.length, max_width + 5, 13 + 2*height*lines.length);
+    game_context.textAlign = "center";
+    game_context.fillStyle = "black";
+    for (let i = 0; i<lines.length; i++){
+      game_context.fillText(lines[i], mid_x, mid_y + (height*(2 * i + 1 - lines.length)));
     }
   }
 
 
-
-  function displayExtraLongText(text) {
-        text_size = game_context.measureText(text).width;
-        game_context.beginPath();
-        game_context.fillStyle = "white";
-        middle_value = (text_size) / 2 + 5
-        game_context.fillRect(extra_x - middle_value, extra_y - 30, text_size + 20, 60);
-        
-        
-        game_context.fill();
-    
-        game_context.font = "bold 24px Arial";
-        game_context.textAlign = "center";
-    
-        game_context.fillStyle = "black";
-
-      
-        game_context.fillText(text, extra_x + 5, extra_y + 10);
-  }
-      
-
-      function displayThoughtBubble(text) {
-        // text_size = game_context.measureText(text).width;
-        // game_context.beginPath();
-        // game_context.fillStyle = "white";
-        // middle_value = (text_size) / 2 + 5
-        // game_context.fillRect(x_ - middle_value, y_ - 30, text_size + 10, 30);
-        
-        
-        // game_context.fill();
-    
-        // game_context.font = "bold 24px Arial";
-        // game_context.textAlign = "center";
-    
-        // game_context.fillStyle = "black";
-
-      
-        // game_context.fillText(text, x_, y_ - 5);
-
-        text_size = game_context.measureText(text).width;
-        
-        game_context.beginPath();
-        
-        game_context.fillStyle = "white";
-        middle_value = (text_size) / 2 + 5
-        game_context.ellipse(middle_value, y_ - 15, text_size/5, 100, 0, 0, 2*Math.PI, false);
-        game_context.fill();
-    
-        game_context.font = "bold 24px Arial";
-        game_context.textAlign = "center";
-    
-        game_context.fillStyle = "black";
-    
-      
-        game_context.fillText(text, middle_value, y_ - 15, text_size/1.5, 100);
-    
-      }
-
-      let go_to_icard = false;
-      let char_speed = 3;
-
-      let squirrel_expected_x = 300;
-      let squirrel_expected_y = 430;
-
-      function moveCharacter() {
-      // move left
-        x_ -= char_speed;
-        // y_ -= char_speed;
-        if (scene == 5) {
-          small_id_x -= char_speed;
-        }
-        if (x_ < squirrel_expected_x) {
-          scene += 1;
-        }
-  }
-
-  let text = "";
-  let scene = 0;
-
-  let small_id_x = 300;
-  let small_id_y = 255;
-
-  class App {
-    constructor(app_x, app_y, width, height, app) {
-        this.x = app_x;
-        this.y = app_y;
-        this.width = width;
-        this.height = height;
-        this.highlight = false;
-        this.iframe = app;
-    
-    }
+function displayExtraLongText(text) {
+  text_size = game_context.measureText(text).width;
+  game_context.beginPath();
+  game_context.fillStyle = "white";
+  middle_value = (text_size) / 2 + 5
+  game_context.fillRect(extra_x - middle_value, extra_y - 30, text_size + 20, 60);
   
-    // check if mouse is inside the building
-    isInside(app_x, app_y) {
-        return (app_x >= this.x && app_x < this.x + this.width && app_y >= this.y && app_y < this.y + this.height);
+  
+  game_context.fill();
+
+  game_context.font = "bold 24px Arial";
+  game_context.textAlign = "center";
+
+  game_context.fillStyle = "black";
+
+
+  game_context.fillText(text, extra_x + 5, extra_y + 10);
+}
+      
+
+function displayThoughtBubble(text) {
+  text_size = game_context.measureText(text).width;
+  
+  game_context.beginPath();
+  let mid_x = extra_x;
+  let mid_y = extra_y - 30;
+  let height = 10;
+  let max_width = 300;
+  let words = text.split(' ');
+  let lines = []
+  let line = '';
+  for(let n = 0; n < words.length; n++) {
+      let check = line + words[n] + ' ';
+      let w = game_context.measureText(check).width;
+      if (w > max_width && n > 0) {
+        lines.push(line);
+        line = words[n] + ' ';
+        y += height;
+      }
+      else {
+        line = check;
+      }
     }
+  game_context.fillStyle = "white";
+  middle_value = (text_size) / 2 + 5
+  game_context.ellipse(mid_x, y_ - 15, text_size/5, 100, 0, 0, 2*Math.PI, false);
+  game_context.fill();
+
+  game_context.font = "bold 24px Arial";
+  game_context.textAlign = "center";
+
+  game_context.fillStyle = "black";
+
+  console.log("lines length " + lines);
+  //game_context.fillText(text, middle_value, y_ - 15, text_size/1.5, 100);
+  for (let i = 0; i<lines.length; i++){
+      console.log("i " + i);
+      game_context.fillText(lines[i], mid_x, y_ - 15 + (height*(2 * i + 1 - lines.length)));
+    }
+}
+
+
+let go_to_icard = false;
+let char_speed = 3;
+
+let squirrel_expected_x = 300;
+let squirrel_expected_y = 430;
+
+function moveCharacter() {
+// move left
+  x_ -= char_speed;
+  // y_ -= char_speed;
+  if (scene == 5) {
+    small_id_x -= char_speed;
   }
-    // highlight the building while mouse is inside
-    
+  if (x_ < squirrel_expected_x) {
+    scene += 1;
+  }
+}
 
-    // x,y 
-    let instagram = new App(121, 193, 43, 83, "insta.iframe");
-    //let email = new App(121, 193, 43, 83, "email.iframe");
-    let linkedin = new App(265, 257, 60, 70, "linkedin.iframe");
-    //let app_array = [instagram, email, linkedin];
-    let app_array = [instagram, linkedin];
+let text = "";
+let scene = 0;
 
-    game_canvas.addEventListener("mousemove", (evt) => {
+let small_id_x = 300;
+let small_id_y = 255;
 
-    app_x = evt.pageX - game_canvas.offsetLeft;
-    app_y = evt.pageY - game_canvas.offsetTop;
-    app_array.forEach(app => {
-      if(app.isInside(app_x, app_y)){
-        app.highlight = true;
-      }
-      else{
-        app.highlight = false;
-      }
-    });
-  }, false);
 
-  //document.addEventListener('keydown', logKey);
-  //insta.iframe.contentWindow.addEventListener("keydown", logKey);
-  //email.iframe.contentWindow.addEventListener("keydown", logKey);
-  //linkedin.iframe.contentWindow.addEventListener("keydown", logKey);
-  //function logKey(key) {
-
-    //if (key.code === "Escape") {
-      //key.preventDefault();
-
-      //if (is_hint_view_displayed) {
-        // close out hint view
-        //changeHintVisibility("hidden");
-        //is_hint_view_displayed = false;
-      //} else {
-        //if (is_whiteboard_scene) {
-        //}
-//}
+game_canvas.addEventListener("mousemove", (evt) => {
+  app_x = evt.pageX - game_canvas.offsetLeft;
+  app_y = evt.pageY - game_canvas.offsetTop;
+  app_array.forEach(app => {
+    if(app.isInside(app_x, app_y)){
+      app.highlight = true;
+    }
+    else{
+      app.highlight = false;
+    }
+  });
+}, false);
 
 function update() {
-    // step 1 - clear the canvas
-    clearCanvas();
-    draw(curr_pic, 0, 0, 700, 500);
-    draw(small_broken_id, small_id_x, small_id_y, 50, 50);
-    draw(squirrel_pic, x_, y_, 110, 110);
-    // draw(broken_id, 300, 250, 50, 50)
-    
-    if (scene == 1) {
+  // step 1 - clear the canvas
+  clearCanvas();
+  draw(curr_pic, 0, 0, 700, 500);
+  draw(small_broken_id, small_id_x, small_id_y, 50, 50);
+  draw(squirrel_pic, x_, y_, 110, 110);
+  // draw(broken_id, 300, 250, 50, 50)
+  
+  if (scene == 1) {
 
-      displayText("Wow, it's my lucky day! Is that an i-card I see?");
-            
-    }
-    if (scene == 2) {
-      moveCharacter();
-    }
-    if (scene == 3) {
-      displayExtraLongText("Oh hey there! You can cut ahead of us!");
-    }
-    if (scene == 4) {
-      displayText("Thanks guys!");
-    }
-    if (scene == 5) {
-      squirrel_expected_x = 170;
-      moveCharacter();
-    }
-    if (scene == 6) {
-      extra_x = 130;
-      extra_y = 490;
-      displayExtraText("Good Morning! Do you have your i-card with you?");
-    }
-    if (scene == 7) {
-      displayText("Yeah, here you go!");
-    }
-    if (scene == 8) {
-      small_id_x = 80;
-      small_id_y = 360;
-      console.log(y);
-    }
-    if (scene == 9 ) {
-      game_context.fillStyle = "white";
-      game_context.fillRect(0, 0, 700, 500);
-      draw(broken_id, 100, 10, 500, 500);
-      extra_x  = 340; 
-      displayExtraText("'Hmm, this i-card is ripped up!'")
-    }
-    if (scene == 10) {
-      extra_x = 130;
-      extra_y = 490;
-      displayExtraText("You can only enter if you get these, questions correct 'Daphne Dog'.");
-    }
-    if (scene == 11) {
-      extra_x  = 250; 
-      displayExtraText("I can see if you're lying or not!");
-    }
-    if (scene == 12) {
-      displayText("Okay!");
-    }
-    if (scene == 13) {
-      // extra_x  = 300; 
-      displayExtraText("What's your UID?");
-    }
-    if (scene == 14) {
-      // extra_x  = 300; 
-      displayText("Let me use my phone to see if I can find some information!");
-    }
-    if (scene == 15) {
-      game_context.fillStyle = "white";
-      game_context.fillRect(0, 0, 700, 500);
-      draw(phone, -40, -38, 800, 665);
-      app_array.forEach(b =>{
-      if(b.highlight){
-        game_context.global_alpha = 0.7;
-        game_context.fillStyle = "#FFFF00";
-        game_context.fillRect(b.x, b.y, b.width, b.height);
-        game_context.global_alpha = 1.0;
-      }
-      })
-      let button = document.getElementById('returnMainPageButton');
-      button.textContent = "I'm ready to answer!";
-      button.onclick = () =>{
-        scene = 16;
-      };
-      //highlightOnHover(phone, 0, 0, 200, 200, "red");
-      // scene += 1;
+    displayText("Wow, it's my lucky day! Is that an i-card I see?");
+          
+  }
+  if (scene == 2) {
+    moveCharacter();
+  }
+  if (scene == 3) {
+    displayExtraLongText("Oh hey there! You can cut ahead of us!");
+  }
+  if (scene == 4) {
+    displayText("Thanks guys!");
+  }
+  if (scene == 5) {
+    squirrel_expected_x = 170;
+    moveCharacter();
+  }
+  if (scene == 6) {
+    extra_x = 130;
+    extra_y = 490;
+    displayExtraText("Good Morning! Do you have your i-card with you?");
+  }
+  if (scene == 7) {
+    displayText("Yeah, here you go!");
+  }
+  if (scene == 8) {
+    small_id_x = 80;
+    small_id_y = 360;
+    console.log(y);
+  }
+  if (scene == 9 ) {
+    game_context.fillStyle = "white";
+    game_context.fillRect(0, 0, 700, 500);
+    draw(broken_id, 100, 10, 500, 500);
+    extra_x  = 340; 
+    displayExtraText("'Hmm, this i-card is ripped up!'")
+  }
+  if (scene == 10) {
+    extra_x = 130;
+    extra_y = 490;
+    displayExtraText("You can only enter if you get these questions correct, 'Daphne Dog'.");
+  }
+  if (scene == 11) {
+    extra_x  = 250; 
+    displayExtraText("I can see if you're lying or not!");
+  }
+  if (scene == 12) {
+    displayText("Okay!");
+  }
+  if (scene == 13) {
+    // extra_x  = 300; 
+    //displayExtraText("What's your UID?");
+    displayExtraText("What's your major?");
+  }
+  if (scene == 14) {
+    // extra_x  = 300; 
+    displayThoughtBubble("Let me use my phone to see if I can find some information about this person");
+  }
+  if (scene == 15) {
+    game_context.fillStyle = "white";
+    game_context.fillRect(0, 0, 700, 500);
+    draw(phone, 120, -38, 800, 665);
+    draw(broken_id, -50, 10, 500, 500);
+    app_array.forEach(b =>{
+    if(b.highlight){
+      game_context.global_alpha = 0.7;
+      game_context.fillStyle = "#FFFF00";
+      game_context.fillRect(b.x, b.y, b.width, b.height);
+      game_context.global_alpha = 1.0;
+    }});
+    let button = document.getElementById('returnMainPageButton');
+    button.removeAttribute("hidden");
+    button.textContent = "I'm ready to answer!";
+    button.onclick = () =>{
+      scene = 16;
+    };
+  }
 
-    }
-    
-
-    if (scene == 16) {
-      
-      game_context.fillStyle = "white";
-      game_context.fillRect(100, 10, 500, 500);
-      extra_x = 250;
-      extra_y = 350;
-      displayExtraText("What is your UID?");
-      let answer = prompt("What is your UID?");
-      let correct = answer.includes("978202895476");
+  if (scene == 16) {
+    game_context.fillStyle = "white";
+    game_context.fillRect(100, 10, 500, 500);
+    extra_x = 250;
+    extra_y = 350;
+    displayExtraText("What is your major?");
+    let answer = prompt("What is your major?");
+    if (answer){
+      answer = answer.toLowerCase();
+      let correct = answer.includes("information science");
       if (correct){
         scene = 17;
+        document.getElementById('returnMainPageButton').setAttribute("hidden", "hidden");
       } else{
         scene = 13;
       }
-      
-      
+    }else{
+      scene = 15;
     }
-
-    if (scene ==  17) {
-      game_context.fillStyle = "white";
-      game_context.fillRect(100, 10, 500, 500);
-      extra_x = 250;
-      extra_y = 350;
-      displayExtraText("Congrats, you got into the dining hall!");
-
-    }
-
-     
-    //step 2 - draw buildings and/or display facts    
-  
+    //let correct = answer.includes("978202895476");
   }
+  if(scene == 17){
+    displayExtraText("That's correct! Next question: what is your birthday?");
+  }
+  if(scene == 18){
+    game_context.fillStyle = "white";
+    game_context.fillRect(0, 0, 700, 500);
+    draw(phone, 120, -38, 800, 665);
+    draw(broken_id, -50, 10, 500, 500);
+    app_array.forEach(b =>{
+    if(b.highlight){
+      game_context.global_alpha = 0.7;
+      game_context.fillStyle = "#FFFF00";
+      game_context.fillRect(b.x, b.y, b.width, b.height);
+      game_context.global_alpha = 1.0;
+    }});
+    let button = document.getElementById('returnMainPageButton');
+    button.removeAttribute("hidden");
+    button.textContent = "I'm ready to answer!";
+    button.onclick = () =>{
+      scene = 19;
+    };
+  }
+  if(scene == 19){
+    game_context.fillStyle = "white";
+    game_context.fillRect(100, 10, 500, 500);
+    extra_x = 250;
+    extra_y = 350;
+    displayExtraText("What is your birthday?");
+    let answer = prompt("What is your birthday?");
+    if (answer){
+      let correct = answer.includes("03/03") || answer.includes("03-03") || answer.includes("March 3rd");
+      if (correct){
+        scene = 20;
+        document.getElementById('returnMainPageButton').setAttribute("hidden", "hidden");
+      } else{
+        scene = 17;
+      }
+    }else{
+      scene = 18;
+    }
+  }
+  if (scene == 20) {
+    displayExtraText("Good job, you got that one right too! One more question: what is your UID?");
+  }
+   if (scene == 21) {
+    game_context.fillStyle = "white";
+    game_context.fillRect(0, 0, 700, 500);
+    draw(phone, 120, -38, 800, 665);
+    draw(broken_id, -50, 10, 500, 500);
+    app_array.forEach(b =>{
+    if(b.highlight){
+      game_context.global_alpha = 0.7;
+      game_context.fillStyle = "#FFFF00";
+      game_context.fillRect(b.x, b.y, b.width, b.height);
+      game_context.global_alpha = 1.0;
+    }});
+    let button = document.getElementById('returnMainPageButton');
+    button.removeAttribute("hidden");
+    button.textContent = "I'm ready to answer!";
+    button.onclick = () =>{
+      scene = 22;
+    };
+  }
+   if (scene == 22){
+    game_context.fillStyle = "white";
+    game_context.fillRect(100, 10, 500, 500);
+    extra_x = 250;
+    extra_y = 350;
+    displayExtraText("What is your UID?");
+    let txt = "What is your UID?";
+    if(uid_failures >=2){
+      txt = "What is your UID? Hint: UIDs are 12 chars";
+    }
+    let answer = prompt(txt);
+    if (answer){
+      let correct = answer.includes("978202895476");
+      if (correct){
+        scene = 23;
+        document.getElementById('returnMainPageButton').setAttribute("hidden", "hidden");
+      } else{
+        uid_failures +=1;
+        scene = 20;
+      }
+    }else{
+      scene = 21;
+    }
+   }
+  
+
+  if (scene ==  23) {
+    displayExtraText("Looks like you really are Daphne Dog! Enjoy your meal!");
+  }
+}
 
 </script>
 
-
 </body>
 </html>
-
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="osint.css" type="text/css" rel="stylesheet" />
-    
-</head>
-<body>
-<script>
-function start(){
-    // squirrel enters
-    displayText("Wow, it's my lucky day! Is that an i-card I see?");
-    // Click on the icard
-    grab_icard();
-    displayCutAhead();
-    lunchLadyStart();
-}
-    function update() {
-        // step 1 - clear the canvas
-        clearCanvas();
-        draw(scene_pic, 0, 0, 700, 500);
-        // game_context.beginPath();
-        // game_context.ellipse(350, 300, 50, 30, 0, 0, 2*Math.PI, false);
-        // game_context.fillStyle = "white";
-        // game_context.fill();
-    
-        // game_context.font = "bold 24px Arial";
-        // game_context.textAlign = "center";
-    
-        // game_context.fillStyle = "black";
-    
-      
-        // game_context.fillText("hello", 350, 310);
-    
-        
-        
-      }
-    
-      function displayText(text) {
-        game_context.beginPath();
-        game_context.fillRect(350, 300, 100, 100);
-        game_context.fillStyle = "white";
-        game_context.fill();
-    
-        game_context.font = "bold 24px Arial";
-        game_context.textAlign = "center";
-    
-        game_context.fillStyle = "black";
-    
-      
-        game_context.fillText(text, x, y + 20);
-    
-      }
-    
-      function displayThoughtBubble(text) {
-        game_context.beginPath();
-        game_context.ellipse(350, 300, 50, 30, 0, 0, 2*Math.PI, false);
-        game_context.fillStyle = "white";
-        game_context.fill();
-    
-        game_context.font = "bold 24px Arial";
-        game_context.textAlign = "center";
-    
-        game_context.fillStyle = "black";
-    
-      
-        game_context.fillText(text, x, y + 20);
-    
-      }
-function displayInput(input) {
-}
-function typeAnswer(input) {
-}
-function grab_icard() {
-    // the card attaches to the squirrel
-}
-function displayCutAhead() {
-    // frog says 
-    displayText("Oh hey Squirrel! You can go ahead of me.");
-    
-}
-function lunchLadyStart() {
-    // lunchlady repsonds,
-    displayText("Good Morning! Do you have your i-card with you?");
-    // squirrel repsonds, 
-    displayText("Yeah, here you go!");
-    giveToLunchLady();
-    // she responds,
-    displayText("Hmm, this i-card is ripped up! You can only enter if yu get these, questions correct 'Daphne Dog'. I can see if you're lying or not!");
-    // Squirrel responds, 
-    displayText("Okay!");
-    // Lunch lady says:
-    displayText("What's your major?");
-    displayThoughtBubble("Let me use my phone to see if I can find some information about this person");
-    firstQuestion();
-}
-function giveToLunchLady() {
-    // gives icard to lunch lady
-    // swipes card
-}
-function firstQuestion() {
-    // clicks phone to open
-    // opens up linkedin app
-        displayInput("Try to find the major from this page!")
-        optionOnPhone();
-        // repsonse to lunch lady: 
-        typedFirstResponse();
-}
-function optionOnPhone() {
-    // Click this if you know the answer.
-}
-function typedFirstResponse() {
-    displayInput("My major is ____.")
-    // not case sensitive type:
-    typeAnswer();
-    // math
-    // if correct {
-    nextQuestion();
-    // } else {
-        // Try Again!
-        firstQuestion();
-    // }
-}
-function nextQuestion() {
-    // lunch lady says
-    displayText("What's your id number?")
-    displayThoughtBubble("Oh no, I only have the first 8 numbers to my id. Let me find the last two");
-    // clicks phone to open
-    // opens up email app
-    // if something else is clicked: 
-    oopsTryAgain();
-    // } else {
-        displayInput("Try to find the id number from this page!")
-        optionOnPhone();
-        // clicks phone
-        // repsonse to lunch lady: 
-        typedSecondResponse();
-    // }
-}
-function typedSecondResponse() {
-    displayInput("My id number is 97820234__.")
-    typeAnswer();
-    // 12
-    // if correct {
-    answerToLunchLady();
-    // } else {
-        // Try Again!
-        nextQuestion();
-    // }
-}
-function worryBubble() {
-    // squirrel finds out he only has first 8 numbers. looks on phone again
-}
-function answerToLunchLady() {
-    // lucnh lady says
-    displayText("looks like you are Daphne Dog! You may enter.")
-    walkIn()
-}
-function walkIn() {
-    // squirrel walks in!
-}
-    </script>
-    
-</body>
-</html> --> 
